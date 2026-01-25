@@ -1,0 +1,55 @@
+@EC.Spotify.Api_HostAddress = https://localhost:5001
+@EC.Spotify.TrackId = 6cdsAW77vEinW62gwfZ1dZ
+@EC.Spotify.ArtistName = sevendust
+@EC.Spotify.TrackName = waffle
+
+
+### authorization validation
+
+GET {{EC.Spotify.Api_HostAddress}}/Authorization/validate
+Accept: application/json
+
+
+
+### player devices
+
+GET {{EC.Spotify.Api_HostAddress}}/Player/devices
+Accept: application/json
+
+### player state
+
+GET {{EC.Spotify.Api_HostAddress}}/Player/state
+Accept: application/json
+
+### player next (deviceId is not required)
+
+POST {{EC.Spotify.Api_HostAddress}}/Player/next
+Accept: application/json
+
+### player pause (deviceId is not required)
+
+POST {{EC.Spotify.Api_HostAddress}}/Player/pause
+Accept: application/json
+
+
+### player play (deviceId is not required)
+
+POST {{EC.Spotify.Api_HostAddress}}/Player/play
+Accept: application/json
+
+### player play (deviceId is not required)
+
+POST {{EC.Spotify.Api_HostAddress}}/Player/previous
+Accept: application/json
+
+
+
+### search
+
+POST {{EC.Spotify.Api_HostAddress}}/Search?artistName={{EC.Spotify.ArtistName}}&trackName={{EC.Spotify.TrackName}}
+Accept: application/json
+
+### search get track
+
+GET {{EC.Spotify.Api_HostAddress}}/Search/track?trackId={{EC.Spotify.TrackId}}
+Accept: application/json
