@@ -1,5 +1,4 @@
-﻿using EC.Spotify.Api.Models;
-using EC.Spotify.Api.Services;
+﻿using EC.Spotify.Api.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EC.Spotify.Api.Controllers;
@@ -13,8 +12,8 @@ public class PlayerController(ISpotifyService spotifyService) : ControllerBase
     [HttpGet("devices")]
     public async Task<IActionResult> PlayerDeviceGetAllAsync(CancellationToken cancellationToken = default)
     {
-        var authUrl = await _spotifyService.AuthorizationUrlGetAsync(cancellationToken);
-        if (!string.IsNullOrEmpty(authUrl)) return Unauthorized(new { AuthorizationUrl = authUrl });
+        var res = await ValidateAuthorizationAsync(cancellationToken);
+        if (res != null) return res;
 
         var ret = await _spotifyService.DeviceGetAllAsync(cancellationToken);
         return new JsonResult(ret);
@@ -22,8 +21,8 @@ public class PlayerController(ISpotifyService spotifyService) : ControllerBase
     [HttpGet("state")]
     public async Task<IActionResult> PlayerStateGetAsync(CancellationToken cancellationToken = default)
     {
-        var authUrl = await _spotifyService.AuthorizationUrlGetAsync(cancellationToken);
-        if (!string.IsNullOrEmpty(authUrl)) return Unauthorized(new { AuthorizationUrl = authUrl });
+        var res = await ValidateAuthorizationAsync(cancellationToken);
+        if (res != null) return res;
 
         var ret = await _spotifyService.PlayerStateGetAsync(cancellationToken);
         return new JsonResult(ret);
@@ -32,8 +31,8 @@ public class PlayerController(ISpotifyService spotifyService) : ControllerBase
     [HttpPost("next")]
     public async Task<IActionResult> PlayerNextAsync(string? deviceId, CancellationToken cancellationToken = default)
     {
-        var authUrl = await _spotifyService.AuthorizationUrlGetAsync(cancellationToken);
-        if (!string.IsNullOrEmpty(authUrl)) return Unauthorized(new { AuthorizationUrl = authUrl });
+        var res = await ValidateAuthorizationAsync(cancellationToken);
+        if (res != null) return res;
 
         var ret = await _spotifyService.PlayerNextAsync(deviceId, cancellationToken);
         return new JsonResult(ret);
@@ -41,8 +40,8 @@ public class PlayerController(ISpotifyService spotifyService) : ControllerBase
     [HttpPost("pause")]
     public async Task<IActionResult> PlayerPauseAsync(string? deviceId, CancellationToken cancellationToken = default)
     {
-        var authUrl = await _spotifyService.AuthorizationUrlGetAsync(cancellationToken);
-        if (!string.IsNullOrEmpty(authUrl)) return Unauthorized(new { AuthorizationUrl = authUrl });
+        var res = await ValidateAuthorizationAsync(cancellationToken);
+        if (res != null) return res;
 
         var ret = await _spotifyService.PlayerPauseAsync(deviceId, cancellationToken);
         return new JsonResult(ret);
@@ -50,8 +49,8 @@ public class PlayerController(ISpotifyService spotifyService) : ControllerBase
     [HttpPost("play")]
     public async Task<IActionResult> PlayerPlayAsync(string? deviceId, CancellationToken cancellationToken = default)
     {
-        var authUrl = await _spotifyService.AuthorizationUrlGetAsync(cancellationToken);
-        if (!string.IsNullOrEmpty(authUrl)) return Unauthorized(new { AuthorizationUrl = authUrl });
+        var res = await ValidateAuthorizationAsync(cancellationToken);
+        if (res != null) return res;
 
         var ret = await _spotifyService.PlayerPlayAsync(deviceId, cancellationToken);
         return new JsonResult(ret);
@@ -59,16 +58,29 @@ public class PlayerController(ISpotifyService spotifyService) : ControllerBase
     [HttpPost("previous")]
     public async Task<IActionResult> PlayerPreviousAsync(string? deviceId, CancellationToken cancellationToken = default)
     {
-        if (string.IsNullOrEmpty(deviceId))
-            return BadRequest("deviceId is required");
-
-        var authUrl = await _spotifyService.AuthorizationUrlGetAsync(cancellationToken);
-        if (!string.IsNullOrEmpty(authUrl)) return Unauthorized(new { AuthorizationUrl = authUrl });
+        var res = await ValidateAuthorizationAsync(cancellationToken);
+        if (res != null) return res;
 
         var ret = await _spotifyService.PlayerPreviousAsync(deviceId, cancellationToken);
         return new JsonResult(ret);
     }
 
 
-    
+    [HttpPost("addTrack")]
+    public async Task<IActionResult> PlayerAddTrackAsync(string? trackUri, string? deviceId, CancellationToken cancellationToken = default)
+    {
+        var res = await ValidateAuthorizationAsync(cancellationToken);
+        if (res != null) return res;
+
+        var ret = await _spotifyService.PlayerTrackAddAsync(trackUri, deviceId, cancellationToken);
+        return new JsonResult(ret);
+    }
+
+    private async Task<IActionResult?> ValidateAuthorizationAsync(CancellationToken cancellationToken = default)
+    {
+        var authUrl = await _spotifyService.AuthorizationUrlGetAsync(cancellationToken);
+        return !string.IsNullOrEmpty(authUrl) 
+            ? Unauthorized(new { AuthorizationUrl = authUrl })
+            : default(IActionResult?);
+    }
 }
