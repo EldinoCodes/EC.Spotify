@@ -417,3 +417,5 @@ FodyWeavers.xsd
 *.msm
 *.msp
 /src/EC.Spotify/EC.Spotify.Api/appsettings.Development.json
+/src/EC.Spotify/EC.Spotify.ApiExample/appsettings.Development.json
+/example/EC.Spotify.ApiExample/EC.Spotify.ApiExample/appsettings.Development.json

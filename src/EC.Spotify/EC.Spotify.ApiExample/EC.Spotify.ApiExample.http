@@ -1,0 +1,230 @@
+@EC.Spotify.HostAddress = https://localhost:5001
+
+@EC.Spotify.AlbumId = 7a7arAXDE0BiaMgHLhdjGF
+@EC.Spotify.ArtistId = 0X380XXQSNBYuleKzav5UO
+@EC.Spotify.AudiobookId = 587ehiVcGuXjxKMECQneQ6
+@EC.Spotify.ChapterId = 3OCSAZnatejMEd0Q5Ohlq7
+@EC.Spotify.EpisodeId = 3UcmY44Vwv4Ldh0Jd1HZ4m
+@EC.Spotify.ShowId = 2zBUqgc1ZmvqqEdP4g2jjA
+@EC.Spotify.TrackId = 4tjcBY787A2ZkRJpPIsGIS
+
+
+
+### album
+GET {{EC.Spotify.HostAddress}}/Albums/{{EC.Spotify.AlbumId}}
+Accept: application/json
+
+### album tracks
+GET {{EC.Spotify.HostAddress}}/Albums/{{EC.Spotify.AlbumId}}/tracks
+Accept: application/json
+
+
+
+### artist
+GET {{EC.Spotify.HostAddress}}/Artists/{{EC.Spotify.ArtistId}}
+Accept: application/json
+
+### artist albums
+GET {{EC.Spotify.HostAddress}}/Artists/{{EC.Spotify.ArtistId}}/albums
+Accept: application/json
+
+### artist albums page
+GET {{EC.Spotify.HostAddress}}/Artists/{{EC.Spotify.ArtistId}}/albums?offset=20&limit=20&include_groups=album,single,compilation,appears_on
+Accept: application/json
+
+
+
+### audiobook
+GET {{EC.Spotify.HostAddress}}/Audiobooks/{{EC.Spotify.AudiobookId}}
+Accept: application/json
+
+### audiobook chapters
+GET {{EC.Spotify.HostAddress}}/Audiobooks/{{EC.Spotify.AudiobookId}}/chapters
+Accept: application/json
+
+### audiobook chapters page
+GET {{EC.Spotify.HostAddress}}/Audiobooks/{{EC.Spotify.AudiobookId}}/chapters?offset=20&limit=20
+Accept: application/json
+
+
+
+### chapters
+GET {{EC.Spotify.HostAddress}}/Chapters/{{EC.Spotify.ChapterId}}
+Accept: application/json
+
+
+
+### episodes
+GET {{EC.Spotify.HostAddress}}/Episodes/{{EC.Spotify.EpisodeId}}
+Accept: application/json
+
+
+
+### library
+GET {{EC.Spotify.HostAddress}}/Player/devices
+Accept: application/json
+
+
+
+### player devices
+GET {{EC.Spotify.HostAddress}}/Player/devices
+Accept: application/json
+
+### player transfer device
+POST {{EC.Spotify.HostAddress}}/Player/transfer?deviceId=4aeeb14560726dd6f4a37bc6d5cf5e8be580e288&play=true
+Accept: application/json
+
+### player queue get
+GET {{EC.Spotify.HostAddress}}/Player/queue
+Accept: application/json
+
+### player queue add
+POST {{EC.Spotify.HostAddress}}/Player/queue?trackUri=spotify:track:{{EC.Spotify.TrackId}}
+Accept: application/json
+
+### player play
+POST {{EC.Spotify.HostAddress}}/Player/play
+Accept: application/json
+
+### player pause
+POST {{EC.Spotify.HostAddress}}/Player/pause
+Accept: application/json
+
+### player next
+POST {{EC.Spotify.HostAddress}}/Player/next
+Accept: application/json
+
+### player previous
+POST {{EC.Spotify.HostAddress}}/Player/previous
+Accept: application/json
+
+### player seek
+POST {{EC.Spotify.HostAddress}}/Player/seek?positionMilliseconds=60000
+Accept: application/json
+
+### player repeat
+#  playerRepeatMode
+#    Off = 0
+#    Track = 1
+#    Context = 2
+POST {{EC.Spotify.HostAddress}}/Player/repeat?playerRepeatMode=0
+Accept: application/json
+
+### player shuffle
+#  playerShuffleMode
+#    Off = 0
+#    On = 1
+POST {{EC.Spotify.HostAddress}}/Player/shuffle?playerShuffleMode=1
+Accept: application/json
+
+
+
+### search
+#  SearchTypes
+#    Album = 1
+#    Artist = 2
+#    Playlist = 4
+#    Track = 8
+#    Show = 16
+#    Episode = 32
+#    Audiobook = 64
+#BITWISE: 1 + 2 = 3 (Album OR Artist)
+
+### Album = 1
+POST {{EC.Spotify.HostAddress}}/Search
+Content-Type: application/json
+Accept: application/json
+
+{
+  "albumName": "The Downward Spiral",
+  "type": 1
+}
+
+### Artist = 2
+POST {{EC.Spotify.HostAddress}}/Search
+Content-Type: application/json
+Accept: application/json
+
+{
+  "artistName": "Nine Inch Nails",
+  "type": 2
+}
+
+### Artist = 2 page
+POST {{EC.Spotify.HostAddress}}/Search
+Content-Type: application/json
+Accept: application/json
+
+{
+  "artistName": "Nine Inch Nails",
+  "type": 2,
+  "offset": 20,
+  "limit": 20
+}
+
+### Playlist = 4
+POST {{EC.Spotify.HostAddress}}/Search
+Content-Type: application/json
+Accept: application/json
+
+{
+  "artistName": "Greatest Hits",
+  "type": 4
+}
+
+### Track = 8
+POST {{EC.Spotify.HostAddress}}/Search
+Content-Type: application/json
+Accept: application/json
+
+{
+  "trackName": "Reptile",
+  "type": 8
+}
+
+### Show = 16
+POST {{EC.Spotify.HostAddress}}/Search
+Content-Type: application/json
+Accept: application/json
+
+{
+  "trackName": "Joe Rogan Experience",
+  "type": 16
+}
+
+### Episode = 32
+POST {{EC.Spotify.HostAddress}}/Search
+Content-Type: application/json
+Accept: application/json
+
+{
+  "trackName": "Back",
+  "type": 32
+}
+
+### Audiobook = 64
+POST {{EC.Spotify.HostAddress}}/Search
+Content-Type: application/json
+Accept: application/json
+
+{
+  "artistName": "Stephen King",
+  "name": "It",
+  "type": 64
+}
+
+
+
+### shows
+GET {{EC.Spotify.HostAddress}}/Shows/{{EC.Spotify.ShowId}}
+Accept: application/json
+
+### shows
+GET {{EC.Spotify.HostAddress}}/Shows/{{EC.Spotify.ShowId}}/Episodes
+Accept: application/json
+
+
+
+### track
+GET {{EC.Spotify.HostAddress}}/Tracks/{{EC.Spotify.TrackId}}
+Accept: application/json

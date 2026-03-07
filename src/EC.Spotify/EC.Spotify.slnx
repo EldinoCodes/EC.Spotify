@@ -1,3 +1,6 @@
 <Solution>
-  <Project Path="EC.Spotify.Api/EC.Spotify.Api.csproj" />
+  <Project Path="EC.Spotify.ApiExample/EC.Spotify.ApiExample.csproj" Id="690a674b-6315-4eba-a211-4c016e6ebeab" />
+  <Project Path="EC.Spotify/EC.Spotify.csproj" Id="39d251bd-1fa5-43b0-aeb4-855c212a5b9d">
+    <BuildType Project="Release" />
+  </Project>
 </Solution>
