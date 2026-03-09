@@ -1,12 +1,9 @@
-﻿using EC.Spotify.Extensions;
-using System.Text.Json.Serialization;
-
+﻿
 namespace EC.Spotify.Models;
 
 public class SpotifyResult<T>    
 {
-    [JsonIgnore]
-    public string? Raw { get; set; }
-    public T? Value { get; set; }
+    public bool IsSuccess => Error is null && Data is not null;
+    public T? Data { get; set; }
     public SpotifyError? Error { get; set; }
 }

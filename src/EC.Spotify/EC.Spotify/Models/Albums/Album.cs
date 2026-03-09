@@ -1,9 +1,10 @@
-﻿using EC.Spotify.Models.Shared;
+﻿using EC.Spotify.Abstractions.Models;
+using EC.Spotify.Models.Shared;
 using System.Text.Json.Serialization;
 
 namespace EC.Spotify.Models.Albums;
 
-public class Album
+public class Album : IPolymorphicItem
 {
     [JsonPropertyName("album_type")]
     public string? AlbumType { get; set; }
@@ -42,7 +43,7 @@ public class Album
     public List<Artist>? Artists { get; set; }
 
     [JsonPropertyName("tracks")]
-    public SpotifyPageResult<Track>? Tracks { get; set; }
+    public SpotifyPageResult? Tracks { get; set; }
 
     [JsonPropertyName("copyrights")]
     public List<Copyright>? Copyrights { get; set; }

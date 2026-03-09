@@ -1,9 +1,10 @@
-﻿using EC.Spotify.Models.Shared;
+﻿using EC.Spotify.Abstractions.Models;
+using EC.Spotify.Models.Shared;
 using System.Text.Json.Serialization;
 
 namespace EC.Spotify.Models.Players;
 
-public class Playlist
+public class Playlist : IPolymorphicItem
 {
     [JsonPropertyName("collaborative")]
     public bool Collaborative { get; set; }
@@ -24,7 +25,7 @@ public class Playlist
     [JsonPropertyName("snapshot_id")]
     public string? SnapshotId { get; set; }
     [JsonPropertyName("items")]
-    public SpotifyPageResult<PlaylistTrack>? Items { get; set; }
+    public SpotifyPageResult? Items { get; set; }
     [JsonPropertyName("type")]
     public string? Type { get; set; }
     [JsonPropertyName("uri")]

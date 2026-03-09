@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace EC.Spotify.Models.Shows;
 
-public class Episode: IPlayerItem
+public class Episode: /*IPlayerItem, */IPolymorphicItem
 {
     [JsonPropertyName("description")]
     public string? Description { get; set; }

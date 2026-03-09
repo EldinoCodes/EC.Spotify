@@ -13,6 +13,6 @@ public class PlaylistTrack
     [JsonPropertyName("is_local")]
     public bool IsLocal { get; set; }
     [JsonPropertyName("item")]
-    public IPlayerItem? Item { get; set; }
+    public /*IPlayerItem*/IPolymorphicItem? Item { get; set; }
 }
 

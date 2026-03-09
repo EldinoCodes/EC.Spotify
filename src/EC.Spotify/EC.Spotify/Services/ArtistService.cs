@@ -31,7 +31,7 @@ internal class ArtistService(ILogger<ArtistService> logger, ISpotifyHttpProvider
         return GenerateResult<Artist>(ret);
     }
 
-    public async Task<SpotifyResult<SpotifyPageResult<Album>>> ArtistAlbumGetAllAsync(string? id, int? limit = 20, int? offset = 0, string? includeGroups = default, CancellationToken cancellationToken = default)
+    public async Task<SpotifyResult<SpotifyPageResult>> ArtistAlbumGetAllAsync(string? id, int? limit = 20, int? offset = 0, string? includeGroups = default, CancellationToken cancellationToken = default)
     {
         string? ret = default;
         try
@@ -51,6 +51,6 @@ internal class ArtistService(ILogger<ArtistService> logger, ISpotifyHttpProvider
         {
             _logger.LogError(ex, "Error getting albums for artist '{artist}'", id);
         }
-        return GenerateResult<SpotifyPageResult<Album>>(ret);
+        return GenerateResult<SpotifyPageResult>(ret);
     }
 }

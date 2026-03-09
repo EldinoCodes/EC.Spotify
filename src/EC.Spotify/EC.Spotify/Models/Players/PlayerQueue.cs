@@ -6,7 +6,7 @@ namespace EC.Spotify.Models.Players;
 public class PlayerQueue
 {
     [JsonPropertyName("currently_playing")]
-    public IPlayerItem? CurrentlyPlaying { get; set; }
+    public IPolymorphicItem? CurrentlyPlaying { get; set; }
     [JsonPropertyName("queue")]
-    public List<IPlayerItem>? Queue { get; set; }
+    public List<IPolymorphicItem>? Queue { get; set; }
 }

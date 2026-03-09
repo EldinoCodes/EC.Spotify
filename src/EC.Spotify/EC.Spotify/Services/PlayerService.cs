@@ -64,7 +64,7 @@ internal sealed class PlayerService(ILogger<PlayerService> logger, ISpotifyHttpP
         {
             _logger.LogError(ex, "Error getting devices");
         }
-        return GenerateResult<List<Device>>(ret, "devices");
+        return GenerateResult<List<Device>>(ret, ["devices"]);
     }
     public async Task<SpotifyResult<bool>> TransferAsync(string? deviceId, bool play = false, CancellationToken cancellationToken = default)
     {
@@ -73,7 +73,9 @@ internal sealed class PlayerService(ILogger<PlayerService> logger, ISpotifyHttpP
         {
             var header = await GetAuthorizationHeaderAsync(cancellationToken);
             var json = _spotifyJsonSerializer.Serialize(new { device_ids = new[] { deviceId }, play });
-            var data = new StringContent(json, Encoding.UTF8, "application/json");
+            var data = !string.IsNullOrEmpty(json) 
+                ? new StringContent(json, Encoding.UTF8, "application/json")
+                : null;
             ret = await _httpProvider.ExecuteAsync("put", PlayerUri, data, header, cancellationToken);
         }
         catch (Exception ex)

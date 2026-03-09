@@ -27,5 +27,5 @@ public interface IAlbumService
     /// <returns>A task that represents the asynchronous operation. The task result contains a SpotifyResult with a
     /// SpotifyPageResult of Track objects for the specified album. The result may be empty if the album has no tracks
     /// or the album ID is invalid.</returns>
-    Task<SpotifyResult<SpotifyPageResult<Track>>> AlbumTrackGetAllAsync(string? id, int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default);
+    Task<SpotifyResult<SpotifyPageResult>> AlbumTrackGetAllAsync(string? id, int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default);
 }

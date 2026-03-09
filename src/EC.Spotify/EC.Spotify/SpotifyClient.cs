@@ -4,9 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace EC.Spotify;
 
-public class SpotifyClient(
-    IServiceProvider serviceProvider
-) : ISpotifyClient
+public class SpotifyClient(IServiceProvider serviceProvider) : ISpotifyClient
 {
     private readonly IServiceProvider _serviceProvider = serviceProvider;
 

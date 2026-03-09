@@ -1,8 +1,9 @@
-﻿using System.Text.Json.Serialization;
+﻿using EC.Spotify.Abstractions.Models;
+using System.Text.Json.Serialization;
 
 namespace EC.Spotify.Models;
 
-public class SpotifyPageResult<T> where T : class
+public class SpotifyPageResult
 {
     private string? _next;
     private string? _prev;
@@ -42,5 +43,5 @@ public class SpotifyPageResult<T> where T : class
     [JsonPropertyName("total")]
     public int Total { get; set; }
     [JsonPropertyName("items")]
-    public List<T> Items { get; set; } = [];
+    public List<IPolymorphicItem>? Items { get; set; }
 }

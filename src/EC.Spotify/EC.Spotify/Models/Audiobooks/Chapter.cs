@@ -1,9 +1,10 @@
-﻿using EC.Spotify.Models.Shared;
+﻿using EC.Spotify.Abstractions.Models;
+using EC.Spotify.Models.Shared;
 using System.Text.Json.Serialization;
 
 namespace EC.Spotify.Models.Audiobooks;
 
-public class Chapter
+public class Chapter : IPolymorphicItem
 {
     [JsonPropertyName("chapter_number")]
     public int ChapterNumber { get; set; }

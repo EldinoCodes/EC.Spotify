@@ -1,9 +1,10 @@
-﻿using EC.Spotify.Models.Shared;
+﻿using EC.Spotify.Abstractions.Models;
+using EC.Spotify.Models.Shared;
 using System.Text.Json.Serialization;
 
 namespace EC.Spotify.Models.Shows;
 
-public class Show
+public class Show : IPolymorphicItem
 {
     [JsonPropertyName("copyrights")]
     public List<Copyright>? Copyrights { get; set; }

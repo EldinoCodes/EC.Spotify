@@ -1,4 +1,5 @@
-﻿using EC.Spotify.Models;
+﻿using EC.Spotify.Abstractions.Models;
+using EC.Spotify.Models;
 using EC.Spotify.Models.Albums;
 
 namespace EC.Spotify.Abstractions.Services;
@@ -31,5 +32,5 @@ public interface IArtistService
     /// <returns>A task that represents the asynchronous operation. The task result contains a SpotifyResult with a
     /// SpotifyPageResult of Album objects for the specified artist. The result may be empty if the artist has no albums
     /// or the ID is invalid.</returns>
-    Task<SpotifyResult<SpotifyPageResult<Album>>> ArtistAlbumGetAllAsync(string? id, int? limit = 20, int? offset = 0, string? includeGroups = default, CancellationToken cancellationToken = default);
+    Task<SpotifyResult<SpotifyPageResult>> ArtistAlbumGetAllAsync(string? id, int? limit = 20, int? offset = 0, string? includeGroups = default, CancellationToken cancellationToken = default);
 }

@@ -31,7 +31,7 @@ internal class ShowService(ILogger<ShowService> logger, ISpotifyHttpProvider htt
         return GenerateResult<Show>(ret);
     }
 
-    public async Task<SpotifyResult<SpotifyPageResult<Episode>>> ShowEpisodeGetAllAsync(string? id, int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)
+    public async Task<SpotifyResult<SpotifyPageResult>> ShowEpisodeGetAllAsync(string? id, int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)
     {
         string? ret = default;
         try
@@ -49,6 +49,6 @@ internal class ShowService(ILogger<ShowService> logger, ISpotifyHttpProvider htt
         {
             _logger.LogError(ex, "Error getting show episodes for show '{show}'", id);
         }
-        return GenerateResult<SpotifyPageResult<Episode>>(ret);
+        return GenerateResult<SpotifyPageResult>(ret);
     }
 }

@@ -31,7 +31,7 @@ internal class AudiobookService(ILogger<AudiobookService> logger, ISpotifyHttpPr
         return GenerateResult<Audiobook>(ret);
     }
 
-    public async Task<SpotifyResult<SpotifyPageResult<Chapter>>> AudiobookChapterGetAllAsync(string? id, int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)
+    public async Task<SpotifyResult<SpotifyPageResult>> AudiobookChapterGetAllAsync(string? id, int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)
     {
         string? ret = default;
         try
@@ -49,6 +49,6 @@ internal class AudiobookService(ILogger<AudiobookService> logger, ISpotifyHttpPr
         {
             _logger.LogError(ex, "Error getting audiobook chapters for '{audiobook}'", id);
         }
-        return GenerateResult<SpotifyPageResult<Chapter>>(ret);
+        return GenerateResult<SpotifyPageResult>(ret);
     }
 }

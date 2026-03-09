@@ -1,9 +1,10 @@
-﻿using EC.Spotify.Models.Shared;
+﻿using EC.Spotify.Abstractions.Models;
+using EC.Spotify.Models.Shared;
 using System.Text.Json.Serialization;
 
 namespace EC.Spotify.Models.Audiobooks;
 
-public class Audiobook
+public class Audiobook : IPolymorphicItem
 {
     [JsonPropertyName("authors")]
     public List<Author>? Authors { get; set; }
@@ -37,5 +38,5 @@ public class Audiobook
     [JsonPropertyName("total_chapters")]
     public int TotalChapters { get; set; }
     [JsonPropertyName("chapters")]
-    public SpotifyPageResult<Chapter>? Chapters { get; set; }
+    public SpotifyPageResult? Chapters { get; set; }
 }

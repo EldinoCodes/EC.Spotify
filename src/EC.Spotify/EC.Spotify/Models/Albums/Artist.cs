@@ -1,9 +1,10 @@
-﻿using EC.Spotify.Models.Shared;
+﻿using EC.Spotify.Abstractions.Models;
+using EC.Spotify.Models.Shared;
 using System.Text.Json.Serialization;
 
 namespace EC.Spotify.Models.Albums;
 
-public class Artist
+public class Artist : IPolymorphicItem
 {
     [JsonPropertyName("external_urls")]
     public ExternalUrl? ExternalUrls { get; set; }

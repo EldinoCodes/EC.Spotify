@@ -12,7 +12,7 @@ namespace EC.Spotify;
 
 public static class SpotifyRegistration
 {
-    public static IServiceCollection AddSpotify(this IServiceCollection services, Action<SpotifyOptions> options)
+    public static IServiceCollection AddSpotify(this IServiceCollection services, Action<SpotifyOptions>? options)
     {
         ArgumentNullException.ThrowIfNull(options);
 

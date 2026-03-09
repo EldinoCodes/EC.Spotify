@@ -31,7 +31,7 @@ internal class AlbumService(ILogger<AlbumService> logger, ISpotifyHttpProvider h
         return GenerateResult<Album>(ret);
     }
 
-    public async Task<SpotifyResult<SpotifyPageResult<Track>>> AlbumTrackGetAllAsync(string? id, int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)
+    public async Task<SpotifyResult<SpotifyPageResult>> AlbumTrackGetAllAsync(string? id, int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)
     {
         string? ret = default;
         try
@@ -49,7 +49,7 @@ internal class AlbumService(ILogger<AlbumService> logger, ISpotifyHttpProvider h
         {
             _logger.LogError(ex, "Error getting album tracks for album '{album}'", id);
         }
-        return GenerateResult<SpotifyPageResult<Track>>(ret);
+        return GenerateResult<SpotifyPageResult>(ret);
     }
 
 }
