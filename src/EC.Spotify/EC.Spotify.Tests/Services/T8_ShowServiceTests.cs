@@ -3,31 +3,31 @@
 namespace EC.Spotify.Tests.Services;
 
 [TestClass]
-public sealed class ArtistServiceTests
+public sealed class T8_ShowServiceTests
 {
     [TestMethod]
-    [DataRow("0X380XXQSNBYuleKzav5UO")]
-    public async Task ArtistGetAsync_ShouldReturnArtist(string? id)
+    [DataRow("2zBUqgc1ZmvqqEdP4g2jjA")]
+    public async Task ShowGetAsync_ShouldReturnShow(string? id)
     {
         ArgumentException.ThrowIfNullOrEmpty(id, nameof(id));
 
-        var sut = Initializer.Resolve<IArtistService>();
+        var sut = Initializer.Resolve<IShowService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
-        var result = await sut.ArtistGetAsync(id);
+        var result = await sut.ShowGetAsync(id);
         Assert.IsNotNull(result?.Data);
     }
 
     [TestMethod]
-    [DataRow("0X380XXQSNBYuleKzav5UO")]
-    public async Task ArtistAlbumGetAllAsync_ShouldReturnAlbums(string? id)
+    [DataRow("2zBUqgc1ZmvqqEdP4g2jjA")]
+    public async Task ShowEpisodeGetAllAsync_ShouldReturnEpisodes(string? id)
     {
         ArgumentException.ThrowIfNullOrEmpty(id, nameof(id));
 
-        var sut = Initializer.Resolve<IArtistService>();
+        var sut = Initializer.Resolve<IShowService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
-        var result = await sut.ArtistAlbumGetAllAsync(id);
+        var result = await sut.ShowEpisodeGetAllAsync(id);
         Assert.IsNotNull(result?.Data);
     }
 }

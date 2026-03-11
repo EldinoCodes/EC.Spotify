@@ -27,7 +27,7 @@ internal abstract class BaseSpotifyService(IAuthorizationService authorizationSe
 
     protected virtual SpotifyResult<T> GenerateResult<T>(string? raw, List<string?>? jsonPaths = default) where T : new()
     {
-        var error = (raw?.Contains("error", StringComparison.InvariantCultureIgnoreCase) ?? false)
+        var error = raw?.Contains("error", StringComparison.InvariantCultureIgnoreCase) ?? false
             ? _spotifyJsonSerializer.Deserialize<SpotifyError?>(raw, "error")
             : null;
         if (typeof(T) == typeof(bool) && error is null) raw = "true";

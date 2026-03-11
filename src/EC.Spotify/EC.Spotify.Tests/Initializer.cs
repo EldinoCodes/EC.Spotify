@@ -1,29 +1,22 @@
-﻿using EC.Spotify.Abstractions.Services;
+﻿using EC.Spotify.Abstractions.Providers;
+using EC.Spotify.Abstractions.Serialization;
+using EC.Spotify.Abstractions.Services;
+using EC.Spotify.Tests.Core.Providers;
+using EC.Spotify.Tests.Mocks.Providers;
+using EC.Spotify.Tests.Mocks.Serialization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Diagnostics;
-using System.Net;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.Reflection;
-
-[assembly: Parallelize(Scope = ExecutionScope.ClassLevel)]
+using System.Runtime;
 
 namespace EC.Spotify.Tests;
 
-/*
- * if HttpListener isnt working binding to https, but gives no errors try adding local cert:
- * 
- * in admin powershell:
- * 
- * -- add ssl cert to local machine store
- * New-SelfSignedCertificate -DnsName "127.0.0.1" -CertStoreLocation "cert:\LocalMachine\My"
- * 
- * -- create self signed cert (hash value is the thumbprint of the cert created in previous step)
- * netsh http add sslcert ipport=0.0.0.0:5001 certhash=<thumbprint> appid='{a0085f2a-94c0-4108-a63b-74d48c1a8f4c}'
- */
 
 
 [TestClass]
-public class Initializer
+[DoNotParallelize]
+public static class Initializer
 {
     private static IServiceProvider? _container { get; set; }
     public static T? Resolve<T>() => _container is not null ? _container.GetService<T>() : default;
@@ -43,11 +36,23 @@ public class Initializer
 
         services.AddSpotify(configuration.GetSection("Spotify"));
 
+        var fullEnd2EndTest = configuration.GetValue<bool>("FullEnd2EndTest");
+        if (!fullEnd2EndTest)
+        {
+            services.RemoveAll<ISpotifyHttpProvider>();
+            services.RemoveAll<ISpotifyJsonSerializer>();
+
+            services.AddSingleton<ISpotifyHttpProvider, MockSpotifyHttpProvider>();
+            services.AddSingleton<ISpotifyJsonSerializer, MockSpotifyJsonSerialization>();            
+        }
+
         _container = services.BuildServiceProvider();
 
-        var listenUri = configuration.GetValue<string>("Spotify:ListenUri");
-
-        StartAuthenticationServer(listenUri);
+        if (fullEnd2EndTest)
+        {
+            var listenUri = configuration.GetValue<string>("Spotify:ListenUri");
+            StartAuthenticationServer(listenUri);
+        }
     }
 
     [AssemblyCleanup]
@@ -74,30 +79,9 @@ public class Initializer
         var url = authService.AuthorizationCodeUrl();
         ArgumentException.ThrowIfNullOrEmpty(url, nameof(url));
 
-        // start server to wait for redirect
-        var listener = new HttpListener();
-        var process = default(Process);
-        try
+        WebRedirectListenerProvider.ListenForRedirect(url, listenUri, (context) =>
         {
-            // set listening path and start listening
-            listener.Prefixes.Add(listenUri);
-            listener.Start();
-
-            // open browser        
-            process = Process.Start(new ProcessStartInfo(url)
-            {
-                UseShellExecute = true,
-                Verb = "open"
-            });
-            ArgumentNullException.ThrowIfNull(process, nameof(process));
-
-            // wait for request
-            var context = listener.GetContext();
-            listener.Stop();
-
-            // pull auth code response
             var authorizationCode = context.Request.QueryString.Get("code");
-            ArgumentException.ThrowIfNullOrEmpty(authorizationCode, nameof(authorizationCode));
 
             // add response code, generate token for tests
             _ = authService.AuthorizationCodeAddAsync(authorizationCode).Result;
@@ -105,16 +89,6 @@ public class Initializer
 
             _ = authService.AuthorizationTokenGetAsync().Result;
             Task.Delay(1000).Wait(); // wait for token to be generated
-        }
-        catch (Exception ex)
-        {
-            listener.Stop();
-            throw new Exception("Error starting authentication server", ex);
-        }
-
-        // kill the process
-        process?.Close();
-
-        Task.Delay(4000).Wait(); // wait for token to be generated
+        });
     }
 }

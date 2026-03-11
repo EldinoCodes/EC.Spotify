@@ -103,7 +103,9 @@ internal sealed class AuthorizationService(ILogger<AuthorizationService> logger,
 
                 var res = await _httpProvider.ExecuteAsync("post", TokenUri, data, (h) => h.Authorization = new AuthenticationHeaderValue("Basic", authentication), cancellationToken);
 
-                var error = _spotifyJsonSerializer.Deserialize<SpotifyError?>(res, "error");
+                var error = res?.Contains("error", StringComparison.InvariantCultureIgnoreCase) ?? false
+                    ? _spotifyJsonSerializer.Deserialize<SpotifyError?>(res, "error")
+                    : null;
                 if (error is not null) throw new Exception(error.Message);
 
                 var token = _spotifyJsonSerializer.Deserialize<AuthToken?>(res);

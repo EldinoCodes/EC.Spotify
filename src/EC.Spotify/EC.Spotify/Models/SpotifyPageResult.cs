@@ -19,9 +19,7 @@ public class SpotifyPageResult
             return _next;
         }
         set {
-            _next = !string.IsNullOrEmpty(value) 
-                ? new Uri(value).Query 
-                : value;
+            _next = Uri.TryCreate(value, new UriCreationOptions(), out var uri) ? uri.Query: null;
         }
     }
     [JsonPropertyName("offset")]
@@ -35,9 +33,7 @@ public class SpotifyPageResult
         }
         set
         {
-            _prev = !string.IsNullOrEmpty(value)
-                ? new Uri(value).Query
-                : value;
+            _prev = Uri.TryCreate(value, new UriCreationOptions(), out var uri) ? uri.Query : null;
         }
     }
     [JsonPropertyName("total")]

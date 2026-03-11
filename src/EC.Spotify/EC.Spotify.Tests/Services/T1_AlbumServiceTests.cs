@@ -3,7 +3,7 @@
 namespace EC.Spotify.Tests.Services;
 
 [TestClass]
-public sealed class AlbumServiceTests
+public sealed class T1_AlbumServiceTests
 {
 
     [TestMethod]

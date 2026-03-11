@@ -145,7 +145,7 @@ if (tracksResult.IsSuccess)
 {
     foreach (var track in tracksResult.Data.Items)
     {
-        Console.WriteLine($"Track: {track.Name} - {track.DurationMs}ms");
+        Console.WriteLine($"Track: {track.Name} - {track.DurationMilliseconds}ms");
     }
 }
 ```
@@ -293,7 +293,7 @@ if (chapterResult.IsSuccess)
     var chapter = chapterResult.Data;
     Console.WriteLine($"Chapter: {chapter.Name}");
     Console.WriteLine($"Chapter Number: {chapter.ChapterNumber}");
-    Console.WriteLine($"Duration: {chapter.DurationMs}ms");
+    Console.WriteLine($"Duration: {chapter.DurationMilliseconds}ms");
     Console.WriteLine($"Description: {chapter.Description}");
 }
 ```
@@ -314,7 +314,7 @@ if (episodeResult.IsSuccess)
     var episode = episodeResult.Data;
     Console.WriteLine($"Episode: {episode.Name}");
     Console.WriteLine($"Show: {episode.Show?.Name}");
-    Console.WriteLine($"Duration: {episode.DurationMs}ms");
+    Console.WriteLine($"Duration: {episode.DurationMilliseconds}ms");
     Console.WriteLine($"Release Date: {episode.ReleaseDate}");
     Console.WriteLine($"Description: {episode.Description}");
 }
@@ -361,6 +361,10 @@ await _spotifyClient.Player.PlayerShuffleAsync(PlayerShuffleMode.On);
 
 Performs search queries across Spotify's catalog, supporting multiple content types.
 
+<p style="background-color: #856404; border-radius: .5rem; padding:.5rem; font-size:2rem;">
+<span style="font-size:2rem; font-weight:bold;">Note:</span>&nbsp;Spotify JSON is polymorphic, to handle this without impacting consumer serialization, I fudge a '$type' property on the Spotify data where received to make System.Text.Serialization work.
+</p>
+
 **Available Methods:**
 - **`SearchAsync(SearchQuery? searchQuery, CancellationToken cancellationToken = default)`**  
   Performs a search using specified criteria including query string, search types, limit, and offset.
@@ -377,8 +381,8 @@ var searchQuery = new SearchQuery
 var searchResult = await _spotifyClient.Search.SearchAsync(searchQuery);
 if (searchResult.IsSuccess)
 {
-    var tracks = searchResult.Data.Tracks?.Items;
-    var artists = searchResult.Data.Artists?.Items;
+    var tracks = searchResult.Data.Items?.Where(i => i.Type.Equals("track"))?.ToList() ?? [];
+    var artists = searchResult.Data.Items?.Where(i => i.Type.Equals("artist"))?.ToList() ?? [];;
 }
 ```
 
@@ -419,7 +423,7 @@ if (trackResult.IsSuccess)
 {
     var track = trackResult.Data;
     Console.WriteLine($"Track: {track.Name} by {track.Artists[0].Name}");
-    Console.WriteLine($"Duration: {track.DurationMs}ms, Popularity: {track.Popularity}");
+    Console.WriteLine($"Duration: {track.DurationMilliseconds}ms, Popularity: {track.Popularity}");
 }
 ```
 

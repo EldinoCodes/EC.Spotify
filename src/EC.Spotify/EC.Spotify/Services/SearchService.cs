@@ -12,7 +12,7 @@ internal class SearchService(ILogger<SearchService> logger, ISpotifyHttpProvider
 {
     private readonly ILogger<SearchService> _logger = logger;
     private readonly ISpotifyHttpProvider _httpProvider = httpProvider;
-    private readonly List<string?> _discriminators = spotifyJsonSerializer.GetTypeDiscriminatorNames().Select(n => !string.IsNullOrEmpty(n) ? n + "s" : n).ToList() ?? [];
+    private readonly List<string?> _polymorphicTypeNames = spotifyJsonSerializer.GetPolymorphicTypeNames().Select(n => !string.IsNullOrEmpty(n) ? n + "s" : n).ToList() ?? [];
 
 
     private const string SpotifySearchUri = "https://api.spotify.com/v1/search";
@@ -52,6 +52,6 @@ internal class SearchService(ILogger<SearchService> logger, ISpotifyHttpProvider
         {
             _logger.LogError(ex, "Error searching for track");
         }
-        return GenerateResult<SpotifyPageResult>(ret, _discriminators);
+        return GenerateResult<SpotifyPageResult>(ret, _polymorphicTypeNames);
     }
 }

@@ -13,7 +13,7 @@ internal sealed class SpotifyJsonSerializer(ILogger<SpotifyJsonSerializer> logge
     private readonly ILogger<SpotifyJsonSerializer> _logger = logger;
     private readonly JsonSerializerOptions _jssOptions = new() { PropertyNameCaseInsensitive = true };
 
-    private readonly List<string?> _discriminators = Attribute
+    private readonly List<string?> _polymorphicTypeNames = Attribute
         .GetCustomAttributes(typeof(IPolymorphicItem), typeof(JsonDerivedTypeAttribute))
         .Select(a => ((JsonDerivedTypeAttribute)a)?.TypeDiscriminator?.ToString())?.ToList() ?? [];
 
@@ -49,7 +49,7 @@ internal sealed class SpotifyJsonSerializer(ILogger<SpotifyJsonSerializer> logge
         return ret;
     }
 
-    public List<string?> GetTypeDiscriminatorNames() => _discriminators;
+    public List<string?> GetPolymorphicTypeNames() => _polymorphicTypeNames;
 
     private string? ProcessJson(string? json, string? jsonPath = default)
     {
@@ -91,7 +91,7 @@ internal sealed class SpotifyJsonSerializer(ILogger<SpotifyJsonSerializer> logge
                 if (property.Key.Equals("type", StringComparison.InvariantCultureIgnoreCase)) 
                 {
                     var propertyValue = property.Value?.ToString();
-                    if(_discriminators.Any(d => propertyValue?.Equals(d, StringComparison.InvariantCultureIgnoreCase) ?? false)) type = propertyValue;
+                    if(_polymorphicTypeNames.Any(i => propertyValue?.Equals(i, StringComparison.InvariantCultureIgnoreCase) ?? false)) type = propertyValue;
                 }
                 AddPolymorphicTypeDiscriminatorProperty(property.Value);
             }

@@ -13,7 +13,7 @@ public class Chapter : IPolymorphicItem
     [JsonPropertyName("html_description")]
     public string? HtmlDescription { get; set; }
     [JsonPropertyName("duration_ms")]
-    public int DurationMs { get; set; }
+    public long? DurationMilliseconds { get; set; }
     [JsonPropertyName("explicit")]
     public bool Explicit { get; set; }
     [JsonPropertyName("external_urls")]
