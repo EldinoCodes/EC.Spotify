@@ -1,5 +1,7 @@
 <Solution>
-  <Project Path="EC.Spotify.ApiExample/EC.Spotify.ApiExample.csproj" Id="690a674b-6315-4eba-a211-4c016e6ebeab" />
+  <Project Path="EC.Spotify.ApiExample/EC.Spotify.ApiExample.csproj" Id="690a674b-6315-4eba-a211-4c016e6ebeab">
+    <Build Solution="Debug|*" Project="false" />
+  </Project>
   <Project Path="EC.Spotify.Tests/EC.Spotify.Tests.csproj" Id="a0085f2a-94c0-4108-a63b-74d48c1a8f4c" />
   <Project Path="EC.Spotify/EC.Spotify.csproj" Id="39d251bd-1fa5-43b0-aeb4-855c212a5b9d" />
 </Solution>
