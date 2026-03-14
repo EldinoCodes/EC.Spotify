@@ -1,10 +1,10 @@
-name: Publish Release
+name: Pack And Publish
 on:
   release:
     types: [published]
 
 jobs:
-  build-and-publish:
+  pack-and-publish:
     permissions:
       contents: read
       id-token: write
