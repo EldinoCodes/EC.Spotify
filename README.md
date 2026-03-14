@@ -1,4 +1,6 @@
 # EC.Spotify
+[![Build And Test](https://github.com/EldinoCodes/EC.Spotify/actions/workflows/BuildAndTest.yml/badge.svg)](https://github.com/EldinoCodes/EC.Spotify/actions/workflows/BuildAndTest.yml)
+[![Pack And Publish](https://github.com/EldinoCodes/EC.Spotify/actions/workflows/PackAndPublish.yml/badge.svg)](https://github.com/EldinoCodes/EC.Spotify/actions/workflows/PackAndPublish.yml)
 
 A comprehensive .NET client library for the Spotify Web API, providing a clean and intuitive interface for interacting with Spotify's music streaming platform.
 
@@ -39,10 +41,11 @@ services.AddSpotify(options =>
     options.RedirectUri = "https://localhost:5001/callback";
     options.Scopes = new List<string>
     {
-        "user-read-playback-state",
-        "user-modify-playback-state",
-        "user-read-currently-playing",
-        "playlist-read-private"
+      "user-read-currently-playing",
+      "user-read-playback-state",
+      "user-modify-playback-state",
+      "user-library-read",
+      "user-library-modify"
     };
 });
 ```
@@ -59,10 +62,11 @@ Register Spotify services by binding to a configuration section (e.g., from `app
     "ClientSecret": "your-client-secret",
     "RedirectUri": "https://localhost:5001/callback",
     "Scopes": [
+      "user-read-currently-playing",
       "user-read-playback-state",
       "user-modify-playback-state",
-      "user-read-currently-playing",
-      "playlist-read-private"
+      "user-library-read",
+      "user-library-modify"
     ]
   }
 }
@@ -320,9 +324,76 @@ if (episodeResult.IsSuccess)
 }
 ```
 
+### ILibraryService
+
+Provides methods for checking, adding, and removing items from the current user's Spotify library. Supports batching up to 40 items per request (a Spotify-imposed limit), automatically chunking larger lists across multiple requests.
+
+**Available Methods:**
+- **`LibraryCheckAsync(LibraryItem? libraryItem, CancellationToken cancellationToken = default)`**  
+  Checks whether a single item is saved in the current user's library.
+
+- **`LibraryCheckAllAsync(List<LibraryItem> libraryItems, CancellationToken cancellationToken = default)`**  
+  Checks whether multiple items are saved in the current user's library. Returns a `List<bool>` in the same order as the input items.
+
+- **`LibraryAddAsync(LibraryItem? libraryItem, CancellationToken cancellationToken = default)`**  
+  Saves a single item to the current user's library.
+
+- **`LibraryAddAllAsync(List<LibraryItem> libraryItems, CancellationToken cancellationToken = default)`**  
+  Saves multiple items to the current user's library. Returns a `List<bool>` indicating success for each item.
+
+- **`LibraryRemoveAsync(LibraryItem? libraryItem, CancellationToken cancellationToken = default)`**  
+  Removes a single item from the current user's library.
+
+- **`LibraryRemoveAllAsync(List<LibraryItem> libraryItems, CancellationToken cancellationToken = default)`**  
+  Removes multiple items from the current user's library. Returns a `List<bool>` indicating success for each item.
+
+**`LibraryItem` Model:**
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `Id` | `string?` | The Spotify ID of the item |
+| `Type` | `LibraryType` | The type of the item (`Album`, `Audiobook`, `Episode`, `Playlist`, `Show`, `Track`, `User`) |
+| `Uri` | `string?` | Read-only. Computed Spotify URI in the format `spotify:{type}:{id}` |
+
+**Example:**
+```csharp
+// Check if a single track is saved
+var trackItem = new LibraryItem { Id = "3n3Ppam7vgaVa1iaRUc9Lp", Type = LibraryType.Track };
+var checkResult = await _spotifyClient.Library.LibraryCheckAsync(trackItem);
+if (checkResult.IsSuccess)
+{
+    Console.WriteLine($"Track is saved: {checkResult.Data}");
+}
+
+// Check multiple items at once
+var items = new List<LibraryItem>
+{
+    new() { Id = "3n3Ppam7vgaVa1iaRUc9Lp", Type = LibraryType.Track },
+    new() { Id = "4aawyAB9vmqN3uQ7FjRGTy", Type = LibraryType.Album }
+};
+var checkAllResult = await _spotifyClient.Library.LibraryCheckAllAsync(items);
+if (checkAllResult.IsSuccess)
+{
+    for (int i = 0; i < items.Count; i++)
+        Console.WriteLine($"{items[i].Uri} saved: {checkAllResult.Data[i]}");
+}
+
+// Save a track to the library
+var addResult = await _spotifyClient.Library.LibraryAddAsync(trackItem);
+
+// Save multiple items
+var addAllResult = await _spotifyClient.Library.LibraryAddAllAsync(items);
+
+// Remove a track from the library
+var removeResult = await _spotifyClient.Library.LibraryRemoveAsync(trackItem);
+
+// Remove multiple items
+var removeAllResult = await _spotifyClient.Library.LibraryRemoveAllAsync(items);
+```
+
 ### IPlayerService
 
-Controls Spotify playback and manages player state. This is the most feature-rich service interface, providing comprehensive control over Spotify's playback functionality.
+Controls Spotify playback and manages player state.
 
 **Available Methods:**
 - **`QueueGetAsync(CancellationToken cancellationToken = default)`** - Retrieves the current playback queue
@@ -472,7 +543,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ## Contributing
 
-[Insert Contributing Guidelines]
+Bring issues to the table, or suggest features! Contributions are welcome and appreciated.
 
 ## Support
 
@@ -480,4 +551,4 @@ For issues, questions, or contributions, please visit the [GitHub repository](ht
 
 ## Acknowledgments
 
-Built with ?? for the Spotify developer community.
+Built for people who enjoy their spotify premium account and want to interact with its API features.  Great appreciation for the Spotify development team!

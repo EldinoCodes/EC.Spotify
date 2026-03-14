@@ -3,7 +3,7 @@
 namespace EC.Spotify.Tests.Services;
 
 [TestClass]
-public sealed class T3_AudiobookServiceTests
+public sealed class T03_AudiobookServiceTests
 {
     [TestMethod]
     [DataRow("587ehiVcGuXjxKMECQneQ6")]

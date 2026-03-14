@@ -3,7 +3,7 @@
 namespace EC.Spotify.Tests.Services;
 
 [TestClass]
-public sealed class T0_AuthorizationServiceTests
+public sealed class T00_AuthorizationServiceTests
 {
     // this is only a valid call before authorization
     //[TestMethod]

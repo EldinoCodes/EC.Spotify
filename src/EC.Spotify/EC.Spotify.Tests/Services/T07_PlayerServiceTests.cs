@@ -4,7 +4,7 @@ using EC.Spotify.Enums;
 namespace EC.Spotify.Tests.Services;
 
 [TestClass]
-public sealed class T6_PlayerServiceTests
+public sealed class T07_PlayerServiceTests
 {
     [TestMethod]
     public async Task QueueGetAsync_ShouldReturnQueue()

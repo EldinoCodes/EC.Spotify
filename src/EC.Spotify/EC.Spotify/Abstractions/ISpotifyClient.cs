@@ -29,6 +29,10 @@ public interface ISpotifyClient
     /// </summary>
     IEpisodeService Episodes { get; }
     /// <summary>
+    /// Gets the service to manage your library.
+    /// </summary>
+    ILibraryService Library { get; }
+    /// <summary>
     /// Gets the service used to control and query the media player.
     /// </summary>
     IPlayerService Player { get; }

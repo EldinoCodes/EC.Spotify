@@ -3,7 +3,7 @@
 namespace EC.Spotify.Tests.Services;
 
 [TestClass]
-public sealed class A0_AuthorizationServiceTests
+public sealed class A00_AuthorizationServiceTests
 {
     [TestMethod]
     public async Task Validate_ShouldReturnAuthorizationUrl()

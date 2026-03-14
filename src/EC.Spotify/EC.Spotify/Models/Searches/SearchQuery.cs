@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using EC.Spotify.Enums;
+using System.Text.Json.Serialization;
 
 namespace EC.Spotify.Models.Searches;
 

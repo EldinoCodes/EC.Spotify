@@ -1,10 +1,11 @@
 ﻿using EC.Spotify.Abstractions.Services;
+using EC.Spotify.Enums;
 using EC.Spotify.Models.Searches;
 
 namespace EC.Spotify.Tests.Services;
 
 [TestClass]
-public sealed class T7_SearchServiceTests
+public sealed class T08_SearchServiceTests
 {
     [TestMethod]
     [DataRow("The Beatles", null, null, null, SearchType.Artist)]

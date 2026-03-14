@@ -33,7 +33,7 @@ internal class MockSpotifyHttpProvider() : ISpotifyHttpProvider
             if (modelType is not null) break;
         }
 
-        var obj = ReflectionProvider.PopulateObjectRecursive(modelType);
+        var obj = DummyProvider.DummyObject(modelType);
 
         if (modelType == typeof(Device)) obj = new { devices = new[] { obj } };
 

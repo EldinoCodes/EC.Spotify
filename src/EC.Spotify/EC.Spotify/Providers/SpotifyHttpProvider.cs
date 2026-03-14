@@ -25,6 +25,7 @@ internal sealed class SpotifyHttpProvider(ILogger<SpotifyHttpProvider> logger, H
             "post" => await _httpClient.PostAsync(uri, httpContent, cancellationToken),            
             "put" => await _httpClient.PutAsync(uri, httpContent, cancellationToken),
             "get" => await _httpClient.GetAsync(uri, cancellationToken),
+            "delete" => await _httpClient.DeleteAsync(uri, cancellationToken),
             _ => throw new NotImplementedException()
         };
         var result = await response.Content.ReadAsStringAsync(cancellationToken);

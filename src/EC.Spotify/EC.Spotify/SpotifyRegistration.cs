@@ -45,6 +45,7 @@ public static class SpotifyRegistration
         services.AddSingleton<IAuthorizationService, AuthorizationService>();
         services.AddSingleton<IChapterService, ChapterService>();
         services.AddSingleton<IEpisodeService, EpisodeService>();
+        services.AddSingleton<ILibraryService, LibraryService>();
         services.AddSingleton<IPlayerService, PlayerService>();
         services.AddSingleton<ISearchService, SearchService>();
         services.AddSingleton<IShowService, ShowService>();

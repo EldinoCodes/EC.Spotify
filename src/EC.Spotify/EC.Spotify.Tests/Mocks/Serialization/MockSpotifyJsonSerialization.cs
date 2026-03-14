@@ -27,7 +27,7 @@ internal class MockSpotifyJsonSerialization : ISpotifyJsonSerializer
         return JsonSerializer.Serialize(obj, _jssOptions);
     }
     public T? Deserialize<T>(string? json, string? jsonPath = default) 
-        => (T?)ReflectionProvider.PopulateObjectRecursive(typeof(T));
+        => (T?)DummyProvider.DummyObject(typeof(T));
 
     public List<string?> GetPolymorphicTypeNames() => _polymorphicTypeNames;
 }

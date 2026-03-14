@@ -1,6 +1,7 @@
 ﻿using EC.Spotify.Abstractions.Providers;
 using EC.Spotify.Abstractions.Serialization;
 using EC.Spotify.Abstractions.Services;
+using EC.Spotify.Enums;
 using EC.Spotify.Models;
 using EC.Spotify.Models.Searches;
 using Microsoft.Extensions.Logging;

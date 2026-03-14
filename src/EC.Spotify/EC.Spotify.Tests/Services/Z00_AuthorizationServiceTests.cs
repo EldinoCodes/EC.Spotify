@@ -3,7 +3,7 @@
 namespace EC.Spotify.Tests.Services;
 
 [TestClass]
-public sealed class Z0_AuthorizationServiceTests
+public sealed class Z00_AuthorizationServiceTests
 {
     [TestMethod]
     public async Task AuthorizationTokenReset_ShouldResetToken()

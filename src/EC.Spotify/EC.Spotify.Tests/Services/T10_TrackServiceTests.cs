@@ -3,18 +3,18 @@
 namespace EC.Spotify.Tests.Services;
 
 [TestClass]
-public sealed class T4_ChapterServiceTests
+public sealed class T10_TrackServiceTests
 {
     [TestMethod]
-    [DataRow("3OCSAZnatejMEd0Q5Ohlq7")]
-    public async Task ChapterGetAsync_ShouldReturnChapter(string? id)
+    [DataRow("4tjcBY787A2ZkRJpPIsGIS")]
+    public async Task TrackGetAsync_ShouldReturnTrack(string? id)
     {
         ArgumentException.ThrowIfNullOrEmpty(id, nameof(id));
 
-        var sut = Initializer.Resolve<IChapterService>();
+        var sut = Initializer.Resolve<ITrackService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
-        var result = await sut.ChapterGetAsync(id);
+        var result = await sut.TrackGetAsync(id);
         Assert.IsNotNull(result?.Data);
     }
 }

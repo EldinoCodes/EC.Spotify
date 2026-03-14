@@ -3,18 +3,18 @@
 namespace EC.Spotify.Tests.Services;
 
 [TestClass]
-public sealed class T5_EpisodeServiceTests
+public sealed class T04_ChapterServiceTests
 {
     [TestMethod]
-    [DataRow("3UcmY44Vwv4Ldh0Jd1HZ4m")]
-    public async Task EpisodeGetAsync_ShouldReturnEpisode(string? id)
+    [DataRow("3OCSAZnatejMEd0Q5Ohlq7")]
+    public async Task ChapterGetAsync_ShouldReturnChapter(string? id)
     {
         ArgumentException.ThrowIfNullOrEmpty(id, nameof(id));
 
-        var sut = Initializer.Resolve<IEpisodeService>();
+        var sut = Initializer.Resolve<IChapterService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
-        var result = await sut.EpisodeGetAsync(id);
+        var result = await sut.ChapterGetAsync(id);
         Assert.IsNotNull(result?.Data);
     }
 }

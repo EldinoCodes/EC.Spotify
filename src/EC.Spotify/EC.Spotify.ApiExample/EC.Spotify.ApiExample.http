@@ -61,8 +61,56 @@ Accept: application/json
 
 
 ### library
-GET {{EC.Spotify.HostAddress}}/Player/devices
+#  LibraryType
+#    Album = 0
+#    Audiobook = 1
+#    Episode = 2
+#    Playlist = 3
+#    Show = 4
+#    Track = 5
+#    User = 6
+
+### library check
+GET {{EC.Spotify.HostAddress}}/Library/check?id={{EC.Spotify.TrackId}}&type=5
 Accept: application/json
+
+### library check batch
+GET {{EC.Spotify.HostAddress}}/Library/check/batch
+Content-Type: application/json
+Accept: application/json
+
+[
+  { "id": "{{EC.Spotify.TrackId}}", "type": 5 },
+  { "id": "{{EC.Spotify.AlbumId}}", "type": 0 }
+]
+
+### library add
+POST {{EC.Spotify.HostAddress}}/Library?id={{EC.Spotify.TrackId}}&type=5
+Accept: application/json
+
+### library add batch
+POST {{EC.Spotify.HostAddress}}/Library/batch
+Content-Type: application/json
+Accept: application/json
+
+[
+  { "id": "{{EC.Spotify.TrackId}}", "type": 5 },
+  { "id": "{{EC.Spotify.AlbumId}}", "type": 0 }
+]
+
+### library remove
+DELETE {{EC.Spotify.HostAddress}}/Library?id={{EC.Spotify.TrackId}}&type=5
+Accept: application/json
+
+### library remove batch
+DELETE {{EC.Spotify.HostAddress}}/Library/batch
+Content-Type: application/json
+Accept: application/json
+
+[
+  { "id": "{{EC.Spotify.TrackId}}", "type": 5 },
+  { "id": "{{EC.Spotify.AlbumId}}", "type": 0 }
+]
 
 
 

@@ -1,4 +1,4 @@
-﻿namespace EC.Spotify.Models.Searches;
+﻿namespace EC.Spotify.Enums;
 
 [Flags]
 public enum SearchType

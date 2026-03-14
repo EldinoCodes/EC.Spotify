@@ -14,6 +14,7 @@ public class SpotifyClient(IServiceProvider serviceProvider) : ISpotifyClient
     public IAuthorizationService Authorization => _serviceProvider.GetRequiredService<IAuthorizationService>();
     public IChapterService Chapters => _serviceProvider.GetRequiredService<IChapterService>();
     public IEpisodeService Episodes => _serviceProvider.GetRequiredService<IEpisodeService>();
+    public ILibraryService Library => _serviceProvider.GetRequiredService<ILibraryService>();
     public IPlayerService Player => _serviceProvider.GetRequiredService<IPlayerService>();
     public ISearchService Search => _serviceProvider.GetRequiredService<ISearchService>();
     public IShowService Shows => _serviceProvider.GetRequiredService<IShowService>();
