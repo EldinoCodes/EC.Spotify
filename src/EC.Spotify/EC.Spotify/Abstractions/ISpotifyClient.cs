@@ -37,6 +37,10 @@ public interface ISpotifyClient
     /// </summary>
     IPlayerService Player { get; }
     /// <summary>
+    /// Gets the playlist management service for accessing and manipulating playlists.
+    /// </summary>
+    IPlaylistService Playlists { get; }
+    /// <summary>
     /// Gets the search service used to perform queries and retrieve results.
     /// </summary>
     ISearchService Search { get; }

@@ -1,0 +1,16 @@
+{
+  "IsSuccess": true,
+  "Data": [
+    {
+      "id": "SampleString",
+      "is_active": true,
+      "is_private_session": true,
+      "is_restricted": true,
+      "name": "SampleString",
+      "supports_volume": true,
+      "type": "SampleString",
+      "volume_percent": 1
+    }
+  ],
+  "Error": null
+}

@@ -5,12 +5,12 @@ namespace EC.Spotify.Abstractions.Services;
 
 public interface ILibraryService
 {
-    Task<SpotifyResult<List<bool>>> LibraryAddAllAsync(List<LibraryItem> libraryItems, CancellationToken cancellationToken = default);
-    Task<SpotifyResult<bool>> LibraryAddAsync(LibraryItem? libraryItem, CancellationToken cancellationToken = default);
+    Task<SpotifyResult<List<bool>>> LibraryAddAllAsync(List<ReferenceItem> libraryItems, CancellationToken cancellationToken = default);
+    Task<SpotifyResult<bool>> LibraryAddAsync(ReferenceItem? libraryItem, CancellationToken cancellationToken = default);
 
-    Task<SpotifyResult<List<bool>>> LibraryCheckAllAsync(List<LibraryItem> libraryItems, CancellationToken cancellationToken = default);
-    Task<SpotifyResult<bool>> LibraryCheckAsync(LibraryItem? libraryItem, CancellationToken cancellationToken = default);
+    Task<SpotifyResult<List<bool>>> LibraryCheckAllAsync(List<ReferenceItem> libraryItems, CancellationToken cancellationToken = default);
+    Task<SpotifyResult<bool>> LibraryCheckAsync(ReferenceItem? libraryItem, CancellationToken cancellationToken = default);
 
-    Task<SpotifyResult<List<bool>>> LibraryRemoveAllAsync(List<LibraryItem> libraryItems, CancellationToken cancellationToken = default);
-    Task<SpotifyResult<bool>> LibraryRemoveAsync(LibraryItem? libraryItem, CancellationToken cancellationToken = default);
+    Task<SpotifyResult<List<bool>>> LibraryRemoveAllAsync(List<ReferenceItem> libraryItems, CancellationToken cancellationToken = default);
+    Task<SpotifyResult<bool>> LibraryRemoveAsync(ReferenceItem? libraryItem, CancellationToken cancellationToken = default);
 }

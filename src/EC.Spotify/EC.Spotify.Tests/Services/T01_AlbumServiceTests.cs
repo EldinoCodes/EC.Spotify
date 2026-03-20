@@ -5,13 +5,10 @@ namespace EC.Spotify.Tests.Services;
 [TestClass]
 public sealed class T01_AlbumServiceTests
 {
-
     [TestMethod]
     [DataRow("7a7arAXDE0BiaMgHLhdjGF")]
     public async Task AlbumGetAsync_ShouldReturnAlbum(string? id)
     {
-        ArgumentException.ThrowIfNullOrEmpty(id, nameof(id));
-
         var sut = Initializer.Resolve<IAlbumService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 

@@ -1,6 +1,8 @@
 # EC.Spotify
 [![Build And Test](https://github.com/EldinoCodes/EC.Spotify/actions/workflows/BuildAndTest.yml/badge.svg)](https://github.com/EldinoCodes/EC.Spotify/actions/workflows/BuildAndTest.yml)
 [![Pack And Publish](https://github.com/EldinoCodes/EC.Spotify/actions/workflows/PackAndPublish.yml/badge.svg)](https://github.com/EldinoCodes/EC.Spotify/actions/workflows/PackAndPublish.yml)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/EC.Spotify)](https://www.nuget.org/packages/EC.Spotify)
+
 
 A comprehensive .NET client library for the Spotify Web API, providing a clean and intuitive interface for interacting with Spotify's music streaming platform.
 
@@ -428,32 +430,142 @@ await _spotifyClient.Player.PlayerRepeatAsync(PlayerRepeatMode.Track);
 await _spotifyClient.Player.PlayerShuffleAsync(PlayerShuffleMode.On);
 ```
 
+### IPlaylistService
+
+Provides methods for retrieving, managing, and modifying playlists and their contents.
+
+**Available Methods:**
+- **`MyPlaylistGetAllAsync(CancellationToken cancellationToken = default)`**  
+  Retrieves all playlists owned or followed by the current user.
+
+- **`PlaylistGetAsync(string? id, CancellationToken cancellationToken = default)`**  
+  Retrieves detailed playlist information by playlist ID.
+
+- **`PlaylistItemGetAllAsync(string? id, int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)`**  
+  Retrieves paginated items from a specific playlist with support for limit and offset parameters.
+
+- **`PlaylistDetailUpdateAsync(string? id, PlaylistDetail? playlistDetail, CancellationToken cancellationToken = default)`**  
+  Updates the details of an existing playlist (name, description, public/collaborative status).
+
+- **`PlaylistItemAddAsync(string? id, ReferenceItem? libraryItem, int? position = null, CancellationToken cancellationToken = default)`**  
+  Adds a single item to a playlist at an optional position. If position is null, the item is appended to the end.
+
+- **`PlaylistItemAddAllAsync(string? id, List<ReferenceItem> libraryItems, int? position = null, CancellationToken cancellationToken = default)`**  
+  Adds multiple items to a playlist. Returns a `List<bool>` indicating success for each item.
+
+- **`PlaylistItemRemoveAsync(string? id, ReferenceItem? libraryItem, CancellationToken cancellationToken = default)`**  
+  Removes a single item from a playlist.
+
+- **`PlaylistItemRemoveAllAsync(string? id, List<ReferenceItem> libraryItems, CancellationToken cancellationToken = default)`**  
+  Removes multiple items from a playlist. Returns a `List<bool>` indicating success for each item.
+
+- **`PlaylistImageAddAsync(string? id, byte[]? imageData, CancellationToken cancellationToken = default)`**  
+  Adds or replaces the cover image of a playlist. The image must be in JPEG format and meet Spotify's size requirements.
+
+**`PlaylistDetail` Model:**
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `Id` | `string?` | The Spotify ID of the playlist |
+| `Name` | `string?` | The name of the playlist |
+| `Public` | `bool?` | Whether the playlist is publicly visible |
+| `Collaborative` | `bool` | Whether the playlist is collaborative |
+| `Description` | `string?` | The description of the playlist |
+
+**`ReferenceItem` Model:**
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `Id` | `string?` | The Spotify ID of the item |
+| `Type` | `ReferenceItemType` | The type of the item (`Album`, `Audiobook`, `Episode`, `Playlist`, `Show`, `Track`, `User`) |
+| `Uri` | `string?` | Read-only. Computed Spotify URI in the format `spotify:{type}:{id}` |
+
+**Example:**
+```csharp
+// Get all playlists for the current user
+var myPlaylistsResult = await _spotifyClient.Playlists.MyPlaylistGetAllAsync();
+if (myPlaylistsResult.IsSuccess)
+{
+    foreach (var playlist in myPlaylistsResult.Data.Items)
+    {
+        Console.WriteLine($"Playlist: {playlist.Name}");
+    }
+}
+
+// Get a specific playlist
+var playlistResult = await _spotifyClient.Playlists.PlaylistGetAsync("37i9dQZF1DXcBWIGoYBM5M");
+if (playlistResult.IsSuccess)
+{
+    Console.WriteLine($"Playlist: {playlistResult.Data.Name}");
+}
+
+// Get playlist items with pagination
+var itemsResult = await _spotifyClient.Playlists.PlaylistItemGetAllAsync(
+    "37i9dQZF1DXcBWIGoYBM5M",
+    limit: 50,
+    offset: 0
+);
+
+// Update playlist details
+var detail = new PlaylistDetail
+{
+    Name = "My Updated Playlist",
+    Description = "A freshly updated playlist",
+    Public = true,
+    Collaborative = false
+};
+await _spotifyClient.Playlists.PlaylistDetailUpdateAsync("37i9dQZF1DXcBWIGoYBM5M", detail);
+
+// Add a single item to a playlist
+var item = new ReferenceItem { Id = "3n3Ppam7vgaVa1iaRUc9Lp", Type = ReferenceItemType.Track };
+await _spotifyClient.Playlists.PlaylistItemAddAsync("37i9dQZF1DXcBWIGoYBM5M", item, position: 0);
+
+// Add multiple items to a playlist
+var items = new List<ReferenceItem>
+{
+    new() { Id = "3n3Ppam7vgaVa1iaRUc9Lp", Type = ReferenceItemType.Track },
+    new() { Id = "6rqhFgbbKwnb9MLmUQDhG6", Type = ReferenceItemType.Track }
+};
+var addAllResult = await _spotifyClient.Playlists.PlaylistItemAddAllAsync("37i9dQZF1DXcBWIGoYBM5M", items);
+
+// Remove a single item from a playlist
+await _spotifyClient.Playlists.PlaylistItemRemoveAsync("37i9dQZF1DXcBWIGoYBM5M", item);
+
+// Remove multiple items from a playlist
+var removeAllResult = await _spotifyClient.Playlists.PlaylistItemRemoveAllAsync("37i9dQZF1DXcBWIGoYBM5M", items);
+
+// Update playlist cover image
+byte[] imageData = await File.ReadAllBytesAsync("cover.jpg");
+await _spotifyClient.Playlists.PlaylistImageAddAsync("37i9dQZF1DXcBWIGoYBM5M", imageData);
+```
+
 ### ISearchService
 
 Performs search queries across Spotify's catalog, supporting multiple content types.
 
-<p style="background-color: #856404; border-radius: .5rem; padding:.5rem; font-size:2rem;">
-<span style="font-size:2rem; font-weight:bold;">Note:</span>&nbsp;Spotify JSON is polymorphic, to handle this without impacting consumer serialization, I fudge a '$type' property on the Spotify data where received to make System.Text.Serialization work.
-</p>
-
 **Available Methods:**
 - **`SearchAsync(SearchQuery? searchQuery, CancellationToken cancellationToken = default)`**  
-  Performs a search using specified criteria including query string, search types, limit, and offset.
+  Performs a search using specified criteria including ArtistName, AlbumName, TrackName, Genre, Type, Limit and Offset.  
+<p style="background-color: #856404; border-radius: .5rem; padding:.5rem;"><span style="font-weight:bold;">Note 1:&nbsp;</span>Spotify JSON is polymorphic, to handle this without impacting consumer serialization, I fudge a '$type' property on the Spotify data where received to make System.Text.Serialization work.</p>
+<p style="background-color: #856404; border-radius: .5rem; padding:.5rem;"><span style="font-weight:bold;">Note 2:&nbsp;</span>The Spotify search API appears to use the fields for various purposes based on search type, so for Audiobook the ArtistName will resolve to the Author.</p>
+<p style="background-color: #856404; border-radius: .5rem; padding:.5rem;"><span style="font-weight:bold;">Note 2:&nbsp;</span>The <span style='font-weight:bold;'>'Type'</span> property is an enum that uses bitwise, to use multiple search types its additive value.  SearchType.Track = 8, SearchType.Artist = 2, so input would need to be 10 or "Type = SearchType.Track | SearchType.Artist"</p>
+- >   
+
 
 **Example:**
 ```csharp
 var searchQuery = new SearchQuery
 {
-    Query = "Bohemian Rhapsody",
-    Types = new[] { "track", "artist" },
+    TrackName = "Bohemian Rhapsody",
+    Type = SearchType.Track | SearchType.Artist,
     Limit = 10
 };
 
 var searchResult = await _spotifyClient.Search.SearchAsync(searchQuery);
 if (searchResult.IsSuccess)
 {
-    var tracks = searchResult.Data.Items?.Where(i => i.Type.Equals("track"))?.ToList() ?? [];
-    var artists = searchResult.Data.Items?.Where(i => i.Type.Equals("artist"))?.ToList() ?? [];;
+    var tracks = searchResult.Data.Items?.Where(i => i.Type == SearchType.Track)?.ToList() ?? [];
+    var artists = searchResult.Data.Items?.Where(i => i.Type == SearchType.Artist)?.ToList() ?? [];;
 }
 ```
 

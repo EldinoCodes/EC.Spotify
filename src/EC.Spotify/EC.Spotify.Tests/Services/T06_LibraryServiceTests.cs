@@ -8,12 +8,12 @@ namespace EC.Spotify.Tests.Services;
 public sealed class T06_LibraryServiceTests
 {
     [TestMethod]
-    [DataRow("4tjcBY787A2ZkRJpPIsGIS", LibraryType.Track)]
-    public async Task T001_LibraryAddAsync_ShouldReturnTrue(string? id, LibraryType libraryType)
+    [DataRow("4tjcBY787A2ZkRJpPIsGIS", ReferenceItemType.Track)]
+    public async Task T001_LibraryAddAsync_ShouldReturnTrue(string? id, ReferenceItemType libraryType)
     {
         ArgumentException.ThrowIfNullOrEmpty(id, nameof(id));
 
-        var item = new LibraryItem { Id = id, Type = libraryType };
+        var item = new ReferenceItem { Id = id, Type = libraryType };
 
         var sut = Initializer.Resolve<ILibraryService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
@@ -22,12 +22,12 @@ public sealed class T06_LibraryServiceTests
         Assert.IsTrue(result?.Data);
     }
     [TestMethod]
-    [DataRow("4tjcBY787A2ZkRJpPIsGIS", LibraryType.Track)]
-    public async Task T002_LibraryCheckAsync_ShouldReturnTrue(string? id, LibraryType libraryType)
+    [DataRow("4tjcBY787A2ZkRJpPIsGIS", ReferenceItemType.Track)]
+    public async Task T002_LibraryCheckAsync_ShouldReturnTrue(string? id, ReferenceItemType libraryType)
     {
         ArgumentException.ThrowIfNullOrEmpty(id, nameof(id));
 
-        var item = new LibraryItem { Id = id, Type = libraryType };
+        var item = new ReferenceItem { Id = id, Type = libraryType };
 
         var sut = Initializer.Resolve<ILibraryService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
@@ -36,12 +36,12 @@ public sealed class T06_LibraryServiceTests
         Assert.IsTrue(result?.Data);
     }
     [TestMethod]
-    [DataRow("4tjcBY787A2ZkRJpPIsGIS", LibraryType.Track)]
-    public async Task T003_LibraryRemoveAsync_ShouldReturnTrue(string? id, LibraryType libraryType)
+    [DataRow("4tjcBY787A2ZkRJpPIsGIS", ReferenceItemType.Track)]
+    public async Task T003_LibraryRemoveAsync_ShouldReturnTrue(string? id, ReferenceItemType libraryType)
     {
         ArgumentException.ThrowIfNullOrEmpty(id, nameof(id));
 
-        var item = new LibraryItem { Id = id, Type = libraryType };
+        var item = new ReferenceItem { Id = id, Type = libraryType };
 
         var sut = Initializer.Resolve<ILibraryService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
@@ -52,12 +52,12 @@ public sealed class T06_LibraryServiceTests
 
 
     [TestMethod]
-    [DataRow("4tjcBY787A2ZkRJpPIsGIS", LibraryType.Track)]
-    public async Task T004_LibraryAddAllAsync_ShouldReturnTrue(string? id, LibraryType libraryType)
+    [DataRow("4tjcBY787A2ZkRJpPIsGIS", ReferenceItemType.Track)]
+    public async Task T004_LibraryAddAllAsync_ShouldReturnTrue(string? id, ReferenceItemType libraryType)
     {
         ArgumentException.ThrowIfNullOrEmpty(id, nameof(id));
 
-        var item = new LibraryItem { Id = id, Type = libraryType };
+        var item = new ReferenceItem { Id = id, Type = libraryType };
 
         var sut = Initializer.Resolve<ILibraryService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
@@ -66,12 +66,12 @@ public sealed class T06_LibraryServiceTests
         Assert.IsTrue(result?.Data?.All(i => i == true));
     }
     [TestMethod]
-    [DataRow("4tjcBY787A2ZkRJpPIsGIS", LibraryType.Track)]
-    public async Task T005_LibraryCheckAllAsync_ShouldReturnTrue(string? id, LibraryType libraryType)
+    [DataRow("4tjcBY787A2ZkRJpPIsGIS", ReferenceItemType.Track)]
+    public async Task T005_LibraryCheckAllAsync_ShouldReturnTrue(string? id, ReferenceItemType libraryType)
     {
         ArgumentException.ThrowIfNullOrEmpty(id, nameof(id));
 
-        var item = new LibraryItem { Id = id, Type = libraryType };
+        var item = new ReferenceItem { Id = id, Type = libraryType };
 
         var sut = Initializer.Resolve<ILibraryService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
@@ -80,12 +80,12 @@ public sealed class T06_LibraryServiceTests
         Assert.IsTrue(result?.Data?.All(i => i == true));
     }
     [TestMethod]
-    [DataRow("4tjcBY787A2ZkRJpPIsGIS", LibraryType.Track)]
-    public async Task T006_LibraryRemoveAllAsync_ShouldReturnTrue(string? id, LibraryType libraryType)
+    [DataRow("4tjcBY787A2ZkRJpPIsGIS", ReferenceItemType.Track)]
+    public async Task T006_LibraryRemoveAllAsync_ShouldReturnTrue(string? id, ReferenceItemType libraryType)
     {
         ArgumentException.ThrowIfNullOrEmpty(id, nameof(id));
 
-        var item = new LibraryItem { Id = id, Type = libraryType };
+        var item = new ReferenceItem { Id = id, Type = libraryType };
 
         var sut = Initializer.Resolve<ILibraryService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));

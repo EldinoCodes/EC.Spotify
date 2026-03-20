@@ -1,0 +1,70 @@
+{
+  "IsSuccess": true,
+  "Data": {
+    "description": "SampleString",
+    "html_description": "SampleString",
+    "duration_ms": 1,
+    "explicit": true,
+    "external_urls": {
+      "spotify": "SampleString"
+    },
+    "id": "SampleString",
+    "images": [
+      {
+        "url": "SampleString",
+        "height": 1,
+        "width": 1
+      }
+    ],
+    "is_externally_hosted": true,
+    "is_playable": true,
+    "languages": [
+      "SampleString"
+    ],
+    "name": "SampleString",
+    "release_date": "SampleString",
+    "release_date_precision": "SampleString",
+    "resume_point": {
+      "fully_played": true,
+      "resume_position_ms": 1
+    },
+    "type": "SampleString",
+    "uri": "SampleString",
+    "restrictions": {
+      "reason": "SampleString"
+    },
+    "show": {
+      "copyrights": [
+        {
+          "text": "SampleString",
+          "type": "SampleString"
+        }
+      ],
+      "description": "SampleString",
+      "html_description": "SampleString",
+      "explicit": true,
+      "external_urls": {
+        "spotify": "SampleString"
+      },
+      "id": "SampleString",
+      "images": [
+        {
+          "url": "SampleString",
+          "height": 1,
+          "width": 1
+        }
+      ],
+      "is_externally_hosted": true,
+      "is_playable": [
+        "SampleString"
+      ],
+      "media_type": "SampleString",
+      "name": "SampleString",
+      "publisher": "SampleString",
+      "type": "SampleString",
+      "uri": "SampleString",
+      "total_episodes": 1
+    }
+  },
+  "Error": null
+}

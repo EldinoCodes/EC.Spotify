@@ -19,7 +19,7 @@ public interface IAuthorizationService
     /// flow.</remarks>
     /// <returns>A string containing the authorization endpoint URL that can be used to redirect users for authentication and
     /// consent.</returns>
-    string AuthorizationCodeUrl();
+    string? AuthorizationCodeUrl();
     /// <summary>
     /// Asynchronously adds a new authorization code to the underlying store.
     /// </summary>

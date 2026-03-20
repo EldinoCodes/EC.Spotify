@@ -5,7 +5,7 @@ using EC.Spotify.Models.Searches;
 namespace EC.Spotify.Tests.Services;
 
 [TestClass]
-public sealed class T08_SearchServiceTests
+public sealed class T09_SearchServiceTests
 {
     [TestMethod]
     [DataRow("The Beatles", null, null, null, SearchType.Artist)]

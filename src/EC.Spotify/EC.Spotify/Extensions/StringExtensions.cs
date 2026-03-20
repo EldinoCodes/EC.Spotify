@@ -1,14 +1,7 @@
-﻿
-using System.Text.Json;
-
-namespace EC.Spotify.Extensions;
+﻿namespace EC.Spotify.Extensions;
 
 internal static class StringExtensions
 {
-    private static readonly JsonSerializerOptions jssOptions = new() { PropertyNameCaseInsensitive = true };
-    internal static readonly string[] jsonElementStart = ["{", "["];
-    internal static readonly string[] jsonElementEnd = ["}", "]"];
-
     public static string? EncodeBase64(this string? content)
     {
         if (string.IsNullOrEmpty(content)) return content;
@@ -22,18 +15,15 @@ internal static class StringExtensions
         return System.Text.Encoding.UTF8.GetString(bytes);
     }
 
-    public static T? FromJson<T>(this string? json)
+    public static string? ToUri(this string? uriString, Dictionary<string, string?>? query = default)
     {
-        T? ret = default;
-        if (string.IsNullOrEmpty(json)) return ret;
+        if (string.IsNullOrEmpty(uriString)) return default;
+        if (!Uri.TryCreate(uriString, UriKind.Absolute, out var uri)) return default;
+        if (query is null || query.Count == 0) return uri.ToString();
 
-        json = json.Trim();
-        if (
-            jsonElementStart.Any(json.StartsWith)
-            && jsonElementEnd.Any(json.EndsWith)
-        )
-            ret = JsonSerializer.Deserialize<T?>(json, jssOptions);
-
-        return ret;
+        return new UriBuilder(uri)
+        {
+            Query = string.Join("&", query.Select(i => $"{i.Key}={i.Value}"))
+        }.ToString();
     }
 }

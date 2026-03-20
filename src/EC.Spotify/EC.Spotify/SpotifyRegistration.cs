@@ -1,12 +1,13 @@
 ﻿using EC.Spotify.Abstractions;
 using EC.Spotify.Abstractions.Providers;
-using EC.Spotify.Abstractions.Serialization;
 using EC.Spotify.Abstractions.Services;
 using EC.Spotify.Providers;
-using EC.Spotify.Serialization;
 using EC.Spotify.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("EC.Spotify.Tests")]
 
 namespace EC.Spotify;
 
@@ -36,9 +37,9 @@ public static class SpotifyRegistration
     {
         services.AddMemoryCache();
         services.AddHttpClient<ISpotifyHttpProvider, SpotifyHttpProvider>();
-        services.AddSingleton<ISpotifyJsonSerializer, SpotifyJsonSerializer>();
+        services.AddSingleton<ISpotifyJsonProvider, SpotifyJsonProvider>();
+        services.AddSingleton<ISpotifyProvider, SpotifyProvider>();
 
-        services.AddSingleton<IPlayerService, PlayerService>();
         services.AddSingleton<IAlbumService, AlbumService>();
         services.AddSingleton<IArtistService, ArtistService>();
         services.AddSingleton<IAudiobookService, AudiobookService>();
@@ -47,6 +48,7 @@ public static class SpotifyRegistration
         services.AddSingleton<IEpisodeService, EpisodeService>();
         services.AddSingleton<ILibraryService, LibraryService>();
         services.AddSingleton<IPlayerService, PlayerService>();
+        services.AddSingleton<IPlaylistService, PlaylistService>();
         services.AddSingleton<ISearchService, SearchService>();
         services.AddSingleton<IShowService, ShowService>();
         services.AddSingleton<ITrackService, TrackService>();

@@ -1,17 +1,16 @@
 ﻿using EC.Spotify.Abstractions.Providers;
-using EC.Spotify.Abstractions.Serialization;
 using EC.Spotify.Abstractions.Services;
+using EC.Spotify.Models;
+using EC.Spotify.Providers;
 using EC.Spotify.Tests.Core.Providers;
 using EC.Spotify.Tests.Mocks.Providers;
-using EC.Spotify.Tests.Mocks.Serialization;
+using EC.Spotify.Tests.Mocks.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.Reflection;
-using System.Runtime;
 
 namespace EC.Spotify.Tests;
-
 
 
 [TestClass]
@@ -19,8 +18,20 @@ namespace EC.Spotify.Tests;
 public static class Initializer
 {
     private static IServiceProvider? _container { get; set; }
-    public static T? Resolve<T>() => _container is not null ? _container.GetService<T>() : default;
+
     public static object? Resolve(Type type) => _container?.GetService(type);
+    public static T? Resolve<T>() => _container is not null ? _container.GetService<T>() : default;    
+    
+    public static string? LoadData(string? fileName)
+    {
+        if (string.IsNullOrEmpty(fileName)) return default;
+        var asm = Assembly.GetExecutingAssembly();
+        var path = Path.Combine(Directory.GetParent(asm.Location)?.FullName ?? string.Empty, "TestData", fileName);
+        using var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+        using var reader = new StreamReader(fileStream);
+        return reader.ReadToEnd();
+    }
+
     [AssemblyInitialize]
     public static void AssemblyInit(TestContext context)
     {
@@ -36,18 +47,21 @@ public static class Initializer
 
         services.AddSpotify(configuration.GetSection("Spotify"));
 
-        var fullEnd2EndTest = configuration.GetValue<bool>("FullEnd2EndTest");
-        if (!fullEnd2EndTest)
-        {
-            services.RemoveAll<ISpotifyHttpProvider>();
-            services.RemoveAll<ISpotifyJsonSerializer>();
+        services.RemoveAll<ISpotifyHttpProvider>();
+        services.AddSingleton<ISpotifyHttpProvider, MockSpotifyHttpProvider>();
 
-            services.AddSingleton<ISpotifyHttpProvider, MockSpotifyHttpProvider>();
-            services.AddSingleton<ISpotifyJsonSerializer, MockSpotifyJsonSerialization>();            
-        }
+        services.RemoveAll<ISpotifyJsonProvider>();
+        services.AddSingleton<SpotifyJsonProvider>();
+        services.AddSingleton<ISpotifyJsonProvider, MockSpotifyJsonProvider>();        
+
+        services.RemoveAll<IAuthorizationService>();
+        services.AddSingleton<IAuthorizationService, MockAuthorizationService>();
 
         _container = services.BuildServiceProvider();
 
+        DummyProvider.AddDummy<SpotifyError?>(null);
+
+        var fullEnd2EndTest = configuration.GetValue<bool>("FullEnd2EndTest");
         if (fullEnd2EndTest)
         {
             var listenUri = configuration.GetValue<string>("Spotify:ListenUri");
@@ -58,17 +72,14 @@ public static class Initializer
     [AssemblyCleanup]
     public static void AssemblyCleanup()
     {
-        if (_container is not null)
-        {
-            if (_container is IDisposable disposable)
-            {
-                disposable.Dispose();
-            }
-            _container = null;
-        }
-    }
+        if (_container is null) return;
+        if (_container is IDisposable disposable) disposable.Dispose();
 
-    public static void StartAuthenticationServer(string? listenUri)
+        _container = null;
+    }    
+
+
+    private static void StartAuthenticationServer(string? listenUri)
     {
         ArgumentException.ThrowIfNullOrEmpty(listenUri, nameof(listenUri));
 
@@ -90,5 +101,5 @@ public static class Initializer
             _ = authService.AuthorizationTokenGetAsync().Result;
             Task.Delay(1000).Wait(); // wait for token to be generated
         });
-    }
+    }    
 }

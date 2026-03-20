@@ -1,0 +1,20 @@
+{
+  "IsSuccess": true,
+  "Data": {
+    "external_urls": {
+      "spotify": "SampleString"
+    },
+    "id": "SampleString",
+    "images": [
+      {
+        "url": "SampleString",
+        "height": 1,
+        "width": 1
+      }
+    ],
+    "name": "SampleString",
+    "type": "SampleString",
+    "uri": "SampleString"
+  },
+  "Error": null
+}

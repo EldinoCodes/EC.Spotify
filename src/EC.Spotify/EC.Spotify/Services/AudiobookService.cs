@@ -1,54 +1,35 @@
 ﻿using EC.Spotify.Abstractions.Providers;
-using EC.Spotify.Abstractions.Serialization;
 using EC.Spotify.Abstractions.Services;
+using EC.Spotify.Extensions;
 using EC.Spotify.Models;
 using EC.Spotify.Models.Audiobooks;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace EC.Spotify.Services;
 
-internal class AudiobookService(ILogger<AudiobookService> logger, ISpotifyHttpProvider httpProvider, IAuthorizationService authorizationService, ISpotifyJsonSerializer spotifyJsonSerializer) : BaseSpotifyService(authorizationService, spotifyJsonSerializer), IAudiobookService
+internal class AudiobookService(ILogger<AudiobookService> logger, IOptions<SpotifyOptions> options, ISpotifyProvider spotifyProvider) : IAudiobookService
 {
     private readonly ILogger<AudiobookService> _logger = logger;
-    private readonly ISpotifyHttpProvider _httpProvider = httpProvider;
+    private readonly SpotifyOptions _options = options.Value;
+    private readonly ISpotifyProvider _spotifyProvider = spotifyProvider;
 
     private const string SpotifyAudiobookUri = "https://api.spotify.com/v1/audiobooks/{0}";
     private const string SpotifyAudiobookChaptersUri = "https://api.spotify.com/v1/audiobooks/{0}/chapters";
 
     public async Task<SpotifyResult<Audiobook>> AudiobookGetAsync(string? id, CancellationToken cancellationToken = default)
     {
-        string? ret = default;
-        try
-        {
-            var uri = string.Format(SpotifyAudiobookUri, id);
-            var header = await GetAuthorizationHeaderAsync(cancellationToken);
-            ret = await _httpProvider.ExecuteAsync("get", uri, null, header, cancellationToken);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error getting audiobook '{audiobook}'", id);
-        }
-        return GenerateResult<Audiobook>(ret);
-    }
+        var uri = string.Format(SpotifyAudiobookUri, id);
 
+        return await _spotifyProvider.ExecuteSpotifyResultAsync<Audiobook>("get", uri, cancellationToken: cancellationToken);
+    }
     public async Task<SpotifyResult<SpotifyPageResult>> AudiobookChapterGetAllAsync(string? id, int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)
     {
-        string? ret = default;
-        try
+        var uri = string.Format(SpotifyAudiobookChaptersUri, id).ToUri(new()
         {
-            var queryParams = new Dictionary<string, string?>()
-            {
-                { "limit", $"{limit}"},
-                { "offset", $"{offset }"}
-            };
-            var uri = BuildUri(string.Format(SpotifyAudiobookChaptersUri, id), queryParams);
-            var header = await GetAuthorizationHeaderAsync(cancellationToken);
-            ret = await _httpProvider.ExecuteAsync("get", uri, null, header, cancellationToken);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error getting audiobook chapters for '{audiobook}'", id);
-        }
-        return GenerateResult<SpotifyPageResult>(ret);
+            { "limit", $"{limit}"},
+            { "offset", $"{offset}"}
+        });
+        return await _spotifyProvider.ExecuteSpotifyResultAsync<SpotifyPageResult>("get", uri, cancellationToken: cancellationToken);
     }
 }

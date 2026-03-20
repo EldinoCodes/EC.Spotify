@@ -2,9 +2,9 @@
 using EC.Spotify.Models.Shared;
 using System.Text.Json.Serialization;
 
-namespace EC.Spotify.Models.Players;
+namespace EC.Spotify.Models.Playlists;
 
-public class PlaylistTrack
+public class PlaylistTrack : IPolymorphicItem
 {
     [JsonPropertyName("added_at")]
     public string? AddedAt { get; set; }

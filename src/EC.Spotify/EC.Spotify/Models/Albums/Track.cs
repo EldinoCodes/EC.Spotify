@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace EC.Spotify.Models.Albums;
 
-public class Track : /*IPlayerItem, */IPolymorphicItem
+public class Track : IPolymorphicItem
 {
     [JsonPropertyName("album")]
     public Album? Album { get; set; }

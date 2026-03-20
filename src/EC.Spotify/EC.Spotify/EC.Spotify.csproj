@@ -17,8 +17,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-	<None Include="LICENSE.txt" Pack="true" PackagePath="\"/>
-	<None Include="README.md" Pack="true" PackagePath="\"/>
+	<None Include="LICENSE.txt" Pack="true" PackagePath="\" Condition="Exists('LICENSE.txt')" />
+	<None Include="README.md" Pack="true" PackagePath="\" Condition="Exists('README.md')" />
   </ItemGroup>
 	
   <ItemGroup>

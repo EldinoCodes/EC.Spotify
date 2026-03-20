@@ -6,6 +6,7 @@
 @EC.Spotify.ChapterId = 3OCSAZnatejMEd0Q5Ohlq7
 @EC.Spotify.EpisodeId = 3UcmY44Vwv4Ldh0Jd1HZ4m
 @EC.Spotify.ShowId = 2zBUqgc1ZmvqqEdP4g2jjA
+@EC.Spotify.PlaylistId = 37i9dQZF1DXcBWIGoYBM5M
 @EC.Spotify.TrackId = 4tjcBY787A2ZkRJpPIsGIS
 
 
@@ -167,6 +168,98 @@ Accept: application/json
 
 
 
+### playlist
+#  ReferenceItemType
+#    Album = 0
+#    Audiobook = 1
+#    Episode = 2
+#    Playlist = 3
+#    Show = 4
+#    Track = 5
+#    User = 6
+
+### playlist my playlists
+GET {{EC.Spotify.HostAddress}}/Playlist/myplaylist
+Accept: application/json
+
+### playlist get
+GET {{EC.Spotify.HostAddress}}/Playlist/{{EC.Spotify.PlaylistId}}
+Accept: application/json
+
+### playlist items
+GET {{EC.Spotify.HostAddress}}/Playlist/{{EC.Spotify.PlaylistId}}/items
+Accept: application/json
+
+### playlist items page
+GET {{EC.Spotify.HostAddress}}/Playlist/{{EC.Spotify.PlaylistId}}/items?offset=20&limit=20
+Accept: application/json
+
+### playlist update
+PUT {{EC.Spotify.HostAddress}}/Playlist/{{EC.Spotify.PlaylistId}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "My Updated Playlist",
+  "public": true,
+  "collaborative": false,
+  "description": "Updated playlist description"
+}
+
+### playlist item add
+POST {{EC.Spotify.HostAddress}}/Playlist/{{EC.Spotify.PlaylistId}}/items
+Content-Type: application/json
+Accept: application/json
+
+{ "id": "{{EC.Spotify.TrackId}}", "type": 5 }
+
+### playlist item add with position
+POST {{EC.Spotify.HostAddress}}/Playlist/{{EC.Spotify.PlaylistId}}/items?position=0
+Content-Type: application/json
+Accept: application/json
+
+{ "id": "{{EC.Spotify.TrackId}}", "type": 5 }
+
+### playlist item add batch
+POST {{EC.Spotify.HostAddress}}/Playlist/{{EC.Spotify.PlaylistId}}/items/batch
+Content-Type: application/json
+Accept: application/json
+
+[
+  { "id": "{{EC.Spotify.TrackId}}", "type": 5 },
+  { "id": "{{EC.Spotify.AlbumId}}", "type": 0 }
+]
+
+### playlist item remove
+DELETE {{EC.Spotify.HostAddress}}/Playlist/{{EC.Spotify.PlaylistId}}/items
+Content-Type: application/json
+Accept: application/json
+
+{ "id": "{{EC.Spotify.TrackId}}", "type": 5 }
+
+### playlist item remove batch
+DELETE {{EC.Spotify.HostAddress}}/Playlist/{{EC.Spotify.PlaylistId}}/items/batch
+Content-Type: application/json
+Accept: application/json
+
+[
+  { "id": "{{EC.Spotify.TrackId}}", "type": 5 },
+  { "id": "{{EC.Spotify.AlbumId}}", "type": 0 }
+]
+
+### playlist image add
+PUT {{EC.Spotify.HostAddress}}/Playlist/{{EC.Spotify.PlaylistId}}/image
+Content-Type: multipart/form-data; boundary=----Boundary
+
+------Boundary
+Content-Disposition: form-data; name="image"; filename="playlist.jpg"
+Content-Type: image/jpeg
+
+< ./playlist.jpg
+------Boundary--
+
+
+
 ### search
 #  SearchTypes
 #    Album = 1
@@ -259,6 +352,16 @@ Accept: application/json
   "artistName": "Stephen King",
   "name": "It",
   "type": 64
+}
+
+### Bitwise search = 8 + 2
+POST {{EC.Spotify.HostAddress}}/Search
+Content-Type: application/json
+Accept: application/json
+
+{
+  "trackName": "Bohemian Rhapsody",
+  "type": 10
 }
 
 

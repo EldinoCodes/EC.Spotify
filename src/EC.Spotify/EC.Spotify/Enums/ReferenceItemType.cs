@@ -1,7 +1,7 @@
 ﻿
 namespace EC.Spotify.Enums;
 
-public enum LibraryType
+public enum ReferenceItemType
 {
     Album,
     Audiobook,

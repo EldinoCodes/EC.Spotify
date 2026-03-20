@@ -1,32 +1,34 @@
 ﻿using EC.Spotify.Abstractions.Providers;
-using EC.Spotify.Abstractions.Serialization;
 using EC.Spotify.Abstractions.Services;
+using EC.Spotify.Extensions;
 using EC.Spotify.Models;
 using EC.Spotify.Models.Library;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System.Web;
 
 namespace EC.Spotify.Services;
 
-internal class LibraryService(ILogger<LibraryService> logger, ISpotifyHttpProvider httpProvider, IAuthorizationService authorizationService, ISpotifyJsonSerializer spotifyJsonSerializer) : BaseSpotifyService(authorizationService, spotifyJsonSerializer), ILibraryService
+internal class LibraryService(ILogger<LibraryService> logger, IOptions<SpotifyOptions> options, ISpotifyProvider spotifyProvider) : ILibraryService
 {
     private readonly ILogger<LibraryService> _logger = logger;
-    private readonly ISpotifyHttpProvider _httpProvider = httpProvider;
+    private readonly SpotifyOptions _options = options.Value;
+    private readonly ISpotifyProvider _spotifyProvider = spotifyProvider;
 
     private const string SpotifyLibraryUri = "https://api.spotify.com/v1/me/library";
     private const string SpotifyLibraryContainsUri = "https://api.spotify.com/v1/me/library/contains";
 
-    public async Task<SpotifyResult<bool>> LibraryCheckAsync(LibraryItem? libraryItem, CancellationToken cancellationToken = default)
+    public async Task<SpotifyResult<bool>> LibraryCheckAsync(ReferenceItem? libraryItem, CancellationToken cancellationToken = default)
     {
         var ret = new SpotifyResult<bool>();
 
-        var res = await LibraryCheckAllAsync(libraryItem is not null ? [libraryItem] : [], cancellationToken);
+        var res = await LibraryCheckAllAsync(libraryItem is not null ? [libraryItem] : [], cancellationToken: cancellationToken);
         if (res.IsSuccess == true)
             ret.Data = res.Data?.FirstOrDefault() ?? false;
 
         return ret;
     }
-    public async Task<SpotifyResult<List<bool>>> LibraryCheckAllAsync(List<LibraryItem> libraryItems, CancellationToken cancellationToken = default)
+    public async Task<SpotifyResult<List<bool>>> LibraryCheckAllAsync(List<ReferenceItem> libraryItems, CancellationToken cancellationToken = default)
     {
         var ret = new SpotifyResult<List<bool>>();
 
@@ -40,11 +42,9 @@ internal class LibraryService(ILogger<LibraryService> logger, ISpotifyHttpProvid
                 {
                     { "uris", HttpUtility.UrlEncode(string.Join(",", uris)) }
                 };
-                var uri = BuildUri(SpotifyLibraryContainsUri, queryParams);
-                var header = await GetAuthorizationHeaderAsync(cancellationToken);
-                var res = await _httpProvider.ExecuteAsync("get", uri, null, header, cancellationToken);
-
-                var result = GenerateResult<List<bool>>(res);
+                var uri = SpotifyLibraryContainsUri.ToUri(queryParams);
+                
+                var result = await _spotifyProvider.ExecuteSpotifyResultAsync<List<bool>>("get", uri, cancellationToken: cancellationToken);
                 if (!result.IsSuccess) continue;
                 if (result.Data is null) continue;
 
@@ -59,17 +59,17 @@ internal class LibraryService(ILogger<LibraryService> logger, ISpotifyHttpProvid
         return ret;
     }
 
-    public async Task<SpotifyResult<bool>> LibraryAddAsync(LibraryItem? libraryItem, CancellationToken cancellationToken = default)
+    public async Task<SpotifyResult<bool>> LibraryAddAsync(ReferenceItem? libraryItem, CancellationToken cancellationToken = default)
     {
         var ret = new SpotifyResult<bool>();
 
-        var res = await LibraryAddAllAsync(libraryItem is not null ? [libraryItem] : [], cancellationToken);
+        var res = await LibraryAddAllAsync(libraryItem is not null ? [libraryItem] : [], cancellationToken: cancellationToken);
         if (res.IsSuccess == true)
             ret.Data = res.Data?.FirstOrDefault() ?? false;
 
         return ret;
     }
-    public async Task<SpotifyResult<List<bool>>> LibraryAddAllAsync(List<LibraryItem> libraryItems, CancellationToken cancellationToken = default)
+    public async Task<SpotifyResult<List<bool>>> LibraryAddAllAsync(List<ReferenceItem> libraryItems, CancellationToken cancellationToken = default)
     {
         var ret = new SpotifyResult<List<bool>>();
 
@@ -83,11 +83,9 @@ internal class LibraryService(ILogger<LibraryService> logger, ISpotifyHttpProvid
                 {
                     { "uris", HttpUtility.UrlEncode(string.Join(",", uris)) }
                 };
-                var uri = BuildUri(SpotifyLibraryUri, queryParams);
-                var header = await GetAuthorizationHeaderAsync(cancellationToken);
-                var res = await _httpProvider.ExecuteAsync("put", uri, null, header, cancellationToken);
-
-                var result = GenerateResult<List<bool>>(res);
+                var uri = SpotifyLibraryUri.ToUri(queryParams);
+                
+                var result = await _spotifyProvider.ExecuteSpotifyResultAsync<List<bool>>("put", uri, cancellationToken: cancellationToken);
                 if (!result.IsSuccess) continue;
                 
                 result.Data = [..Enumerable.Range(0, batch.Count()).Select(i => true)];
@@ -103,17 +101,17 @@ internal class LibraryService(ILogger<LibraryService> logger, ISpotifyHttpProvid
         return ret;
     }
 
-    public async Task<SpotifyResult<bool>> LibraryRemoveAsync(LibraryItem? libraryItem, CancellationToken cancellationToken = default)
+    public async Task<SpotifyResult<bool>> LibraryRemoveAsync(ReferenceItem? libraryItem, CancellationToken cancellationToken = default)
     {
         var ret = new SpotifyResult<bool>();
 
-        var res = await LibraryRemoveAllAsync(libraryItem is not null ? [libraryItem] : [], cancellationToken);
+        var res = await LibraryRemoveAllAsync(libraryItem is not null ? [libraryItem] : [], cancellationToken: cancellationToken);
         if (res.IsSuccess == true)
             ret.Data = res.Data?.FirstOrDefault() ?? false;
 
         return ret;
     }
-    public async Task<SpotifyResult<List<bool>>> LibraryRemoveAllAsync(List<LibraryItem> libraryItems, CancellationToken cancellationToken = default)
+    public async Task<SpotifyResult<List<bool>>> LibraryRemoveAllAsync(List<ReferenceItem> libraryItems, CancellationToken cancellationToken = default)
     {
         var ret = new SpotifyResult<List<bool>>();
 
@@ -127,11 +125,9 @@ internal class LibraryService(ILogger<LibraryService> logger, ISpotifyHttpProvid
                 {
                     { "uris", HttpUtility.UrlEncode(string.Join(",", uris)) }
                 };
-                var uri = BuildUri(SpotifyLibraryUri, queryParams);
-                var header = await GetAuthorizationHeaderAsync(cancellationToken);
-                var res = await _httpProvider.ExecuteAsync("delete", uri, null, header, cancellationToken);
-
-                var result = GenerateResult<List<bool>>(res);
+                var uri = SpotifyLibraryUri.ToUri(queryParams);
+                
+                var result = await _spotifyProvider.ExecuteSpotifyResultAsync<List<bool>>("delete", uri, cancellationToken: cancellationToken);
                 if (!result.IsSuccess) continue;
 
                 result.Data = [.. Enumerable.Range(0, batch.Count()).Select(i => true)];

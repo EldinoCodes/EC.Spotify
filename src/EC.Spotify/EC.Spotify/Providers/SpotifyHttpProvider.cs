@@ -4,7 +4,7 @@ using System.Net.Http.Headers;
 
 namespace EC.Spotify.Providers;
 
-internal sealed class SpotifyHttpProvider(ILogger<SpotifyHttpProvider> logger, HttpClient httpClient) : ISpotifyHttpProvider
+internal class SpotifyHttpProvider(ILogger<SpotifyHttpProvider> logger, HttpClient httpClient) : ISpotifyHttpProvider
 {
     private readonly ILogger<SpotifyHttpProvider> _logger = logger;
     private readonly HttpClient _httpClient = httpClient;
@@ -14,22 +14,14 @@ internal sealed class SpotifyHttpProvider(ILogger<SpotifyHttpProvider> logger, H
         if (string.IsNullOrEmpty(method)) return default;
         if (string.IsNullOrEmpty(uri)) return default;
 
-        if (configureHttpHeaders != null)
-        {
-            _httpClient.DefaultRequestHeaders.Clear();
-            configureHttpHeaders?.Invoke(_httpClient.DefaultRequestHeaders);
-        }
+        using var request = new HttpRequestMessage(new HttpMethod(method.ToUpperInvariant()), uri);
 
-        var response = method.ToLower() switch
-        {
-            "post" => await _httpClient.PostAsync(uri, httpContent, cancellationToken),            
-            "put" => await _httpClient.PutAsync(uri, httpContent, cancellationToken),
-            "get" => await _httpClient.GetAsync(uri, cancellationToken),
-            "delete" => await _httpClient.DeleteAsync(uri, cancellationToken),
-            _ => throw new NotImplementedException()
-        };
-        var result = await response.Content.ReadAsStringAsync(cancellationToken);
+        if (httpContent is not null)
+            request.Content = httpContent;
 
-        return result;
+        configureHttpHeaders?.Invoke(request.Headers);
+
+        var response = await _httpClient.SendAsync(request, cancellationToken);
+        return await response.Content.ReadAsStringAsync(cancellationToken);
     }
 }

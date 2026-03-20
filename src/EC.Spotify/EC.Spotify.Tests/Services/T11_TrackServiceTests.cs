@@ -3,7 +3,7 @@
 namespace EC.Spotify.Tests.Services;
 
 [TestClass]
-public sealed class T10_TrackServiceTests
+public sealed class T11_TrackServiceTests
 {
     [TestMethod]
     [DataRow("4tjcBY787A2ZkRJpPIsGIS")]

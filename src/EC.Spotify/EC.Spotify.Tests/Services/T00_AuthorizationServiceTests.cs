@@ -5,17 +5,8 @@ namespace EC.Spotify.Tests.Services;
 [TestClass]
 public sealed class T00_AuthorizationServiceTests
 {
-    // this is only a valid call before authorization
-    //[TestMethod]
-    //public async Task Validate_ShouldReturnAuthorizationUrl()
-    //{
-    //    var sut = Initializer.Resolve<IAuthorizationService>();
-    //    ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
-    //    var res = await sut.Validate();
-    //    Assert.IsNotNull(res);
-    //}
-
+    [TestInitialize]
     [TestMethod]
     public void AuthorizationCodeUrl_ShouldReturnUrl()
     {

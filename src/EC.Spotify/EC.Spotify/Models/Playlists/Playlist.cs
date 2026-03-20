@@ -2,7 +2,7 @@
 using EC.Spotify.Models.Shared;
 using System.Text.Json.Serialization;
 
-namespace EC.Spotify.Models.Players;
+namespace EC.Spotify.Models.Playlists;
 
 public class Playlist : IPolymorphicItem
 {
@@ -25,7 +25,7 @@ public class Playlist : IPolymorphicItem
     [JsonPropertyName("snapshot_id")]
     public string? SnapshotId { get; set; }
     [JsonPropertyName("items")]
-    public SpotifyPageResult? Items { get; set; }
+    public PlaylistPageResult? Items { get; set; }
     [JsonPropertyName("type")]
     public string? Type { get; set; }
     [JsonPropertyName("uri")]

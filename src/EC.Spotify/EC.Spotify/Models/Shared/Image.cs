@@ -7,7 +7,7 @@ public class Image
     [JsonPropertyName("url")]
     public string? Url { get; set; }
     [JsonPropertyName("height")]
-    public int Height { get; set; }
+    public int? Height { get; set; }
     [JsonPropertyName("width")]
-    public int Width { get; set; }
+    public int? Width { get; set; }
 }
