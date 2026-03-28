@@ -39,10 +39,4 @@
     <Folder Include="TestData\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="EC.Stubby">
-      <HintPath>..\..\..\..\EC.Stubby\src\EC.Stubby\EC.Stubby\bin\Debug\net10.0\EC.Stubby.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
 </Project>

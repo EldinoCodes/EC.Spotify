@@ -8,7 +8,6 @@ using EC.Spotify.Models.Players;
 using EC.Spotify.Models.Playlists;
 using EC.Spotify.Models.Shows;
 using EC.Spotify.Providers;
-using EC.Stubby.Stubs;
 
 namespace EC.Spotify.Tests.Providers;
 
