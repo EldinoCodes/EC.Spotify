@@ -52,4 +52,8 @@ public interface ISpotifyClient
     /// Gets the service to retrieve track data.
     /// </summary>
     ITrackService Tracks { get; }
+    /// <summary>
+    /// Gets the service to access current user data.
+    /// </summary>
+    IUserService User { get; }
 }

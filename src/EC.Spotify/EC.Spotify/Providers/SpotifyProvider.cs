@@ -29,22 +29,24 @@ internal class SpotifyProvider(ILogger<SpotifyProvider> logger, ISpotifyHttpProv
             }
 
             var responseContent = await _spotifyHttpProvider.ExecuteAsync(method, uri, httpContent, headers, cancellationToken);
-
             var error = _spotifyJsonProvider.Deserialize<SpotifyError>(responseContent, "error");
+
             var data = default(T);
-            foreach (var jsonPath in jsonPaths ?? [])
+            if (error is null)
             {
-                data = _spotifyJsonProvider.Deserialize<T>(responseContent, jsonPath);
-                if (data is not null) break;
+                foreach (var jsonPath in jsonPaths ?? [])
+                {
+                    if (data is not null) break;
+                    data = _spotifyJsonProvider.Deserialize<T>(responseContent, jsonPath);
+                }
+                data ??= _spotifyJsonProvider.Deserialize<T>(responseContent);
             }
-            data ??= _spotifyJsonProvider.Deserialize<T>(responseContent);
 
             return new SpotifyResult<T>
             {
                 Data = data,
                 Error = error
             };
-
         }
         catch (Exception ex)
         {

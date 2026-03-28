@@ -21,96 +21,145 @@ internal class PlaylistService(ILogger<PlaylistService> logger, IOptions<Spotify
     private const string SpotifyPlaylistItemsUri = "https://api.spotify.com/v1/playlists/{0}/items";
     private const string SpotifyPlaylistImagesUri = "https://api.spotify.com/v1/playlists/{0}/images";
 
-    public async Task<SpotifyResult<SpotifyPageResult>> MyPlaylistGetAllAsync(CancellationToken cancellationToken = default)
+    public async Task<SpotifyResult<SpotifyPageResult<Playlist>>> MyPlaylistGetAllAsync(CancellationToken cancellationToken = default)
     {
-        var uri = SpotifyMyPlaylistUri;
+        try
+        {
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("MyPlaylistGetAllAsync called");
 
-        return await _spotifyProvider.ExecuteSpotifyResultAsync<SpotifyPageResult>("get", uri, cancellationToken: cancellationToken);
+            var uri = SpotifyMyPlaylistUri;
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("MyPlaylistGetAllAsync requesting URI: {Uri}", uri);
+
+            return await _spotifyProvider.ExecuteSpotifyResultAsync<SpotifyPageResult<Playlist>> ("get", uri, cancellationToken: cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "MyPlaylistGetAllAsync failed");
+            return new SpotifyResult<SpotifyPageResult<Playlist>> { Error = ex.ToSpotifyError() };
+        }
     }
 
 
     public async Task<SpotifyResult<Playlist>> PlaylistGetAsync(string? id, CancellationToken cancellationToken = default)
     {
-        var uri = string.Format(SpotifyPlaylistUri, id);
-        
-        return await _spotifyProvider.ExecuteSpotifyResultAsync<Playlist>("get", uri, cancellationToken: cancellationToken);
-    }
-    public async Task<SpotifyResult<SpotifyPageResult>> PlaylistItemGetAllAsync(string? id, int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)
-    {
-        var ret = new SpotifyResult<SpotifyPageResult>();
+        try
+        {
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("PlaylistGetAsync called with id: {Id}", id);
 
-        var scopes = new List<string>()
-        {
-            "playlist-modify-private"
-        }.Except(_options.Scopes ?? []).ToList();
-        if (scopes.Count > 0)
-        {
-            ret.Error = new() { Message = "Missing required scope" };
-            return ret;
+            var uri = string.Format(SpotifyPlaylistUri, id);
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("PlaylistGetAsync requesting URI: {Uri}", uri);
+
+            return await _spotifyProvider.ExecuteSpotifyResultAsync<Playlist>("get", uri, cancellationToken: cancellationToken);
         }
-
-        var uri = string.Format(SpotifyPlaylistItemsUri, id).ToUri(new ()
+        catch (Exception ex)
         {
-            { "limit", $"{limit}"},
-            { "offset", $"{offset }"}
-        });
-        
-        return await _spotifyProvider.ExecuteSpotifyResultAsync<SpotifyPageResult>("get", uri, cancellationToken: cancellationToken);
+            _logger.LogError(ex, "PlaylistGetAsync failed for id: {Id}", id);
+            return new SpotifyResult<Playlist> { Error = ex.ToSpotifyError() };
+        }
+    }
+    public async Task<SpotifyResult<PlaylistPageResult>> PlaylistItemGetAllAsync(string? id, int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var error = _options.ValidateScopes(["playlist-read-private"]);
+            if (error is not null) return new SpotifyResult<PlaylistPageResult>() { Error = error };
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("PlaylistItemGetAllAsync called with id: {Id}, limit: {Limit}, offset: {Offset}", id, limit, offset);
+
+            var uri = string.Format(SpotifyPlaylistItemsUri, id).ToUri(new ()
+            {
+                { "limit", $"{limit}"},
+                { "offset", $"{offset }"}
+            });
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("PlaylistItemGetAllAsync requesting URI: {Uri}", uri);
+
+            return await _spotifyProvider.ExecuteSpotifyResultAsync<PlaylistPageResult>("get", uri, cancellationToken: cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "PlaylistItemGetAllAsync failed for id: {Id}", id);
+            return new SpotifyResult<PlaylistPageResult> { Error = ex.ToSpotifyError() };
+        }
     }
 
     public async Task<SpotifyResult<bool>> PlaylistDetailUpdateAsync(string? id, PlaylistDetail? playlistDetail, CancellationToken cancellationToken = default)
     {
-        var ret = new SpotifyResult<bool>();
-        var scopes = new List<string>()
+        try
         {
-            "playlist-modify-public",
-            "playlist-modify-private"
-        }.Except(_options.Scopes ?? []).ToList();
-        if (scopes.Count > 0)
-        {
-            ret.Error = new() { Message = "Missing required scope" };
-            return ret;
+            var error = _options.ValidateScopes(["playlist-modify-public", "playlist-modify-private"]);
+            if (error is not null) return new SpotifyResult<bool>() { Error = error };
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("PlaylistDetailUpdateAsync called with id: {Id}", id);
+
+            var uri = string.Format(SpotifyPlaylistUri, id);
+            var json = playlistDetail.ToJson();
+            var data = !string.IsNullOrEmpty(json)
+                ? new StringContent(json, Encoding.UTF8, "application/json")
+                : null;
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("PlaylistDetailUpdateAsync requesting URI: {Uri}", uri);
+
+            return await _spotifyProvider.ExecuteSpotifyResultAsync<bool>("PUT", uri, data, cancellationToken: cancellationToken);
         }
-
-        var uri = string.Format(SpotifyPlaylistUri, id);
-        
-        var json = playlistDetail.ToJson();
-        var data = !string.IsNullOrEmpty(json)
-            ? new StringContent(json, Encoding.UTF8, "application/json")
-            : null;
-
-        return await _spotifyProvider.ExecuteSpotifyResultAsync<bool>("PUT", uri, data, cancellationToken: cancellationToken);
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "PlaylistDetailUpdateAsync failed for id: {Id}", id);
+            return new SpotifyResult<bool> { Error = ex.ToSpotifyError() };
+        }
     }
         
 
     public async Task<SpotifyResult<bool>> PlaylistItemAddAsync(string? id, ReferenceItem? libraryItem, int? position = default, CancellationToken cancellationToken = default)
     {
-        var ret = new SpotifyResult<bool>();
-
-        var res = await PlaylistItemAddAllAsync(id, libraryItem is not null ? [libraryItem] : [], position, cancellationToken: cancellationToken);
-        if (res.IsSuccess == true)
-            ret.Data = res.Data?.FirstOrDefault() ?? false;
-
-        return ret;
-    }
-    public async Task<SpotifyResult<List<bool>>> PlaylistItemAddAllAsync(string? id, List<ReferenceItem> libraryItems, int? position = default, CancellationToken cancellationToken = default)
-    {
-        var ret = new SpotifyResult<List<bool>>();
-        var scopes = new List<string>()
-        {
-            "playlist-modify-public",
-            "playlist-modify-private"
-        }.Except(_options.Scopes ?? []).ToList();
-        if (scopes.Count > 0)
-        {
-            ret.Error = new() { Message = "Missing required scope" };
-            return ret;
-        }
         try
         {
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("PlaylistItemAddAsync called with id: {Id}, item URI: {Uri}", id, libraryItem?.Uri);
+
+            var ret = new SpotifyResult<bool>();
+
+            var res = await PlaylistItemAddAllAsync(id, libraryItem is not null ? [libraryItem] : [], position, cancellationToken: cancellationToken);
+            if (res.IsSuccess == true)
+                ret.Data = res.Data?.FirstOrDefault() ?? false;
+
+            return ret;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "PlaylistItemAddAsync failed for id: {Id}", id);
+            return new SpotifyResult<bool> { Error = ex.ToSpotifyError() };
+        }
+    }
+
+    public async Task<SpotifyResult<List<bool>>> PlaylistItemAddAllAsync(string? id, List<ReferenceItem> libraryItems, int? position = default, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var error = _options.ValidateScopes(["playlist-modify-public", "playlist-modify-private"]);
+            if (error is not null) return new SpotifyResult<List<bool>>() { Error = error };
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("PlaylistItemAddAllAsync called with id: {Id}, {Count} items, position: {Position}", id, libraryItems.Count, position);
+
+            var ret = new SpotifyResult<List<bool>>();
             var uri = string.Format(SpotifyPlaylistItemsUri, id);
 
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("PlaylistItemAddAllAsync requesting URI: {Uri}", uri);
+
             // imposed cap from spotify of 100 items per request, so we need to chunk the list and make multiple requests if necessary
+            SpotifyError? lastError = null;
             foreach (var batch in libraryItems.Chunk(100))
             {
                 var uris = batch.Select(x => x.Uri).ToList();
@@ -118,51 +167,66 @@ internal class PlaylistService(ILogger<PlaylistService> logger, IOptions<Spotify
                 var data = !string.IsNullOrEmpty(json)
                     ? new StringContent(json, Encoding.UTF8, "application/json")
                     : null;
-                
-                var result = await _spotifyProvider.ExecuteSpotifyResultAsync<List<bool>>("POST", uri, data, cancellationToken: cancellationToken);
-                if (!result.IsSuccess) continue;
 
-                result.Data = [.. Enumerable.Range(0, batch.Length).Select(i => true)];
+                var result = await _spotifyProvider.ExecuteSpotifyResultAsync<List<bool>>("POST", uri, data, cancellationToken: cancellationToken);
+                if (!result.IsSuccess) { lastError = result.Error; continue; }
 
                 ret.Data ??= [];
-                ret.Data.AddRange(result.Data);
+                if (result.Data is not null)
+                    ret.Data.AddRange(result.Data);
             }
+
+            if (ret.Data is null && lastError is not null)
+                ret.Error = lastError;
+
+            return ret;
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error adding playlist items");
+            _logger.LogError(ex, "PlaylistItemAddAllAsync failed for id: {Id}", id);
+            return new SpotifyResult<List<bool>> { Error = ex.ToSpotifyError() };
         }
-        return ret;
     }
 
     public async Task<SpotifyResult<bool>> PlaylistItemRemoveAsync(string? id, ReferenceItem? libraryItem, CancellationToken cancellationToken = default)
     {
-        var ret = new SpotifyResult<bool>();
+        try
+        {
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("PlaylistItemRemoveAsync called with id: {Id}, item URI: {Uri}", id, libraryItem?.Uri);
 
-        var res = await PlaylistItemRemoveAllAsync(id, libraryItem is not null ? [libraryItem] : [], cancellationToken: cancellationToken);
-        if (res.IsSuccess == true)
-            ret.Data = res.Data?.FirstOrDefault() ?? false;
+            var ret = new SpotifyResult<bool>();
 
-        return ret;
+            var res = await PlaylistItemRemoveAllAsync(id, libraryItem is not null ? [libraryItem] : [], cancellationToken: cancellationToken);
+            if (res.IsSuccess == true)
+                ret.Data = res.Data?.FirstOrDefault() ?? false;
+
+            return ret;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "PlaylistItemRemoveAsync failed for id: {Id}", id);
+            return new SpotifyResult<bool> { Error = ex.ToSpotifyError() };
+        }
     }
     public async Task<SpotifyResult<List<bool>>> PlaylistItemRemoveAllAsync(string? id, List<ReferenceItem> libraryItems, CancellationToken cancellationToken = default)
     {
-        var ret = new SpotifyResult<List<bool>>();
-        var scopes = new List<string>()
-        {
-            "playlist-modify-public",
-            "playlist-modify-private"
-        }.Except(_options.Scopes ?? []).ToList();
-        if (scopes.Count > 0)
-        {
-            ret.Error = new() { Message = "Missing required scope" };
-            return ret;
-        }
         try
         {
+            var error = _options.ValidateScopes(["playlist-modify-public", "playlist-modify-private"]);
+            if (error is not null) return new SpotifyResult<List<bool>>() { Error = error };
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("PlaylistItemRemoveAllAsync called with id: {Id}, {Count} items", id, libraryItems.Count);
+
+            var ret = new SpotifyResult<List<bool>>();
             var uri = string.Format(SpotifyPlaylistItemsUri, id);
 
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("PlaylistItemRemoveAllAsync requesting URI: {Uri}", uri);
+
             // imposed cap from spotify of 100 items per request, so we need to chunk the list and make multiple requests if necessary
+            SpotifyError? lastError = null;
             foreach (var batch in libraryItems.Chunk(100))
             {
                 var uris = batch.Select(x => x.Uri).ToList();
@@ -170,44 +234,52 @@ internal class PlaylistService(ILogger<PlaylistService> logger, IOptions<Spotify
                 var data = !string.IsNullOrEmpty(json)
                     ? new StringContent(json, Encoding.UTF8, "application/json")
                     : null;
-                
-                var result = await _spotifyProvider.ExecuteSpotifyResultAsync<List<bool>>("delete", uri, data, cancellationToken: cancellationToken);
-                if (!result.IsSuccess) continue;
 
-                result.Data = [.. Enumerable.Range(0, batch.Count()).Select(i => true)];
+                var result = await _spotifyProvider.ExecuteSpotifyResultAsync<List<bool>>("delete", uri, data, cancellationToken: cancellationToken);
+                if (!result.IsSuccess) { lastError = result.Error; continue; }
+
+                result.Data = [.. Enumerable.Range(0, batch.Length).Select(i => true)];
 
                 ret.Data ??= [];
                 ret.Data.AddRange(result.Data);
             }
+
+            if (ret.Data is null && lastError is not null)
+                ret.Error = lastError;
+
+            return ret;
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error removing playlist items");
+            _logger.LogError(ex, "PlaylistItemRemoveAllAsync failed for id: {Id}", id);
+            return new SpotifyResult<List<bool>> { Error = ex.ToSpotifyError() };
         }
-        return ret;
     }
 
     public async Task<SpotifyResult<bool>> PlaylistImageAddAsync(string? id, byte[]? imageData, CancellationToken cancellationToken = default)
     {
-        var ret = new SpotifyResult<bool>();
+        try
+        {
+            var error = _options.ValidateScopes(["ugc-image-upload", "playlist-modify-public", "playlist-modify-private"]);
+            if (error is not null) return new SpotifyResult<bool>() { Error = error };
 
-        var scopes = new List<string>()
-        {
-            "ugc-image-upload",
-            "playlist-modify-public",
-            "playlist-modify-private"
-        }.Except(_options.Scopes ?? []).ToList();
-        if (scopes.Count > 0) 
-        {
-            ret.Error = new() { Message = "Missing required scope" };
-            return ret;
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("PlaylistImageAddAsync called with id: {Id}, imageData size: {Size} bytes", id, imageData?.Length ?? 0);
+
+            var uri = string.Format(SpotifyPlaylistImagesUri, id);
+            var data = imageData is not null
+                ? new StringContent(Convert.ToBase64String(imageData), Encoding.UTF8, "image/jpg")
+                : null;
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("PlaylistImageAddAsync requesting URI: {Uri}", uri);
+
+            return await _spotifyProvider.ExecuteSpotifyResultAsync<bool>("put", uri, data, cancellationToken: cancellationToken);
         }
-        
-        var uri = string.Format(SpotifyPlaylistImagesUri, id);
-        var data = imageData is not null 
-            ? new StringContent(Convert.ToBase64String(imageData), Encoding.UTF8, "image/jpg")
-            : null;
-
-        return await _spotifyProvider.ExecuteSpotifyResultAsync<bool>("put", uri, data, cancellationToken: cancellationToken);
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "PlaylistImageAddAsync failed for id: {Id}", id);
+            return new SpotifyResult<bool> { Error = ex.ToSpotifyError() };
+        }
     }
 }

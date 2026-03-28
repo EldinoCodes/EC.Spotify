@@ -34,8 +34,6 @@ public class Chapter : IPolymorphicItem
     public string? ReleaseDatePrecision { get; set; }
     [JsonPropertyName("resume_point")]
     public ResumePoint? ResumePoint { get; set; }
-    [JsonPropertyName("type")]
-    public string? Type { get; set; }
     [JsonPropertyName("uri")]
     public string? Uri { get; set; }
     [JsonPropertyName("restrictions")]

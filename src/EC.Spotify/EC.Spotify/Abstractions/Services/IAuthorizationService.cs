@@ -29,7 +29,7 @@ public interface IAuthorizationService
     /// <returns>A task that represents the asynchronous operation. The task result is <see langword="true"/> if the
     /// authorization code was added successfully; otherwise, <see langword="false"/>.</returns>
     /// 
-    Task<bool> AuthorizationCodeAddAsync(string? authorizationCode, CancellationToken cancellationToken = default);
+    Task<bool> AuthorizationCodeAddAsync(string? authorizationCode, string? state = null, CancellationToken cancellationToken = default);
     /// <summary>
     /// Asynchronously retrieves the current authorization code, if available.
     /// </summary>

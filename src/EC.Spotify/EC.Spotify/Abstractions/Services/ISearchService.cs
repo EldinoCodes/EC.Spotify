@@ -13,5 +13,5 @@ public interface ISearchService
     /// <param name="cancellationToken">A token that can be used to cancel the search operation.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains a <see
     /// cref="SpotifyResult{SearchResult}"/> with the search results from Spotify.</returns>
-    Task<SpotifyResult<SpotifyPageResult>> SearchAsync(SearchQuery? searchQuery, CancellationToken cancellationToken = default);
+    Task<SpotifyResult<SpotifyPolymorphicPageResult>> SearchAsync(SearchQuery? searchQuery, CancellationToken cancellationToken = default);
 }

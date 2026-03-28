@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace EC.Spotify.Models.Shows;
 
-public class Episode: /*IPlayerItem, */IPolymorphicItem
+public class Episode: IPolymorphicItem
 {
     [JsonPropertyName("description")]
     public string? Description { get; set; }
@@ -35,8 +35,6 @@ public class Episode: /*IPlayerItem, */IPolymorphicItem
     public string? ReleaseDatePrecision { get; set; }
     [JsonPropertyName("resume_point")]
     public ResumePoint? ResumePoint { get; set; }
-    [JsonPropertyName("type")]
-    public string? Type { get; set; }
     [JsonPropertyName("uri")]
     public string? Uri { get; set; }
     [JsonPropertyName("restrictions")]

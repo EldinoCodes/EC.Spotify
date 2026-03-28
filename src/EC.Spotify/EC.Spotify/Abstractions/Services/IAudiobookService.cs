@@ -27,5 +27,5 @@ public interface IAudiobookService
     /// <param name="cancellationToken">A cancellation token that can be used to cancel the operation.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains a SpotifyResult with a
     /// SpotifyPageResult of Chapter objects for the specified audiobook.</returns>
-    Task<SpotifyResult<SpotifyPageResult>> AudiobookChapterGetAllAsync(string? id, int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default);
+    Task<SpotifyResult<SpotifyPageResult<Chapter>>> AudiobookChapterGetAllAsync(string? id, int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default);
 }

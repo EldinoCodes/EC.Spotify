@@ -23,9 +23,9 @@ public class AuthorizationController(ILogger<AuthorizationController> logger, IS
 
     [HttpGet]
     [Route("response")]
-    public async Task<IActionResult> GetResponseAsync([FromQuery] string? code, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> GetResponseAsync([FromQuery] string? code, [FromQuery] string? state, CancellationToken cancellationToken = default)
     {
-        await _spotifyClient.Authorization.AuthorizationCodeAddAsync(code, cancellationToken);
+        await _spotifyClient.Authorization.AuthorizationCodeAddAsync(code, state, cancellationToken);
         return RedirectToRoute("authorizationValidate");
     }
 }

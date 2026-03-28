@@ -31,12 +31,10 @@ public class Audiobook : IPolymorphicItem
     public string? Name { get; set; }
     [JsonPropertyName("narrators")]
     public List<Narrator>? Narrators { get; set; }
-    [JsonPropertyName("type")]
-    public string? Type { get; set; }
     [JsonPropertyName("uri")]
     public string? Uri { get; set; }
     [JsonPropertyName("total_chapters")]
     public int TotalChapters { get; set; }
     [JsonPropertyName("chapters")]
-    public SpotifyPageResult? Chapters { get; set; }
+    public SpotifyPageResult<Chapter>? Chapters { get; set; }
 }

@@ -8,12 +8,12 @@ namespace EC.Spotify.Tests.Services;
 public sealed class T09_SearchServiceTests
 {
     [TestMethod]
-    [DataRow("The Beatles", null, null, null, SearchType.Artist)]
-    [DataRow(null, "Abbey Road", null, null, SearchType.Album)]
-    [DataRow(null, null, "Come Together", null, SearchType.Track)]
-    public async Task SearchAsync_ShouldReturnSearchResults(string? artistName, string? albumName, string? trackName, string? genre, SearchType searchType = SearchType.Track)
+    [DataRow("The Beatles", SearchType.Artist)]
+    [DataRow("Abbey Road", SearchType.Album)]
+    [DataRow("Come Together", SearchType.Track)]
+    public async Task SearchAsync_ShouldReturnSearchResults(string? query, SearchType searchType = SearchType.Track)
     {
-        if (string.IsNullOrEmpty(artistName) && string.IsNullOrEmpty(albumName) && string.IsNullOrEmpty(trackName) && string.IsNullOrEmpty(genre))
+        if (string.IsNullOrEmpty(query))
         {
             Assert.Inconclusive("At least one search parameter must be provided.");
             return;
@@ -21,16 +21,13 @@ public sealed class T09_SearchServiceTests
         var sut = Initializer.Resolve<ISearchService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
-        var query = new SearchQuery
+        var searchQuery = new SearchQuery
         {
-            ArtistName = artistName,
-            AlbumName = albumName,
-            TrackName = trackName,
-            Genre = genre,
+            Query = query,
             Type = searchType
         };
 
-        var result = await sut.SearchAsync(query);
+        var result = await sut.SearchAsync(searchQuery);
         Assert.IsNotNull(result?.Data);
     }
 }

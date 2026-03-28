@@ -19,18 +19,47 @@ internal class AlbumService(ILogger<AlbumService> logger, IOptions<SpotifyOption
 
     public async Task<SpotifyResult<Album>> AlbumGetAsync(string? id, CancellationToken cancellationToken = default)
     {
-        var uri = string.Format(AlbumUri, id);
+        try
+        {
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("AlbumGetAsync called with id: {Id}", id);
 
-        return await _spotifyProvider.ExecuteSpotifyResultAsync<Album>("get", uri, cancellationToken: cancellationToken);
+            var uri = string.Format(AlbumUri, id);
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("AlbumGetAsync requesting URI: {Uri}", uri);
+
+            return await _spotifyProvider.ExecuteSpotifyResultAsync<Album>("get", uri, cancellationToken: cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "AlbumGetAsync failed for id: {Id}", id);
+            return new SpotifyResult<Album> { Error = ex.ToSpotifyError() };
+        }
     }
 
-    public async Task<SpotifyResult<SpotifyPageResult>> AlbumTrackGetAllAsync(string? id, int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)
+    public async Task<SpotifyResult<SpotifyPageResult<Track>>> AlbumTrackGetAllAsync(string? id, int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)
     {
-        var uri = string.Format(AlbumTrackUri, id).ToUri(new()
+        try
         {
-            { "limit", $"{limit}"},
-            { "offset", $"{offset}"}
-        });
-        return await _spotifyProvider.ExecuteSpotifyResultAsync<SpotifyPageResult>("get", uri, cancellationToken: cancellationToken);
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("AlbumTrackGetAllAsync called with id: {Id}, limit: {Limit}, offset: {Offset}", id, limit, offset);
+
+            var uri = string.Format(AlbumTrackUri, id).ToUri(new()
+            {
+                { "limit", $"{limit}"},
+                { "offset", $"{offset}"}
+            });
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("AlbumTrackGetAllAsync requesting URI: {Uri}", uri);
+
+            return await _spotifyProvider.ExecuteSpotifyResultAsync<SpotifyPageResult<Track>>("get", uri, cancellationToken: cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "AlbumTrackGetAllAsync failed for id: {Id}", id);
+            return new SpotifyResult<SpotifyPageResult<Track>> { Error = ex.ToSpotifyError() };
+        }
     }
 }

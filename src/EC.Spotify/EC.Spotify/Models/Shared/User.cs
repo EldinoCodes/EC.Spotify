@@ -8,8 +8,6 @@ public class User
     public ExternalUrl? ExternalUrls { get; set; }
     [JsonPropertyName("id")]
     public string? Id { get; set; }
-    [JsonPropertyName("type")]
-    public string? Type { get; set; }
     [JsonPropertyName("uri")]
     public string? Uri { get; set; }
     [JsonPropertyName("display_name")]

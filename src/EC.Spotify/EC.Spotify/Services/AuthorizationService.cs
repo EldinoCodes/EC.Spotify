@@ -9,7 +9,7 @@ using System.Net.Http.Headers;
 
 namespace EC.Spotify.Services;
 
-internal class AuthorizationService(ILogger<AuthorizationService> logger, IOptions<SpotifyOptions> spotifyOptions, ISpotifyHttpProvider httpSpotifyProvider, ISpotifyJsonProvider spotifyJsonProvider, IMemoryCache memoryCache) : IAuthorizationService
+internal class AuthorizationService(ILogger<AuthorizationService> logger, IOptions<SpotifyOptions> spotifyOptions, ISpotifyHttpProvider httpSpotifyProvider, ISpotifyJsonProvider spotifyJsonProvider, IMemoryCache memoryCache) : IAuthorizationService, IDisposable
 {
     private readonly ILogger<AuthorizationService> _logger = logger;
     private readonly SpotifyOptions _spotifyOptions = spotifyOptions.Value;
@@ -21,6 +21,7 @@ internal class AuthorizationService(ILogger<AuthorizationService> logger, IOptio
     private const string TokenUri = "https://accounts.spotify.com/api/token";
     private const string AuthCodeCacheKey = "EC.Spotify.Services.SpotifyAuthCode";
     private const string AuthTokenCacheKey = "EC.Spotify.Services.SpotifyAuthToken";
+    private const string AuthStateCacheKey = "EC.Spotify.Services.SpotifyAuthState";
 
     private readonly SemaphoreSlim _tokenLock = new(1, 1);
     private string? RefreshToken { get; set; }
@@ -28,115 +29,236 @@ internal class AuthorizationService(ILogger<AuthorizationService> logger, IOptio
 
     public async Task<string?> Validate(CancellationToken cancellationToken = default)
     {
-        var uri = AuthorizationCodeUrl();
+        try
+        {
+            if (_spotifyOptions.VerboseLogging)
+                _logger.LogDebug("Validate called");
 
-        var authCode = await AuthorizationCodeGetAsync(cancellationToken);
-        if (authCode is null) return uri;
+            var uri = AuthorizationCodeUrl();
 
-        var authToken = await AuthorizationTokenGetAsync(cancellationToken);
-        if (authToken is null) return uri;
+            var authCode = await AuthorizationCodeGetAsync(cancellationToken);
+            if (authCode is null) return uri;
 
-        return default;
+            if (_spotifyOptions.VerboseLogging)
+                _logger.LogDebug("Validate: authorization code found, fetching token");
+
+            var authToken = await AuthorizationTokenGetAsync(cancellationToken);
+            if (authToken is null) return uri;
+
+            if (_spotifyOptions.VerboseLogging)
+                _logger.LogDebug("Validate: authorization token obtained successfully");
+
+            return default;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Validate failed");
+            throw;
+        }
     }
 
     public string? AuthorizationCodeUrl()
     {
-        return AuthUri.ToUri(new() {
-            { "client_id", _spotifyOptions.ClientId },
-            { "response_type", "code"},
-            { "scope", string.Join(" ", _spotifyOptions.Scopes) },
-            { "redirect_uri", _spotifyOptions.RedirectUri },
-            { "state", Guid.NewGuid().ToString() }
-        });
+        try
+        {
+            if (_spotifyOptions.VerboseLogging)
+                _logger.LogDebug("AuthorizationCodeUrl called");
+
+            var state = Guid.NewGuid().ToString();
+            _memoryCache.Set(AuthStateCacheKey, state, TimeSpan.FromMinutes(10));
+
+            return AuthUri.ToUri(new() {
+                { "client_id", _spotifyOptions.ClientId },
+                { "response_type", "code"},
+                { "scope", string.Join(" ", _spotifyOptions.Scopes) },
+                { "redirect_uri", _spotifyOptions.RedirectUri },
+                { "state", state }
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "AuthorizationCodeUrl failed");
+            throw;
+        }
     }
 
     public async Task<string?> AuthorizationCodeGetAsync(CancellationToken cancellationToken = default)
     {
-        if (!_memoryCache.TryGetValue(AuthCodeCacheKey, out string? authCode)) return default;
-
-        return await Task.FromResult(authCode);
-    }
-    public async Task<bool> AuthorizationCodeAddAsync(string? authorizationCode, CancellationToken cancellationToken = default)
-    {
-        if (string.IsNullOrEmpty(authorizationCode)) return false;
-
-        await AuthorizationCodeRemoveAsync(cancellationToken);
-        await _memoryCache.GetOrCreateAsync(AuthCodeCacheKey, entry =>
+        try
         {
-            entry.SetAbsoluteExpiration(TimeSpan.FromMinutes(60));
-            return Task.FromResult(authorizationCode);
-        });
+            if (_spotifyOptions.VerboseLogging)
+                _logger.LogDebug("AuthorizationCodeGetAsync called");
 
-        return true;
+            if (!_memoryCache.TryGetValue(AuthCodeCacheKey, out string? authCode))
+            {
+                if (_spotifyOptions.VerboseLogging)
+                    _logger.LogDebug("AuthorizationCodeGetAsync: no authorization code found in cache");
+
+                return default;
+            }
+
+            if (_spotifyOptions.VerboseLogging)
+                _logger.LogDebug("AuthorizationCodeGetAsync: authorization code found in cache");
+
+            return await Task.FromResult(authCode);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "AuthorizationCodeGetAsync failed");
+            throw;
+        }
+    }
+    public async Task<bool> AuthorizationCodeAddAsync(string? authorizationCode, string? state = null, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            if (_spotifyOptions.VerboseLogging)
+                _logger.LogDebug("AuthorizationCodeAddAsync called");
+
+            if (state is not null)
+            {
+                if (!_memoryCache.TryGetValue(AuthStateCacheKey, out string? storedState) || storedState != state)
+                {
+                    _logger.LogWarning("AuthorizationCodeAddAsync: state mismatch, possible CSRF attempt");
+                    return false;
+                }
+                _memoryCache.Remove(AuthStateCacheKey);
+            }
+
+            if (string.IsNullOrEmpty(authorizationCode)) return false;
+
+            await AuthorizationCodeRemoveAsync(cancellationToken);
+            await _memoryCache.GetOrCreateAsync(AuthCodeCacheKey, entry =>
+            {
+                entry.SetAbsoluteExpiration(TimeSpan.FromMinutes(60));
+                return Task.FromResult(authorizationCode);
+            });
+
+            if (_spotifyOptions.VerboseLogging)
+                _logger.LogDebug("AuthorizationCodeAddAsync: authorization code cached successfully");
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "AuthorizationCodeAddAsync failed");
+            return false;
+        }
     }
     public async Task<bool> AuthorizationCodeRemoveAsync(CancellationToken cancellationToken = default)
     {
-        _memoryCache.Remove(AuthCodeCacheKey);
+        try
+        {
+            if (_spotifyOptions.VerboseLogging)
+                _logger.LogDebug("AuthorizationCodeRemoveAsync called");
 
-        return await Task.FromResult(true);
+            _memoryCache.Remove(AuthCodeCacheKey);
+
+            return await Task.FromResult(true);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "AuthorizationCodeRemoveAsync failed");
+            return false;
+        }
     }
 
     public async Task<AuthToken?> AuthorizationTokenGetAsync(CancellationToken cancellationToken = default)
     {
-        var authorizationCode = await AuthorizationCodeGetAsync(cancellationToken);
-        if (authorizationCode is null) return default;
-
-        if (_memoryCache.TryGetValue(AuthTokenCacheKey, out AuthToken? cached) && cached is not null)
-            return cached;
-
-        await _tokenLock.WaitAsync(cancellationToken);
         try
         {
-            var ret = await _memoryCache.GetOrCreateAsync(AuthTokenCacheKey, async (cacheEntry) =>
+            if (_spotifyOptions.VerboseLogging)
+                _logger.LogDebug("AuthorizationTokenGetAsync called");
+
+            var authorizationCode = await AuthorizationCodeGetAsync(cancellationToken);
+            if (authorizationCode is null) return default;
+
+            if (_memoryCache.TryGetValue(AuthTokenCacheKey, out AuthToken? cached) && cached is not null)
             {
-                var authToken = default(AuthToken);
-                var authentication = $"{_spotifyOptions.ClientId}:{_spotifyOptions.ClientSecret}".EncodeBase64();
+                if (_spotifyOptions.VerboseLogging)
+                    _logger.LogDebug("AuthorizationTokenGetAsync: token found in cache");
 
-                try
+                return cached;
+            }
+
+            if (_spotifyOptions.VerboseLogging)
+                _logger.LogDebug("AuthorizationTokenGetAsync: token not in cache, requesting new token");
+
+            await _tokenLock.WaitAsync(cancellationToken);
+            try
+            {
+                var ret = await _memoryCache.GetOrCreateAsync(AuthTokenCacheKey, async (cacheEntry) =>
                 {
-                    var data = string.IsNullOrEmpty(RefreshToken)
-                        ? new FormUrlEncodedContent([
-                            new ("code", authorizationCode),
-                            new ("grant_type", "authorization_code"),
-                            new ("redirect_uri", _spotifyOptions.RedirectUri)
-                        ])
-                        : new FormUrlEncodedContent([
-                            new ("client_id", _spotifyOptions.ClientId),
-                            new ("grant_type", "refresh_token"),
-                            new ("refresh_token", RefreshToken)
-                        ]);
+                    var authToken = default(AuthToken);
+                    var authentication = $"{_spotifyOptions.ClientId}:{_spotifyOptions.ClientSecret}".EncodeBase64();
 
-                    var res = await _httpSpotifyProvider.ExecuteAsync("post", TokenUri, data, (h) => h.Authorization = new AuthenticationHeaderValue("Basic", authentication), cancellationToken);
-                    authToken = _spotifyJsonProvider.Deserialize<AuthToken?>(res);
+                    try
+                    {
+                        var data = string.IsNullOrEmpty(RefreshToken)
+                            ? new FormUrlEncodedContent([
+                                new ("code", authorizationCode),
+                                new ("grant_type", "authorization_code"),
+                                new ("redirect_uri", _spotifyOptions.RedirectUri)
+                            ])
+                            : new FormUrlEncodedContent([
+                                new ("client_id", _spotifyOptions.ClientId),
+                                new ("grant_type", "refresh_token"),
+                                new ("refresh_token", RefreshToken)
+                            ]);
 
-                    ArgumentNullException.ThrowIfNull(authToken, nameof(authToken));
+                        var res = await _httpSpotifyProvider.ExecuteAsync("post", TokenUri, data, (h) => h.Authorization = new AuthenticationHeaderValue("Basic", authentication), cancellationToken);
+                        authToken = _spotifyJsonProvider.Deserialize<AuthToken?>(res);
 
-                    RefreshToken = authToken.RefreshToken ?? RefreshToken;
-                    cacheEntry.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(authToken.ExpiresIn - 10);
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError("Unable to obtain token, resetting... {message}", ex.Message);
-                }
-                return authToken;
-            });
+                        ArgumentNullException.ThrowIfNull(authToken, nameof(authToken));
 
-            if (ret is null) await AuthorizationTokenReset();
+                        RefreshToken = authToken.RefreshToken ?? RefreshToken;
+                        cacheEntry.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(authToken.ExpiresIn - 10);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError("Unable to obtain token, resetting... {message}", ex.Message);
+                    }
+                    return authToken;
+                });
 
-            return ret;
+                if (ret is null) await AuthorizationTokenReset();
+
+                return ret;
+            }
+            finally
+            {
+                _tokenLock.Release();
+            }
         }
-        finally
+        catch (Exception ex)
         {
-            _tokenLock.Release();
+            _logger.LogError(ex, "AuthorizationTokenGetAsync failed");
+            throw;
         }
     }
     public async Task<bool> AuthorizationTokenReset()
     {
-        _memoryCache.Remove(AuthCodeCacheKey);
-        _memoryCache.Remove(AuthTokenCacheKey);
+        try
+        {
+            if (_spotifyOptions.VerboseLogging)
+                _logger.LogDebug("AuthorizationTokenReset called");
 
-        RefreshToken = default;
+            _memoryCache.Remove(AuthCodeCacheKey);
+            _memoryCache.Remove(AuthTokenCacheKey);
 
-        return await Task.FromResult(true);
+            RefreshToken = default;
+
+            return await Task.FromResult(true);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "AuthorizationTokenReset failed");
+            return false;
+        }
+    }
+
+    public void Dispose()
+    {
+        _tokenLock.Dispose();
     }
 }

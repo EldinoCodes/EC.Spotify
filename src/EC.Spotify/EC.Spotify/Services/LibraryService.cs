@@ -20,20 +20,37 @@ internal class LibraryService(ILogger<LibraryService> logger, IOptions<SpotifyOp
 
     public async Task<SpotifyResult<bool>> LibraryCheckAsync(ReferenceItem? libraryItem, CancellationToken cancellationToken = default)
     {
-        var ret = new SpotifyResult<bool>();
+        try
+        {
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("LibraryCheckAsync called with item URI: {Uri}", libraryItem?.Uri);
 
-        var res = await LibraryCheckAllAsync(libraryItem is not null ? [libraryItem] : [], cancellationToken: cancellationToken);
-        if (res.IsSuccess == true)
-            ret.Data = res.Data?.FirstOrDefault() ?? false;
+            var ret = new SpotifyResult<bool>();
 
-        return ret;
+            var res = await LibraryCheckAllAsync(libraryItem is not null ? [libraryItem] : [], cancellationToken: cancellationToken);
+            if (res.IsSuccess == true)
+                ret.Data = res.Data?.FirstOrDefault() ?? false;
+
+            return ret;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "LibraryCheckAsync failed for item URI: {Uri}", libraryItem?.Uri);
+            return new SpotifyResult<bool> { Error = ex.ToSpotifyError() };
+        }
     }
     public async Task<SpotifyResult<List<bool>>> LibraryCheckAllAsync(List<ReferenceItem> libraryItems, CancellationToken cancellationToken = default)
     {
-        var ret = new SpotifyResult<List<bool>>();
-
         try
         {
+            var error = _options.ValidateScopes(["user-library-read", "user-follow-read", "playlist-read-private"]);
+            if (error is not null) return new SpotifyResult<List<bool>>() { Error = error };
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("LibraryCheckAllAsync called with {Count} items", libraryItems.Count);
+
+            var ret = new SpotifyResult<List<bool>>();
+
             // imposed cap from spotify of 40 items per request, so we need to chunk the list and make multiple requests if necessary
             foreach (var batch in libraryItems.Chunk(40))
             {
@@ -43,7 +60,10 @@ internal class LibraryService(ILogger<LibraryService> logger, IOptions<SpotifyOp
                     { "uris", HttpUtility.UrlEncode(string.Join(",", uris)) }
                 };
                 var uri = SpotifyLibraryContainsUri.ToUri(queryParams);
-                
+
+                if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                    _logger.LogDebug("LibraryCheckAllAsync requesting URI: {Uri}", uri);
+
                 var result = await _spotifyProvider.ExecuteSpotifyResultAsync<List<bool>>("get", uri, cancellationToken: cancellationToken);
                 if (!result.IsSuccess) continue;
                 if (result.Data is null) continue;
@@ -51,30 +71,49 @@ internal class LibraryService(ILogger<LibraryService> logger, IOptions<SpotifyOp
                 ret.Data ??= [];
                 ret.Data.AddRange(result.Data);
             }
+
+            return ret;
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error checking library items");
+            _logger.LogError(ex, "LibraryCheckAllAsync failed");
+            return new SpotifyResult<List<bool>> { Error = ex.ToSpotifyError() };
         }
-        return ret;
     }
 
     public async Task<SpotifyResult<bool>> LibraryAddAsync(ReferenceItem? libraryItem, CancellationToken cancellationToken = default)
     {
-        var ret = new SpotifyResult<bool>();
+        try
+        {
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("LibraryAddAsync called with item URI: {Uri}", libraryItem?.Uri);
 
-        var res = await LibraryAddAllAsync(libraryItem is not null ? [libraryItem] : [], cancellationToken: cancellationToken);
-        if (res.IsSuccess == true)
-            ret.Data = res.Data?.FirstOrDefault() ?? false;
+            var ret = new SpotifyResult<bool>();
 
-        return ret;
+            var res = await LibraryAddAllAsync(libraryItem is not null ? [libraryItem] : [], cancellationToken: cancellationToken);
+            if (res.IsSuccess == true)
+                ret.Data = res.Data?.FirstOrDefault() ?? false;
+
+            return ret;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "LibraryAddAsync failed for item URI: {Uri}", libraryItem?.Uri);
+            return new SpotifyResult<bool> { Error = ex.ToSpotifyError() };
+        }
     }
     public async Task<SpotifyResult<List<bool>>> LibraryAddAllAsync(List<ReferenceItem> libraryItems, CancellationToken cancellationToken = default)
     {
-        var ret = new SpotifyResult<List<bool>>();
-
         try
         {
+            var error = _options.ValidateScopes(["user-library-modify", "user-follow-modify", "playlist-modify-public"]);
+            if (error is not null) return new SpotifyResult<List<bool>>() { Error = error };
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("LibraryAddAllAsync called with {Count} items", libraryItems.Count);
+
+            var ret = new SpotifyResult<List<bool>>();
+
             // imposed cap from spotify of 40 items per request, so we need to chunk the list and make multiple requests if necessary
             foreach (var batch in libraryItems.Chunk(40))
             {
@@ -84,39 +123,61 @@ internal class LibraryService(ILogger<LibraryService> logger, IOptions<SpotifyOp
                     { "uris", HttpUtility.UrlEncode(string.Join(",", uris)) }
                 };
                 var uri = SpotifyLibraryUri.ToUri(queryParams);
-                
+
+                if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                    _logger.LogDebug("LibraryAddAllAsync requesting URI: {Uri}", uri);
+
                 var result = await _spotifyProvider.ExecuteSpotifyResultAsync<List<bool>>("put", uri, cancellationToken: cancellationToken);
                 if (!result.IsSuccess) continue;
-                
+
                 result.Data = [..Enumerable.Range(0, batch.Count()).Select(i => true)];
-                
+
                 ret.Data ??= [];
                 ret.Data.AddRange(result.Data);
             }
+
+            return ret;
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error adding library items");
+            _logger.LogError(ex, "LibraryAddAllAsync failed");
+            return new SpotifyResult<List<bool>> { Error = ex.ToSpotifyError() };
         }
-        return ret;
     }
 
     public async Task<SpotifyResult<bool>> LibraryRemoveAsync(ReferenceItem? libraryItem, CancellationToken cancellationToken = default)
     {
-        var ret = new SpotifyResult<bool>();
+        try
+        {
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("LibraryRemoveAsync called with item URI: {Uri}", libraryItem?.Uri);
 
-        var res = await LibraryRemoveAllAsync(libraryItem is not null ? [libraryItem] : [], cancellationToken: cancellationToken);
-        if (res.IsSuccess == true)
-            ret.Data = res.Data?.FirstOrDefault() ?? false;
+            var ret = new SpotifyResult<bool>();
 
-        return ret;
+            var res = await LibraryRemoveAllAsync(libraryItem is not null ? [libraryItem] : [], cancellationToken: cancellationToken);
+            if (res.IsSuccess == true)
+                ret.Data = res.Data?.FirstOrDefault() ?? false;
+
+            return ret;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "LibraryRemoveAsync failed for item URI: {Uri}", libraryItem?.Uri);
+            return new SpotifyResult<bool> { Error = ex.ToSpotifyError() };
+        }
     }
     public async Task<SpotifyResult<List<bool>>> LibraryRemoveAllAsync(List<ReferenceItem> libraryItems, CancellationToken cancellationToken = default)
     {
-        var ret = new SpotifyResult<List<bool>>();
-
         try
         {
+            var error = _options.ValidateScopes(["user-library-modify", "user-follow-modify", "playlist-modify-public"]);
+            if (error is not null) return new SpotifyResult<List<bool>>() { Error = error };
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("LibraryRemoveAllAsync called with {Count} items", libraryItems.Count);
+
+            var ret = new SpotifyResult<List<bool>>();
+
             // imposed cap from spotify of 40 items per request, so we need to chunk the list and make multiple requests if necessary
             foreach (var batch in libraryItems.Chunk(40))
             {
@@ -126,7 +187,10 @@ internal class LibraryService(ILogger<LibraryService> logger, IOptions<SpotifyOp
                     { "uris", HttpUtility.UrlEncode(string.Join(",", uris)) }
                 };
                 var uri = SpotifyLibraryUri.ToUri(queryParams);
-                
+
+                if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                    _logger.LogDebug("LibraryRemoveAllAsync requesting URI: {Uri}", uri);
+
                 var result = await _spotifyProvider.ExecuteSpotifyResultAsync<List<bool>>("delete", uri, cancellationToken: cancellationToken);
                 if (!result.IsSuccess) continue;
 
@@ -135,11 +199,13 @@ internal class LibraryService(ILogger<LibraryService> logger, IOptions<SpotifyOp
                 ret.Data ??= [];
                 ret.Data.AddRange(result.Data);
             }
+
+            return ret;
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error checking library items");
+            _logger.LogError(ex, "LibraryRemoveAllAsync failed");
+            return new SpotifyResult<List<bool>> { Error = ex.ToSpotifyError() };
         }
-        return ret;
     }
 }

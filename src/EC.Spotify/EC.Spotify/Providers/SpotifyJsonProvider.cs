@@ -23,9 +23,6 @@ internal class SpotifyJsonProvider(ILogger<SpotifyJsonProvider> logger) : ISpoti
         .Cast<JsonPolymorphicAttribute>()
         .FirstOrDefault()
         ?.TypeDiscriminatorPropertyName;
-    private static readonly List<string?> _polymorphicTypeNames = Attribute
-        .GetCustomAttributes(typeof(IPolymorphicItem), typeof(JsonDerivedTypeAttribute))
-        .Select(a => ((JsonDerivedTypeAttribute)a)?.TypeDiscriminator?.ToString())?.ToList() ?? [];
 
     public string? Serialize<T>(T? obj)
     {
@@ -55,7 +52,7 @@ internal class SpotifyJsonProvider(ILogger<SpotifyJsonProvider> logger) : ISpoti
         return ret;
     }
 
-    private string? ProcessSpotifyJson(string? json, string? jsonPath = default)
+    private static string? ProcessSpotifyJson(string? json, string? jsonPath = default)
     {
         if (json is null) return default;
 
@@ -66,44 +63,10 @@ internal class SpotifyJsonProvider(ILogger<SpotifyJsonProvider> logger) : ISpoti
         var jsonNode = JsonNode.Parse(json);
         jsonNode = RecurseJson(jsonNode, jsonPath);
 
-        AddPolymorphicTypeDiscriminatorProperty(jsonNode);
+        MovePolymorphicTypeProperty(jsonNode);
 
         return jsonNode?.ToJsonString();
-    }
-    private void AddPolymorphicTypeDiscriminatorProperty(JsonNode? node)
-    {
-        if (node is null) return;
-        if (string.IsNullOrEmpty(_polymorphicPropertyName)) return;
-        if (!jsonValueKinds.Any(k => k == node.GetValueKind())) return;
-
-        if (node is JsonObject jsonObject)
-        {
-            var hasDiscriminator = jsonObject.TryGetPropertyValue(_polymorphicPropertyName, out _);
-            var hasNodeType = jsonObject.TryGetPropertyValue("type", out var nodeType);
-            var polymorphicName = _polymorphicTypeNames.FirstOrDefault(i => nodeType?.ToString()?.Equals(i, StringComparison.InvariantCultureIgnoreCase) ?? false);
-
-            foreach (var property in jsonObject)
-            {
-                if (property.Value is null) continue;
-
-                AddPolymorphicTypeDiscriminatorProperty(property.Value);
-            }
-            if (hasDiscriminator) return;
-            if (!hasNodeType) return;
-
-            if (!string.IsNullOrEmpty(polymorphicName))
-            {
-                jsonObject.Insert(0, _polymorphicPropertyName, polymorphicName);
-            } else if (_logger.IsEnabled(LogLevel.Debug))
-                _logger.LogDebug("Could not find a matching polymorphic type name for node with type '{NodeType}'", nodeType);
-        }
-        else if (node is JsonArray jsonArray)
-        {
-            foreach (var element in jsonArray)
-                AddPolymorphicTypeDiscriminatorProperty(element);
-        }
-    }
-
+    }    
     private static bool IsJson(string json) =>
         (
             jsonElementStart.Any(json.StartsWith)
@@ -128,5 +91,33 @@ internal class SpotifyJsonProvider(ILogger<SpotifyJsonProvider> logger) : ISpoti
                     : null;
         }
         return node;
+    }
+    private static void MovePolymorphicTypeProperty(JsonNode? node)
+    {
+        if (node is null) return;
+        if (string.IsNullOrEmpty(_polymorphicPropertyName)) return;
+        if (!jsonValueKinds.Any(k => k == node.GetValueKind())) return;
+
+        if (node is JsonObject jsonObject)
+        {
+            var discriminator = jsonObject[_polymorphicPropertyName];
+            if (discriminator != null)
+            {
+                jsonObject.Remove(_polymorphicPropertyName);
+                jsonObject.Insert(0, _polymorphicPropertyName, discriminator);
+            }
+
+            foreach (var property in jsonObject)
+            {
+                if (property.Value is null) continue;
+
+                MovePolymorphicTypeProperty(property.Value);
+            }
+        }
+        else if (node is JsonArray jsonArray)
+        {
+            foreach (var element in jsonArray)
+                MovePolymorphicTypeProperty(element);
+        }
     }
 }

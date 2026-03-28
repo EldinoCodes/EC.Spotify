@@ -8,13 +8,6 @@ internal static class StringExtensions
         var bytes = System.Text.Encoding.UTF8.GetBytes(content);
         return Convert.ToBase64String(bytes);
     }
-    public static string? DecodeBase64(this string? content)
-    {
-        if (string.IsNullOrEmpty(content)) return content;
-        var bytes = Convert.FromBase64String(content);
-        return System.Text.Encoding.UTF8.GetString(bytes);
-    }
-
     public static string? ToUri(this string? uriString, Dictionary<string, string?>? query = default)
     {
         if (string.IsNullOrEmpty(uriString)) return default;
@@ -23,7 +16,9 @@ internal static class StringExtensions
 
         return new UriBuilder(uri)
         {
-            Query = string.Join("&", query.Select(i => $"{i.Key}={i.Value}"))
+            Query = string.Join("&", query
+                .Where(i => i.Value is not null)
+                .Select(i => $"{Uri.EscapeDataString(i.Key)}={Uri.EscapeDataString(i.Value!)}"))
         }.ToString();
     }
 }

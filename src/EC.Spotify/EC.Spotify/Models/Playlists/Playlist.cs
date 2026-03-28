@@ -26,8 +26,6 @@ public class Playlist : IPolymorphicItem
     public string? SnapshotId { get; set; }
     [JsonPropertyName("items")]
     public PlaylistPageResult? Items { get; set; }
-    [JsonPropertyName("type")]
-    public string? Type { get; set; }
     [JsonPropertyName("uri")]
     public string? Uri { get; set; }
 }

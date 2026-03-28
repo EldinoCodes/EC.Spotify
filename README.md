@@ -1,14 +1,18 @@
 # EC.Spotify
 [![Build And Test](https://github.com/EldinoCodes/EC.Spotify/actions/workflows/BuildAndTest.yml/badge.svg)](https://github.com/EldinoCodes/EC.Spotify/actions/workflows/BuildAndTest.yml)
 [![Pack And Publish](https://github.com/EldinoCodes/EC.Spotify/actions/workflows/PackAndPublish.yml/badge.svg)](https://github.com/EldinoCodes/EC.Spotify/actions/workflows/PackAndPublish.yml)
+[![NuGet Version](https://img.shields.io/nuget/v/EC.Spotify.svg?style=flat)](https://www.nuget.org/packages/EC.Spotify) 
 [![NuGet Downloads](https://img.shields.io/nuget/dt/EC.Spotify)](https://www.nuget.org/packages/EC.Spotify)
 
 
 A comprehensive .NET client library for the Spotify Web API, providing a clean and intuitive interface for interacting with Spotify's music streaming platform.
 
+## LATEST NEWS - 2026.03.27
+The EC.Spotify library has been heavily refactored.  Search functionality has been reworked, additional validation of scopes has been added, rework of deserialization handling and finally added additional error handling.  I believe some of these changes may break some existing using of my project but I am reluctant to jump Major version due to it.  I am moving to v1.0.5 for these changes.  I hope to make a few more changes to support additional API's before I jump to v2.0.0 which will likely include some breaking changes.  Please let me know if you have any questions or concerns about the changes in v1.0.5.  
+
 ## Overview
 
-`EC.Spotify` is a modern .NET 10 library that wraps the Spotify Web API, offering strongly-typed access to albums, artists, tracks, playlists, playback control, and more. The library follows best practices with dependency injection support, async/await patterns, and comprehensive error handling.
+offering strongly-typed access to albums, artists, tracks, playlists, playback control, library management, and more.
 
 ## Installation
 
@@ -64,11 +68,17 @@ Register Spotify services by binding to a configuration section (e.g., from `app
     "ClientSecret": "your-client-secret",
     "RedirectUri": "https://localhost:5001/callback",
     "Scopes": [
-      "user-read-currently-playing",
-      "user-read-playback-state",
-      "user-modify-playback-state",
-      "user-library-read",
-      "user-library-modify"
+      "ugc-image-upload", // PlaylistService.PlaylistImageAddAsync
+      "user-read-currently-playing", // PlayerService.QueueGetAsync
+      "user-read-playback-state", // PlayerService.QueueGetAsync, DeviceGetAllAsync, PlayerStateGetAsync, CurrentlyPlayingGetAsync
+      "user-modify-playback-state", // PlayerService.QueueAddAsync, TransferAsync, PlayerPlayAsync, PlayerPauseAsync, PlayerNextAsync, PlayerPreviousAsync, PlayerSeekAsync, PlayerRepeatAsync, PlayerShuffleAsync, PlayerVolumeAsync
+      "user-follow-read", // LibraryService.LibraryCheckAllAsync
+      "user-follow-modify", // LibraryService.LibraryAddAllAsync, LibraryRemoveAllAsync
+      "user-library-read", // UserService.MyAlbumGetAllAsync, MyEpisodeGetAllAsync | LibraryService.LibraryCheckAllAsync
+      "user-library-modify", // LibraryService.LibraryAddAllAsync, LibraryRemoveAllAsync
+      "playlist-modify-public", // LibraryService.LibraryAddAllAsync, LibraryRemoveAllAsync | PlaylistService.PlaylistDetailUpdateAsync, PlaylistItemAddAllAsync, PlaylistItemRemoveAllAsync, PlaylistImageAddAsync
+      "playlist-modify-private", // PlaylistService.PlaylistDetailUpdateAsync, PlaylistItemAddAllAsync, PlaylistItemRemoveAllAsync, PlaylistImageAddAsync
+      "playlist-read-private" // LibraryService.LibraryCheckAllAsync | PlaylistService.PlaylistItemGetAllAsync
     ]
   }
 }
@@ -97,6 +107,22 @@ var app = builder.Build();
 
 The `ISpotifyClient` interface is the primary entry point for interacting with the Spotify API. It provides access to all available service interfaces, acting as a facade for the entire library.
 
+| Property | Service |
+|----------|---------|
+| `Albums` | `IAlbumService` |
+| `Artists` | `IArtistService` |
+| `Audiobooks` | `IAudiobookService` |
+| `Authorization` | `IAuthorizationService` |
+| `Chapters` | `IChapterService` |
+| `Episodes` | `IEpisodeService` |
+| `Library` | `ILibraryService` |
+| `Player` | `IPlayerService` |
+| `Playlists` | `IPlaylistService` |
+| `Search` | `ISearchService` |
+| `Shows` | `IShowService` |
+| `Tracks` | `ITrackService` |
+| `User` | `IUserService` |
+
 **Usage Example:**
 ```csharp
 public class MusicController : ControllerBase
@@ -117,6 +143,70 @@ public class MusicController : ControllerBase
 ```
 
 ## Service Interfaces
+
+### IAuthorizationService
+
+Manages Spotify OAuth 2.0 authorization flow and token management. This service is critical for authenticating users and maintaining access tokens.
+
+**Available Methods:**
+- **`Validate(CancellationToken cancellationToken = default)`**  
+  Validates the current authentication state and returns an authorization URL if user authorization is required.
+
+- **`AuthorizationCodeUrl()`**  
+  Generates the OAuth 2.0 authorization URL for initiating the authorization code flow.
+
+- **`AuthorizationCodeAddAsync(string? authorizationCode, string? state = null, CancellationToken cancellationToken = default)`**  
+  Stores an authorization code received from the OAuth callback. The optional `state` parameter is validated against the CSRF token generated by `AuthorizationCodeUrl()`.
+
+- **`AuthorizationCodeGetAsync(CancellationToken cancellationToken = default)`**  
+  Retrieves the currently stored authorization code.
+
+- **`AuthorizationCodeRemoveAsync(CancellationToken cancellationToken = default)`**  
+  Removes the stored authorization code from the underlying store.
+
+- **`AuthorizationTokenGetAsync(CancellationToken cancellationToken = default)`**  
+  Retrieves the current authentication token with access and refresh tokens.
+
+- **`AuthorizationTokenReset()`**  
+  Resets the authentication token, forcing re-authentication.
+
+**Example:**
+```csharp
+// Check if authorization is needed
+var authUrl = await _spotifyClient.Authorization.Validate();
+if (authUrl != null)
+{
+    // Redirect user to Spotify authorization page
+    return Redirect(authUrl);
+}
+
+// Alternative: Generate authorization URL manually
+var manualAuthUrl = _spotifyClient.Authorization.AuthorizationCodeUrl();
+
+// Handle OAuth callback — Spotify returns both 'code' and 'state' query parameters
+[HttpGet("callback")]
+public async Task<IActionResult> SpotifyCallback(string code, string? state)
+{
+    var success = await _spotifyClient.Authorization.AuthorizationCodeAddAsync(code, state);
+    if (success)
+    {
+        return RedirectToAction("Index");
+    }
+    return BadRequest("Authorization failed");
+}
+
+// Get current token
+var token = await _spotifyClient.Authorization.AuthorizationTokenGetAsync();
+if (token != null)
+{
+    Console.WriteLine($"Access Token: {token.AccessToken}");
+    Console.WriteLine($"Expires: {token.ExpiresAt}");
+}
+
+// Remove authorization
+await _spotifyClient.Authorization.AuthorizationCodeRemoveAsync();
+await _spotifyClient.Authorization.AuthorizationTokenReset();
+```
 
 ### IAlbumService
 
@@ -219,70 +309,6 @@ var chaptersResult = await _spotifyClient.Audiobooks.AudiobookChapterGetAllAsync
 );
 ```
 
-### IAuthorizationService
-
-Manages Spotify OAuth 2.0 authorization flow and token management. This service is critical for authenticating users and maintaining access tokens.
-
-**Available Methods:**
-- **`Validate(CancellationToken cancellationToken = default)`**  
-  Validates the current authentication state and returns an authorization URL if user authorization is required.
-
-- **`AuthorizationCodeUrl()`**  
-  Generates the OAuth 2.0 authorization URL for initiating the authorization code flow.
-
-- **`AuthorizationCodeAddAsync(string? authorizationCode, CancellationToken cancellationToken = default)`**  
-  Stores an authorization code received from the OAuth callback.
-
-- **`AuthorizationCodeGetAsync(CancellationToken cancellationToken = default)`**  
-  Retrieves the currently stored authorization code.
-
-- **`AuthorizationCodeRemoveAsync(CancellationToken cancellationToken = default)`**  
-  Removes the stored authorization code from the underlying store.
-
-- **`AuthorizationTokenGetAsync(CancellationToken cancellationToken = default)`**  
-  Retrieves the current authentication token with access and refresh tokens.
-
-- **`AuthorizationTokenReset()`**  
-  Resets the authentication token, forcing re-authentication.
-
-**Example:**
-```csharp
-// Check if authorization is needed
-var authUrl = await _spotifyClient.Authorization.Validate();
-if (authUrl != null)
-{
-    // Redirect user to Spotify authorization page
-    return Redirect(authUrl);
-}
-
-// Alternative: Generate authorization URL manually
-var manualAuthUrl = _spotifyClient.Authorization.AuthorizationCodeUrl();
-
-// Handle OAuth callback
-[HttpGet("callback")]
-public async Task<IActionResult> SpotifyCallback(string code)
-{
-    var success = await _spotifyClient.Authorization.AuthorizationCodeAddAsync(code);
-    if (success)
-    {
-        return RedirectToAction("Index");
-    }
-    return BadRequest("Authorization failed");
-}
-
-// Get current token
-var token = await _spotifyClient.Authorization.AuthorizationTokenGetAsync();
-if (token != null)
-{
-    Console.WriteLine($"Access Token: {token.AccessToken}");
-    Console.WriteLine($"Expires: {token.ExpiresAt}");
-}
-
-// Remove authorization
-await _spotifyClient.Authorization.AuthorizationCodeRemoveAsync();
-await _spotifyClient.Authorization.AuthorizationTokenReset();
-```
-
 ### IChapterService
 
 Provides methods for retrieving individual audiobook chapter data.
@@ -331,36 +357,36 @@ if (episodeResult.IsSuccess)
 Provides methods for checking, adding, and removing items from the current user's Spotify library. Supports batching up to 40 items per request (a Spotify-imposed limit), automatically chunking larger lists across multiple requests.
 
 **Available Methods:**
-- **`LibraryCheckAsync(LibraryItem? libraryItem, CancellationToken cancellationToken = default)`**  
-  Checks whether a single item is saved in the current user's library.
+- **`LibraryCheckAsync(ReferenceItem? libraryItem, CancellationToken cancellationToken = default)`**  
+  Checks whether a single item is saved in the current user's library. Requires the `user-library-read` scope.
 
-- **`LibraryCheckAllAsync(List<LibraryItem> libraryItems, CancellationToken cancellationToken = default)`**  
-  Checks whether multiple items are saved in the current user's library. Returns a `List<bool>` in the same order as the input items.
+- **`LibraryCheckAllAsync(List<ReferenceItem> libraryItems, CancellationToken cancellationToken = default)`**  
+  Checks whether multiple items are saved in the current user's library. Returns a `List<bool>` in the same order as the input items. Requires the `user-library-read` scope.
 
-- **`LibraryAddAsync(LibraryItem? libraryItem, CancellationToken cancellationToken = default)`**  
-  Saves a single item to the current user's library.
+- **`LibraryAddAsync(ReferenceItem? libraryItem, CancellationToken cancellationToken = default)`**  
+  Saves a single item to the current user's library. Requires the `user-library-modify` scope.
 
-- **`LibraryAddAllAsync(List<LibraryItem> libraryItems, CancellationToken cancellationToken = default)`**  
-  Saves multiple items to the current user's library. Returns a `List<bool>` indicating success for each item.
+- **`LibraryAddAllAsync(List<ReferenceItem> libraryItems, CancellationToken cancellationToken = default)`**  
+  Saves multiple items to the current user's library. Returns a `List<bool>` indicating success for each item. Requires the `user-library-modify` scope.
 
-- **`LibraryRemoveAsync(LibraryItem? libraryItem, CancellationToken cancellationToken = default)`**  
-  Removes a single item from the current user's library.
+- **`LibraryRemoveAsync(ReferenceItem? libraryItem, CancellationToken cancellationToken = default)`**  
+  Removes a single item from the current user's library. Requires the `user-library-modify` scope.
 
-- **`LibraryRemoveAllAsync(List<LibraryItem> libraryItems, CancellationToken cancellationToken = default)`**  
-  Removes multiple items from the current user's library. Returns a `List<bool>` indicating success for each item.
+- **`LibraryRemoveAllAsync(List<ReferenceItem> libraryItems, CancellationToken cancellationToken = default)`**  
+  Removes multiple items from the current user's library. Returns a `List<bool>` indicating success for each item. Requires the `user-library-modify` scope.
 
-**`LibraryItem` Model:**
+**`ReferenceItem` Model:**
 
 | Property | Type | Description |
 |----------|------|-------------|
 | `Id` | `string?` | The Spotify ID of the item |
-| `Type` | `LibraryType` | The type of the item (`Album`, `Audiobook`, `Episode`, `Playlist`, `Show`, `Track`, `User`) |
+| `Type` | `ReferenceItemType` | The type of the item (`Album`, `Audiobook`, `Episode`, `Playlist`, `Show`, `Track`, `User`) |
 | `Uri` | `string?` | Read-only. Computed Spotify URI in the format `spotify:{type}:{id}` |
 
 **Example:**
 ```csharp
 // Check if a single track is saved
-var trackItem = new LibraryItem { Id = "3n3Ppam7vgaVa1iaRUc9Lp", Type = LibraryType.Track };
+var trackItem = new ReferenceItem { Id = "3n3Ppam7vgaVa1iaRUc9Lp", Type = ReferenceItemType.Track };
 var checkResult = await _spotifyClient.Library.LibraryCheckAsync(trackItem);
 if (checkResult.IsSuccess)
 {
@@ -368,10 +394,10 @@ if (checkResult.IsSuccess)
 }
 
 // Check multiple items at once
-var items = new List<LibraryItem>
+var items = new List<ReferenceItem>
 {
-    new() { Id = "3n3Ppam7vgaVa1iaRUc9Lp", Type = LibraryType.Track },
-    new() { Id = "4aawyAB9vmqN3uQ7FjRGTy", Type = LibraryType.Album }
+    new() { Id = "3n3Ppam7vgaVa1iaRUc9Lp", Type = ReferenceItemType.Track },
+    new() { Id = "4aawyAB9vmqN3uQ7FjRGTy", Type = ReferenceItemType.Album }
 };
 var checkAllResult = await _spotifyClient.Library.LibraryCheckAllAsync(items);
 if (checkAllResult.IsSuccess)
@@ -398,23 +424,36 @@ var removeAllResult = await _spotifyClient.Library.LibraryRemoveAllAsync(items);
 Controls Spotify playback and manages player state.
 
 **Available Methods:**
-- **`QueueGetAsync(CancellationToken cancellationToken = default)`** - Retrieves the current playback queue
-- **`QueueAddAsync(string? trackId, string? deviceId = null, CancellationToken cancellationToken = default)`** - Adds a track to the playback queue
-- **`DeviceGetAllAsync(CancellationToken cancellationToken = default)`** - Retrieves all available playback devices
-- **`TransferAsync(string? deviceId, bool play = false, CancellationToken cancellationToken = default)`** - Transfers playback to a specific device
-- **`PlayerPlayAsync(string? deviceId, List<string>? trackUris, CancellationToken cancellationToken = default)`** - Starts playback
-- **`PlayerPauseAsync(string? deviceId = null, CancellationToken cancellationToken = default)`** - Pauses playback
-- **`PlayerNextAsync(string? deviceId = null, CancellationToken cancellationToken = default)`** - Skips to the next track
-- **`PlayerPreviousAsync(string? deviceId = null, CancellationToken cancellationToken = default)`** - Skips to the previous track
-- **`PlayerSeekAsync(int positionMs, string? deviceId = null, CancellationToken cancellationToken = default)`** - Seeks to a position in the track
-- **`PlayerRepeatAsync(PlayerRepeatMode playerRepeatMode = PlayerRepeatMode.Off, string? deviceId = null, CancellationToken cancellationToken = default)`** - Sets repeat mode
-- **`PlayerShuffleAsync(PlayerShuffleMode playerShuffleMode = PlayerShuffleMode.Off, string? deviceId = null, CancellationToken cancellationToken = default)`** - Enables or disables shuffle
-- **`PlayerVolumeAsync(int volumePercent, string? deviceId = null, CancellationToken cancellationToken = default)`** - Sets the playback volume
+- **`QueueGetAsync(CancellationToken cancellationToken = default)`** — Retrieves the current playback queue. Requires the `user-read-currently-playing` and `user-read-playback-state` scopes.
+- **`QueueAddAsync(string? trackId, string? deviceId = null, CancellationToken cancellationToken = default)`** — Adds a track to the playback queue. Requires the `user-modify-playback-state` scope.
+- **`DeviceGetAllAsync(CancellationToken cancellationToken = default)`** — Retrieves all available playback devices. Requires the `user-read-playback-state` scope.
+- **`TransferAsync(string? deviceId, bool play = false, CancellationToken cancellationToken = default)`** — Transfers playback to a specific device. Requires the `user-modify-playback-state` scope.
+- **`PlayerStateGetAsync(CancellationToken cancellationToken = default)`** — Retrieves the full current playback state including active device, track, and shuffle/repeat modes. Requires the `user-read-playback-state` scope.
+- **`CurrentlyPlayingGetAsync(CancellationToken cancellationToken = default)`** — Retrieves the currently playing item and its playback context. Requires the `user-read-playback-state` scope.
+- **`PlayerPlayAsync(string? deviceId, List<string>? trackUris, CancellationToken cancellationToken = default)`** — Starts playback. Requires the `user-modify-playback-state` scope.
+- **`PlayerPauseAsync(string? deviceId = null, CancellationToken cancellationToken = default)`** — Pauses playback. Requires the `user-modify-playback-state` scope.
+- **`PlayerNextAsync(string? deviceId = null, CancellationToken cancellationToken = default)`** — Skips to the next track. Requires the `user-modify-playback-state` scope.
+- **`PlayerPreviousAsync(string? deviceId = null, CancellationToken cancellationToken = default)`** — Skips to the previous track. Requires the `user-modify-playback-state` scope.
+- **`PlayerSeekAsync(int positionMs, string? deviceId = null, CancellationToken cancellationToken = default)`** — Seeks to a position in the current track. Requires the `user-modify-playback-state` scope.
+- **`PlayerRepeatAsync(PlayerRepeatMode playerRepeatMode = PlayerRepeatMode.Off, string? deviceId = null, CancellationToken cancellationToken = default)`** — Sets the repeat mode. Requires the `user-modify-playback-state` scope.
+- **`PlayerShuffleAsync(PlayerShuffleMode playerShuffleMode = PlayerShuffleMode.Off, string? deviceId = null, CancellationToken cancellationToken = default)`** — Enables or disables shuffle. Requires the `user-modify-playback-state` scope.
+- **`PlayerVolumeAsync(int volumePercent, string? deviceId = null, CancellationToken cancellationToken = default)`** — Sets the playback volume. Requires the `user-modify-playback-state` scope.
 
 **Example:**
 ```csharp
 // Get available devices
 var devicesResult = await _spotifyClient.Player.DeviceGetAllAsync();
+
+// Get full playback state
+var stateResult = await _spotifyClient.Player.PlayerStateGetAsync();
+if (stateResult.IsSuccess)
+{
+    Console.WriteLine($"Playing: {stateResult.Data.Item?.Name}");
+    Console.WriteLine($"Device: {stateResult.Data.Device?.Name}");
+}
+
+// Get only the currently playing item
+var nowPlaying = await _spotifyClient.Player.CurrentlyPlayingGetAsync();
 
 // Start playback
 var trackUris = new List<string> { "spotify:track:6rqhFgbbKwnb9MLmUQDhG6" };
@@ -442,25 +481,25 @@ Provides methods for retrieving, managing, and modifying playlists and their con
   Retrieves detailed playlist information by playlist ID.
 
 - **`PlaylistItemGetAllAsync(string? id, int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)`**  
-  Retrieves paginated items from a specific playlist with support for limit and offset parameters.
+  Retrieves paginated items from a specific playlist. Requires the `playlist-read-private` scope.
 
 - **`PlaylistDetailUpdateAsync(string? id, PlaylistDetail? playlistDetail, CancellationToken cancellationToken = default)`**  
-  Updates the details of an existing playlist (name, description, public/collaborative status).
+  Updates the details of an existing playlist (name, description, public/collaborative status). Requires the `playlist-modify-public` and `playlist-modify-private` scopes.
 
 - **`PlaylistItemAddAsync(string? id, ReferenceItem? libraryItem, int? position = null, CancellationToken cancellationToken = default)`**  
-  Adds a single item to a playlist at an optional position. If position is null, the item is appended to the end.
+  Adds a single item to a playlist at an optional position. If position is null, the item is appended to the end. Requires the `playlist-modify-public` and `playlist-modify-private` scopes.
 
 - **`PlaylistItemAddAllAsync(string? id, List<ReferenceItem> libraryItems, int? position = null, CancellationToken cancellationToken = default)`**  
-  Adds multiple items to a playlist. Returns a `List<bool>` indicating success for each item.
+  Adds multiple items to a playlist in batches of up to 100 per request. Returns a `List<bool>` indicating success for each item. Requires the `playlist-modify-public` and `playlist-modify-private` scopes.
 
 - **`PlaylistItemRemoveAsync(string? id, ReferenceItem? libraryItem, CancellationToken cancellationToken = default)`**  
-  Removes a single item from a playlist.
+  Removes a single item from a playlist. Requires the `playlist-modify-public` and `playlist-modify-private` scopes.
 
 - **`PlaylistItemRemoveAllAsync(string? id, List<ReferenceItem> libraryItems, CancellationToken cancellationToken = default)`**  
-  Removes multiple items from a playlist. Returns a `List<bool>` indicating success for each item.
+  Removes multiple items from a playlist in batches of up to 100 per request. Returns a `List<bool>` indicating success for each item. Requires the `playlist-modify-public` and `playlist-modify-private` scopes.
 
 - **`PlaylistImageAddAsync(string? id, byte[]? imageData, CancellationToken cancellationToken = default)`**  
-  Adds or replaces the cover image of a playlist. The image must be in JPEG format and meet Spotify's size requirements.
+  Adds or replaces the cover image of a playlist. The image must be in JPEG format. Requires the `ugc-image-upload`, `playlist-modify-public`, and `playlist-modify-private` scopes.
 
 **`PlaylistDetail` Model:**
 
@@ -545,18 +584,15 @@ Performs search queries across Spotify's catalog, supporting multiple content ty
 
 **Available Methods:**
 - **`SearchAsync(SearchQuery? searchQuery, CancellationToken cancellationToken = default)`**  
-  Performs a search using specified criteria including ArtistName, AlbumName, TrackName, Genre, Type, Limit and Offset.  
-<p style="background-color: #856404; border-radius: .5rem; padding:.5rem;"><span style="font-weight:bold;">Note 1:&nbsp;</span>Spotify JSON is polymorphic, to handle this without impacting consumer serialization, I fudge a '$type' property on the Spotify data where received to make System.Text.Serialization work.</p>
-<p style="background-color: #856404; border-radius: .5rem; padding:.5rem;"><span style="font-weight:bold;">Note 2:&nbsp;</span>The Spotify search API appears to use the fields for various purposes based on search type, so for Audiobook the ArtistName will resolve to the Author.</p>
-<p style="background-color: #856404; border-radius: .5rem; padding:.5rem;"><span style="font-weight:bold;">Note 2:&nbsp;</span>The <span style='font-weight:bold;'>'Type'</span> property is an enum that uses bitwise, to use multiple search types its additive value.  SearchType.Track = 8, SearchType.Artist = 2, so input would need to be 10 or "Type = SearchType.Track | SearchType.Artist"</p>
-- >   
+  Performs a search using specified search Query, Type, Limit and Offset.
+<p style="background-color: #856404; border-radius: .5rem; padding:.5rem;"><span style="font-weight:bold;">Note 1:&nbsp;</span>The <span style='font-weight:bold;'>'Type'</span> property is a bitwise enum. Combine multiple search types using the <code>|</code> operator, e.g. <code>SearchType.Track | SearchType.Artist</code>.</p>
 
 
 **Example:**
 ```csharp
 var searchQuery = new SearchQuery
 {
-    TrackName = "Bohemian Rhapsody",
+    Query = "Bohemian Rhapsody",
     Type = SearchType.Track | SearchType.Artist,
     Limit = 10
 };
@@ -564,8 +600,8 @@ var searchQuery = new SearchQuery
 var searchResult = await _spotifyClient.Search.SearchAsync(searchQuery);
 if (searchResult.IsSuccess)
 {
-    var tracks = searchResult.Data.Items?.Where(i => i.Type == SearchType.Track)?.ToList() ?? [];
-    var artists = searchResult.Data.Items?.Where(i => i.Type == SearchType.Artist)?.ToList() ?? [];;
+    var tracks = searchResult.Data.Items?.Where(i => i.GetType() == typeof(Track))?.ToList() ?? [];
+    var artists = searchResult.Data.Items?.Where(i => i.GetType() == typeof(Artist))?.ToList() ?? [];
 }
 ```
 
@@ -610,6 +646,41 @@ if (trackResult.IsSuccess)
 }
 ```
 
+### IUserService
+
+Provides methods for accessing items saved in the current user's Spotify library.
+
+**Available Methods:**
+- **`MyAlbumGetAllAsync(int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)`**  
+  Retrieves a paginated list of albums saved in the current user's library. The `limit` value must be between 1 and 50. Requires the `user-library-read` scope.
+
+- **`MyEpisodeGetAllAsync(int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)`**  
+  Retrieves a paginated list of episodes saved in the current user's library. The `limit` value must be between 1 and 50. Requires the `user-library-read` and `user-read-playback-position` scopes.
+
+**Example:**
+```csharp
+// Get saved albums with pagination
+var albumsResult = await _spotifyClient.User.MyAlbumGetAllAsync(limit: 20, offset: 0);
+if (albumsResult.IsSuccess)
+{
+    foreach (var album in albumsResult.Data.Items)
+    {
+        Console.WriteLine($"Album: {album.Name}");
+    }
+    Console.WriteLine($"Total saved albums: {albumsResult.Data.Total}");
+}
+
+// Get saved episodes
+var episodesResult = await _spotifyClient.User.MyEpisodeGetAllAsync(limit: 50);
+if (episodesResult.IsSuccess)
+{
+    foreach (var episode in episodesResult.Data.Items)
+    {
+        Console.WriteLine($"Episode: {episode.Name} — {episode.Show?.Name}");
+    }
+}
+```
+
 ## SpotifyOptions Configuration
 
 The `SpotifyOptions` class contains the following properties:
@@ -620,13 +691,14 @@ The `SpotifyOptions` class contains the following properties:
 | `ClientSecret` | `string?` | Your Spotify application client secret |
 | `RedirectUri` | `string?` | The redirect URI configured in your Spotify app |
 | `Scopes` | `List<string>` | List of Spotify API scopes your application requires |
+| `VerboseLogging` | `bool` | When `true`, each service method emits additional debug-level log entries for each request |
 
 ## Error Handling
 
 All service methods return a `SpotifyResult<T>` which provides:
-- `IsSuccess` - Indicates if the operation was successful
-- `Data` - The result data (if successful)
-- Error information (if unsuccessful)
+- `IsSuccess` — `true` when `Error` is `null`; `false` otherwise
+- `Data` — the result data (populated on success)
+- `Error` — a `SpotifyError` with `Status` (HTTP status code), `Message` (human-readable description), and `Reason` (machine-readable code or exception type name)
 
 ```csharp
 var result = await _spotifyClient.Albums.AlbumGetAsync(albumId);
@@ -637,8 +709,9 @@ if (result.IsSuccess)
 }
 else
 {
-    // Handle error
-    Console.WriteLine($"Error: {result.ErrorMessage}");
+    Console.WriteLine($"Status: {result.Error?.Status}");
+    Console.WriteLine($"Message: {result.Error?.Message}");
+    Console.WriteLine($"Reason: {result.Error?.Reason}");
 }
 ```
 

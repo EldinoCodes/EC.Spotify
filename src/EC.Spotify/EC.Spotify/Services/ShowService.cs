@@ -19,18 +19,46 @@ internal class ShowService(ILogger<ShowService> logger, IOptions<SpotifyOptions>
 
     public async Task<SpotifyResult<Show>> ShowGetAsync(string? id, CancellationToken cancellationToken = default)
     {
-        var uri = string.Format(SpotifyShowUri, id);
-
-        return await _spotifyProvider.ExecuteSpotifyResultAsync<Show>("get", uri, cancellationToken: cancellationToken);
-    }
-    public async Task<SpotifyResult<SpotifyPageResult>> ShowEpisodeGetAllAsync(string? id, int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)
-    {
-        var uri = string.Format(SpotifyShowEpisodesUri, id).ToUri(new()
+        try
         {
-            { "limit", $"{limit}"},
-            { "offset", $"{offset }"}
-        });
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("ShowGetAsync called with id: {Id}", id);
 
-        return await _spotifyProvider.ExecuteSpotifyResultAsync<SpotifyPageResult>("get", uri, cancellationToken: cancellationToken);
+            var uri = string.Format(SpotifyShowUri, id);
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("ShowGetAsync requesting URI: {Uri}", uri);
+
+            return await _spotifyProvider.ExecuteSpotifyResultAsync<Show>("get", uri, cancellationToken: cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "ShowGetAsync failed for id: {Id}", id);
+            return new SpotifyResult<Show> { Error = ex.ToSpotifyError() };
+        }
+    }
+    public async Task<SpotifyResult<SpotifyPageResult<Episode>>> ShowEpisodeGetAllAsync(string? id, int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("ShowEpisodeGetAllAsync called with id: {Id}, limit: {Limit}, offset: {Offset}", id, limit, offset);
+
+            var uri = string.Format(SpotifyShowEpisodesUri, id).ToUri(new()
+            {
+                { "limit", $"{limit}"},
+                { "offset", $"{offset }"}
+            });
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("ShowEpisodeGetAllAsync requesting URI: {Uri}", uri);
+
+            return await _spotifyProvider.ExecuteSpotifyResultAsync<SpotifyPageResult<Episode>>("get", uri, cancellationToken: cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "ShowEpisodeGetAllAsync failed for id: {Id}", id);
+            return new SpotifyResult<SpotifyPageResult<Episode>> { Error = ex.ToSpotifyError() };
+        }
     }
 }

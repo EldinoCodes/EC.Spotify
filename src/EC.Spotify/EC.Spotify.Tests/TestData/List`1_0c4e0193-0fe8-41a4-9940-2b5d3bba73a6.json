@@ -1,0 +1,12 @@
+{
+  "devices" : [ {
+    "id" : "4aeeb14560726dd6f4a37bc6d5cf5e8be580e288",
+    "is_active" : true,
+    "is_private_session" : false,
+    "is_restricted" : false,
+    "name" : "ZEROTOWER",
+    "supports_volume" : true,
+    "type" : "Computer",
+    "volume_percent" : 54
+  } ]
+}

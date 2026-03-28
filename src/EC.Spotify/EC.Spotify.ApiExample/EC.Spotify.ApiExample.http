@@ -6,7 +6,7 @@
 @EC.Spotify.ChapterId = 3OCSAZnatejMEd0Q5Ohlq7
 @EC.Spotify.EpisodeId = 3UcmY44Vwv4Ldh0Jd1HZ4m
 @EC.Spotify.ShowId = 2zBUqgc1ZmvqqEdP4g2jjA
-@EC.Spotify.PlaylistId = 37i9dQZF1DXcBWIGoYBM5M
+@EC.Spotify.PlaylistId = 5qJY3DO0w0BqLmelaV2Vwq
 @EC.Spotify.TrackId = 4tjcBY787A2ZkRJpPIsGIS
 
 
@@ -123,6 +123,14 @@ Accept: application/json
 POST {{EC.Spotify.HostAddress}}/Player/transfer?deviceId=4aeeb14560726dd6f4a37bc6d5cf5e8be580e288&play=true
 Accept: application/json
 
+### player state
+GET {{EC.Spotify.HostAddress}}/Player/state
+Accept: application/json
+
+### player currently playing
+GET {{EC.Spotify.HostAddress}}/Player/currently-playing1
+Accept: application/json
+
 ### player queue get
 GET {{EC.Spotify.HostAddress}}/Player/queue
 Accept: application/json
@@ -149,6 +157,10 @@ Accept: application/json
 
 ### player seek
 POST {{EC.Spotify.HostAddress}}/Player/seek?positionMilliseconds=60000
+Accept: application/json
+
+### player volume
+POST {{EC.Spotify.HostAddress}}/Player/volume?volume=100
 Accept: application/json
 
 ### player repeat
@@ -277,7 +289,7 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "albumName": "The Downward Spiral",
+  "query": "The Downward Spiral",
   "type": 1
 }
 
@@ -287,7 +299,7 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "artistName": "Nine Inch Nails",
+  "query": "Nine Inch Nails",
   "type": 2
 }
 
@@ -297,10 +309,10 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "artistName": "Nine Inch Nails",
+  "query": "Nine Inch Nails",
   "type": 2,
-  "offset": 20,
-  "limit": 20
+  "offset": 0,
+  "limit": 10
 }
 
 ### Playlist = 4
@@ -309,7 +321,7 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "artistName": "Greatest Hits",
+  "query": "Track 10",
   "type": 4
 }
 
@@ -319,7 +331,7 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "trackName": "Reptile",
+  "query": "Reptile",
   "type": 8
 }
 
@@ -329,7 +341,7 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "trackName": "Joe Rogan Experience",
+  "query": "Joe Rogan Experience",
   "type": 16
 }
 
@@ -339,7 +351,7 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "trackName": "Back",
+  "query": "Back",
   "type": 32
 }
 
@@ -349,8 +361,7 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "artistName": "Stephen King",
-  "name": "It",
+  "query": "Stephen King name:It",
   "type": 64
 }
 
@@ -360,7 +371,7 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "trackName": "Bohemian Rhapsody",
+  "query": "Bohemian Rhapsody",
   "type": 10
 }
 

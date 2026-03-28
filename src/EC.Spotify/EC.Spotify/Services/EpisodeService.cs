@@ -1,5 +1,6 @@
 ﻿using EC.Spotify.Abstractions.Providers;
 using EC.Spotify.Abstractions.Services;
+using EC.Spotify.Extensions;
 using EC.Spotify.Models;
 using EC.Spotify.Models.Shows;
 using Microsoft.Extensions.Logging;
@@ -17,8 +18,22 @@ internal class EpisodeService(ILogger<EpisodeService> logger, IOptions<SpotifyOp
 
     public async Task<SpotifyResult<Episode>> EpisodeGetAsync(string? id, CancellationToken cancellationToken = default)
     {
-        var uri = string.Format(SpotifyEpisodeUri, id);
-        
-        return await _spotifyProvider.ExecuteSpotifyResultAsync<Episode>("get", uri, cancellationToken: cancellationToken);
+        try
+        {
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("EpisodeGetAsync called with id: {Id}", id);
+
+            var uri = string.Format(SpotifyEpisodeUri, id);
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("EpisodeGetAsync requesting URI: {Uri}", uri);
+
+            return await _spotifyProvider.ExecuteSpotifyResultAsync<Episode>("get", uri, cancellationToken: cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "EpisodeGetAsync failed for id: {Id}", id);
+            return new SpotifyResult<Episode> { Error = ex.ToSpotifyError() };
+        }
     }
 }

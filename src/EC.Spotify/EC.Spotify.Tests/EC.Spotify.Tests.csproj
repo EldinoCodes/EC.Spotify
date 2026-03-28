@@ -20,48 +20,6 @@
 	<None Update="appsettings.Development.json" Condition="Exists('appsettings.Development.json')">		
 	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	</None>
-	<None Update="TestData\AuthToken.json">
-	  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	</None>
-	<None Update="TestData\SpotifyResult_Album.json">
-	  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	</None>
-	<None Update="TestData\SpotifyResult_Artist.json">
-	  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	</None>
-	<None Update="TestData\SpotifyResult_Audiobook.json">
-	  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	</None>
-	<None Update="TestData\SpotifyResult_bool.json">
-	  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	</None>
-	<None Update="TestData\SpotifyResult_Chapter.json">
-	  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	</None>
-	<None Update="TestData\SpotifyResult_Episode.json">
-	  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	</None>
-	<None Update="TestData\SpotifyResult_List_bool.json">
-	  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	</None>
-	<None Update="TestData\SpotifyResult_List_Device.json">
-	  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	</None>
-	<None Update="TestData\SpotifyResult_PlayerQueue.json">
-	  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	</None>
-	<None Update="TestData\SpotifyResult_Playlist.json">
-	  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	</None>
-	<None Update="TestData\SpotifyResult_Show.json">
-	  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	</None>
-	<None Update="TestData\SpotifyResult_SpotifyPageResult.json">
-	  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	</None>
-	<None Update="TestData\SpotifyResult_Track.json">
-	  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	</None>
   </ItemGroup>
 
   <ItemGroup>
@@ -75,6 +33,16 @@
 
   <ItemGroup>
     <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="TestData\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="EC.Stubby">
+      <HintPath>..\..\..\..\EC.Stubby\src\EC.Stubby\EC.Stubby\bin\Debug\net10.0\EC.Stubby.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

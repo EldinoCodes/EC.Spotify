@@ -1,0 +1,1441 @@
+{
+  "currently_playing" : {
+    "album" : {
+      "album_type" : "album",
+      "artists" : [ {
+        "external_urls" : {
+          "spotify" : "https://open.spotify.com/artist/1xd4o3nvXyiD90YBml2A5T"
+        },
+        "href" : "https://api.spotify.com/v1/artists/1xd4o3nvXyiD90YBml2A5T",
+        "id" : "1xd4o3nvXyiD90YBml2A5T",
+        "name" : "Jacob Lizotte",
+        "type" : "artist",
+        "uri" : "spotify:artist:1xd4o3nvXyiD90YBml2A5T"
+      } ],
+      "available_markets" : [ "AR", "AU", "AT", "BE", "BO", "BR", "BG", "CA", "CL", "CO", "CR", "CY", "CZ", "DK", "DO", "DE", "EC", "EE", "SV", "FI", "FR", "GR", "GT", "HN", "HK", "HU", "IS", "IE", "IT", "LV", "LT", "LU", "MY", "MT", "MX", "NL", "NZ", "NI", "NO", "PA", "PY", "PE", "PH", "PL", "PT", "SG", "SK", "ES", "SE", "CH", "TW", "TR", "UY", "US", "GB", "AD", "LI", "MC", "ID", "JP", "TH", "VN", "RO", "IL", "ZA", "SA", "AE", "BH", "QA", "OM", "KW", "EG", "MA", "DZ", "TN", "LB", "JO", "PS", "IN", "BY", "KZ", "MD", "UA", "AL", "BA", "HR", "ME", "MK", "RS", "SI", "KR", "BD", "PK", "LK", "GH", "KE", "NG", "TZ", "UG", "AG", "AM", "BS", "BB", "BZ", "BT", "BW", "BF", "CV", "CW", "DM", "FJ", "GM", "GE", "GD", "GW", "GY", "HT", "JM", "KI", "LS", "LR", "MW", "MV", "ML", "MH", "FM", "NA", "NR", "NE", "PW", "PG", "PR", "WS", "SM", "ST", "SN", "SC", "SL", "SB", "KN", "LC", "VC", "SR", "TL", "TO", "TT", "TV", "VU", "AZ", "BN", "BI", "KH", "CM", "TD", "KM", "GQ", "SZ", "GA", "GN", "KG", "LA", "MO", "MR", "MN", "NP", "RW", "TG", "UZ", "ZW", "BJ", "MG", "MU", "MZ", "AO", "CI", "DJ", "ZM", "CD", "CG", "IQ", "LY", "TJ", "VE", "ET", "XK" ],
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/album/5SzNFjVDcv21a4yMMlBanq"
+      },
+      "href" : "https://api.spotify.com/v1/albums/5SzNFjVDcv21a4yMMlBanq",
+      "id" : "5SzNFjVDcv21a4yMMlBanq",
+      "images" : [ {
+        "height" : 640,
+        "url" : "https://i.scdn.co/image/ab67616d0000b273cc0639f196d3d81e2cd8e453",
+        "width" : 640
+      }, {
+        "height" : 300,
+        "url" : "https://i.scdn.co/image/ab67616d00001e02cc0639f196d3d81e2cd8e453",
+        "width" : 300
+      }, {
+        "height" : 64,
+        "url" : "https://i.scdn.co/image/ab67616d00004851cc0639f196d3d81e2cd8e453",
+        "width" : 64
+      } ],
+      "name" : "Eternal Chaos",
+      "release_date" : "2025-01-26",
+      "release_date_precision" : "day",
+      "total_tracks" : 10,
+      "type" : "album",
+      "uri" : "spotify:album:5SzNFjVDcv21a4yMMlBanq"
+    },
+    "artists" : [ {
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/artist/1xd4o3nvXyiD90YBml2A5T"
+      },
+      "href" : "https://api.spotify.com/v1/artists/1xd4o3nvXyiD90YBml2A5T",
+      "id" : "1xd4o3nvXyiD90YBml2A5T",
+      "name" : "Jacob Lizotte",
+      "type" : "artist",
+      "uri" : "spotify:artist:1xd4o3nvXyiD90YBml2A5T"
+    } ],
+    "available_markets" : [ "AR", "AU", "AT", "BE", "BO", "BR", "BG", "CA", "CL", "CO", "CR", "CY", "CZ", "DK", "DO", "DE", "EC", "EE", "SV", "FI", "FR", "GR", "GT", "HN", "HK", "HU", "IS", "IE", "IT", "LV", "LT", "LU", "MY", "MT", "MX", "NL", "NZ", "NI", "NO", "PA", "PY", "PE", "PH", "PL", "PT", "SG", "SK", "ES", "SE", "CH", "TW", "TR", "UY", "US", "GB", "AD", "LI", "MC", "ID", "JP", "TH", "VN", "RO", "IL", "ZA", "SA", "AE", "BH", "QA", "OM", "KW", "EG", "MA", "DZ", "TN", "LB", "JO", "PS", "IN", "BY", "KZ", "MD", "UA", "AL", "BA", "HR", "ME", "MK", "RS", "SI", "KR", "BD", "PK", "LK", "GH", "KE", "NG", "TZ", "UG", "AG", "AM", "BS", "BB", "BZ", "BT", "BW", "BF", "CV", "CW", "DM", "FJ", "GM", "GE", "GD", "GW", "GY", "HT", "JM", "KI", "LS", "LR", "MW", "MV", "ML", "MH", "FM", "NA", "NR", "NE", "PW", "PG", "PR", "WS", "SM", "ST", "SN", "SC", "SL", "SB", "KN", "LC", "VC", "SR", "TL", "TO", "TT", "TV", "VU", "AZ", "BN", "BI", "KH", "CM", "TD", "KM", "GQ", "SZ", "GA", "GN", "KG", "LA", "MO", "MR", "MN", "NP", "RW", "TG", "UZ", "ZW", "BJ", "MG", "MU", "MZ", "AO", "CI", "DJ", "ZM", "CD", "CG", "IQ", "LY", "TJ", "VE", "ET", "XK" ],
+    "disc_number" : 1,
+    "duration_ms" : 260797,
+    "explicit" : false,
+    "external_ids" : {
+      "isrc" : "QZDA52567597"
+    },
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/track/1DbrowIHEkGDAZ9lVYbmPN"
+    },
+    "href" : "https://api.spotify.com/v1/tracks/1DbrowIHEkGDAZ9lVYbmPN",
+    "id" : "1DbrowIHEkGDAZ9lVYbmPN",
+    "is_local" : false,
+    "name" : "Relapse",
+    "popularity" : 14,
+    "preview_url" : null,
+    "track_number" : 2,
+    "type" : "track",
+    "uri" : "spotify:track:1DbrowIHEkGDAZ9lVYbmPN"
+  },
+  "queue" : [ {
+    "album" : {
+      "album_type" : "album",
+      "artists" : [ {
+        "external_urls" : {
+          "spotify" : "https://open.spotify.com/artist/0ETqTTpMXgqLvMoe9gemNa"
+        },
+        "href" : "https://api.spotify.com/v1/artists/0ETqTTpMXgqLvMoe9gemNa",
+        "id" : "0ETqTTpMXgqLvMoe9gemNa",
+        "name" : "Von Spriggan",
+        "type" : "artist",
+        "uri" : "spotify:artist:0ETqTTpMXgqLvMoe9gemNa"
+      } ],
+      "available_markets" : [ "AR", "AU", "AT", "BE", "BO", "BR", "BG", "CA", "CL", "CO", "CR", "CY", "CZ", "DK", "DO", "DE", "EC", "EE", "SV", "FI", "FR", "GR", "GT", "HN", "HK", "HU", "IS", "IE", "IT", "LV", "LT", "LU", "MY", "MT", "MX", "NL", "NZ", "NI", "NO", "PA", "PY", "PE", "PH", "PL", "PT", "SG", "SK", "ES", "SE", "CH", "TW", "TR", "UY", "US", "GB", "AD", "LI", "MC", "ID", "JP", "TH", "VN", "RO", "IL", "ZA", "SA", "AE", "BH", "QA", "OM", "KW", "EG", "MA", "DZ", "TN", "LB", "JO", "PS", "IN", "BY", "KZ", "MD", "UA", "AL", "BA", "HR", "ME", "MK", "RS", "SI", "KR", "BD", "PK", "LK", "GH", "KE", "NG", "TZ", "UG", "AG", "AM", "BS", "BB", "BZ", "BT", "BW", "BF", "CV", "CW", "DM", "FJ", "GM", "GE", "GD", "GW", "GY", "HT", "JM", "KI", "LS", "LR", "MW", "MV", "ML", "MH", "FM", "NA", "NR", "NE", "PW", "PG", "PR", "WS", "SM", "ST", "SN", "SC", "SL", "SB", "KN", "LC", "VC", "SR", "TL", "TO", "TT", "TV", "VU", "AZ", "BN", "BI", "KH", "CM", "TD", "KM", "GQ", "SZ", "GA", "GN", "KG", "LA", "MO", "MR", "MN", "NP", "RW", "TG", "UZ", "ZW", "BJ", "MG", "MU", "MZ", "AO", "CI", "DJ", "ZM", "CD", "CG", "IQ", "LY", "TJ", "VE", "ET", "XK" ],
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/album/2F5mMM1Tf9PWygIIXZTpDg"
+      },
+      "href" : "https://api.spotify.com/v1/albums/2F5mMM1Tf9PWygIIXZTpDg",
+      "id" : "2F5mMM1Tf9PWygIIXZTpDg",
+      "images" : [ {
+        "height" : 640,
+        "url" : "https://i.scdn.co/image/ab67616d0000b27366a3f4cfe6c66395b78d6908",
+        "width" : 640
+      }, {
+        "height" : 300,
+        "url" : "https://i.scdn.co/image/ab67616d00001e0266a3f4cfe6c66395b78d6908",
+        "width" : 300
+      }, {
+        "height" : 64,
+        "url" : "https://i.scdn.co/image/ab67616d0000485166a3f4cfe6c66395b78d6908",
+        "width" : 64
+      } ],
+      "name" : "Music to Kill Bosses to (Instrumental)",
+      "release_date" : "2024-05-04",
+      "release_date_precision" : "day",
+      "total_tracks" : 8,
+      "type" : "album",
+      "uri" : "spotify:album:2F5mMM1Tf9PWygIIXZTpDg"
+    },
+    "artists" : [ {
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/artist/0ETqTTpMXgqLvMoe9gemNa"
+      },
+      "href" : "https://api.spotify.com/v1/artists/0ETqTTpMXgqLvMoe9gemNa",
+      "id" : "0ETqTTpMXgqLvMoe9gemNa",
+      "name" : "Von Spriggan",
+      "type" : "artist",
+      "uri" : "spotify:artist:0ETqTTpMXgqLvMoe9gemNa"
+    } ],
+    "available_markets" : [ "AR", "AU", "AT", "BE", "BO", "BR", "BG", "CA", "CL", "CO", "CR", "CY", "CZ", "DK", "DO", "DE", "EC", "EE", "SV", "FI", "FR", "GR", "GT", "HN", "HK", "HU", "IS", "IE", "IT", "LV", "LT", "LU", "MY", "MT", "MX", "NL", "NZ", "NI", "NO", "PA", "PY", "PE", "PH", "PL", "PT", "SG", "SK", "ES", "SE", "CH", "TW", "TR", "UY", "US", "GB", "AD", "LI", "MC", "ID", "JP", "TH", "VN", "RO", "IL", "ZA", "SA", "AE", "BH", "QA", "OM", "KW", "EG", "MA", "DZ", "TN", "LB", "JO", "PS", "IN", "BY", "KZ", "MD", "UA", "AL", "BA", "HR", "ME", "MK", "RS", "SI", "KR", "BD", "PK", "LK", "GH", "KE", "NG", "TZ", "UG", "AG", "AM", "BS", "BB", "BZ", "BT", "BW", "BF", "CV", "CW", "DM", "FJ", "GM", "GE", "GD", "GW", "GY", "HT", "JM", "KI", "LS", "LR", "MW", "MV", "ML", "MH", "FM", "NA", "NR", "NE", "PW", "PG", "PR", "WS", "SM", "ST", "SN", "SC", "SL", "SB", "KN", "LC", "VC", "SR", "TL", "TO", "TT", "TV", "VU", "AZ", "BN", "BI", "KH", "CM", "TD", "KM", "GQ", "SZ", "GA", "GN", "KG", "LA", "MO", "MR", "MN", "NP", "RW", "TG", "UZ", "ZW", "BJ", "MG", "MU", "MZ", "AO", "CI", "DJ", "ZM", "CD", "CG", "IQ", "LY", "TJ", "VE", "ET", "XK" ],
+    "disc_number" : 1,
+    "duration_ms" : 210000,
+    "explicit" : false,
+    "external_ids" : {
+      "isrc" : "QZHNC2462910"
+    },
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/track/2hYH278EJ30I86UlBkOrdS"
+    },
+    "href" : "https://api.spotify.com/v1/tracks/2hYH278EJ30I86UlBkOrdS",
+    "id" : "2hYH278EJ30I86UlBkOrdS",
+    "is_local" : false,
+    "name" : "Come and get them - instrumental",
+    "popularity" : 17,
+    "preview_url" : null,
+    "track_number" : 4,
+    "type" : "track",
+    "uri" : "spotify:track:2hYH278EJ30I86UlBkOrdS"
+  }, {
+    "album" : {
+      "album_type" : "album",
+      "artists" : [ {
+        "external_urls" : {
+          "spotify" : "https://open.spotify.com/artist/1xd4o3nvXyiD90YBml2A5T"
+        },
+        "href" : "https://api.spotify.com/v1/artists/1xd4o3nvXyiD90YBml2A5T",
+        "id" : "1xd4o3nvXyiD90YBml2A5T",
+        "name" : "Jacob Lizotte",
+        "type" : "artist",
+        "uri" : "spotify:artist:1xd4o3nvXyiD90YBml2A5T"
+      } ],
+      "available_markets" : [ "AR", "AU", "AT", "BE", "BO", "BR", "BG", "CA", "CL", "CO", "CR", "CY", "CZ", "DK", "DO", "DE", "EC", "EE", "SV", "FI", "FR", "GR", "GT", "HN", "HK", "HU", "IS", "IE", "IT", "LV", "LT", "LU", "MY", "MT", "MX", "NL", "NZ", "NI", "NO", "PA", "PY", "PE", "PH", "PL", "PT", "SG", "SK", "ES", "SE", "CH", "TW", "TR", "UY", "US", "GB", "AD", "LI", "MC", "ID", "JP", "TH", "VN", "RO", "IL", "ZA", "SA", "AE", "BH", "QA", "OM", "KW", "EG", "MA", "DZ", "TN", "LB", "JO", "PS", "IN", "BY", "KZ", "MD", "UA", "AL", "BA", "HR", "ME", "MK", "RS", "SI", "KR", "BD", "PK", "LK", "GH", "KE", "NG", "TZ", "UG", "AG", "AM", "BS", "BB", "BZ", "BT", "BW", "BF", "CV", "CW", "DM", "FJ", "GM", "GE", "GD", "GW", "GY", "HT", "JM", "KI", "LS", "LR", "MW", "MV", "ML", "MH", "FM", "NA", "NR", "NE", "PW", "PG", "PR", "WS", "SM", "ST", "SN", "SC", "SL", "SB", "KN", "LC", "VC", "SR", "TL", "TO", "TT", "TV", "VU", "AZ", "BN", "BI", "KH", "CM", "TD", "KM", "GQ", "SZ", "GA", "GN", "KG", "LA", "MO", "MR", "MN", "NP", "RW", "TG", "UZ", "ZW", "BJ", "MG", "MU", "MZ", "AO", "CI", "DJ", "ZM", "CD", "CG", "IQ", "LY", "TJ", "VE", "ET", "XK" ],
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/album/6WweMzImtTStbVUjzNqcDi"
+      },
+      "href" : "https://api.spotify.com/v1/albums/6WweMzImtTStbVUjzNqcDi",
+      "id" : "6WweMzImtTStbVUjzNqcDi",
+      "images" : [ {
+        "height" : 640,
+        "url" : "https://i.scdn.co/image/ab67616d0000b273d3877e6361aed4874a69d86b",
+        "width" : 640
+      }, {
+        "height" : 300,
+        "url" : "https://i.scdn.co/image/ab67616d00001e02d3877e6361aed4874a69d86b",
+        "width" : 300
+      }, {
+        "height" : 64,
+        "url" : "https://i.scdn.co/image/ab67616d00004851d3877e6361aed4874a69d86b",
+        "width" : 64
+      } ],
+      "name" : "The Wake",
+      "release_date" : "2025-02-19",
+      "release_date_precision" : "day",
+      "total_tracks" : 10,
+      "type" : "album",
+      "uri" : "spotify:album:6WweMzImtTStbVUjzNqcDi"
+    },
+    "artists" : [ {
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/artist/1xd4o3nvXyiD90YBml2A5T"
+      },
+      "href" : "https://api.spotify.com/v1/artists/1xd4o3nvXyiD90YBml2A5T",
+      "id" : "1xd4o3nvXyiD90YBml2A5T",
+      "name" : "Jacob Lizotte",
+      "type" : "artist",
+      "uri" : "spotify:artist:1xd4o3nvXyiD90YBml2A5T"
+    } ],
+    "available_markets" : [ "AR", "AU", "AT", "BE", "BO", "BR", "BG", "CA", "CL", "CO", "CR", "CY", "CZ", "DK", "DO", "DE", "EC", "EE", "SV", "FI", "FR", "GR", "GT", "HN", "HK", "HU", "IS", "IE", "IT", "LV", "LT", "LU", "MY", "MT", "MX", "NL", "NZ", "NI", "NO", "PA", "PY", "PE", "PH", "PL", "PT", "SG", "SK", "ES", "SE", "CH", "TW", "TR", "UY", "US", "GB", "AD", "LI", "MC", "ID", "JP", "TH", "VN", "RO", "IL", "ZA", "SA", "AE", "BH", "QA", "OM", "KW", "EG", "MA", "DZ", "TN", "LB", "JO", "PS", "IN", "BY", "KZ", "MD", "UA", "AL", "BA", "HR", "ME", "MK", "RS", "SI", "KR", "BD", "PK", "LK", "GH", "KE", "NG", "TZ", "UG", "AG", "AM", "BS", "BB", "BZ", "BT", "BW", "BF", "CV", "CW", "DM", "FJ", "GM", "GE", "GD", "GW", "GY", "HT", "JM", "KI", "LS", "LR", "MW", "MV", "ML", "MH", "FM", "NA", "NR", "NE", "PW", "PG", "PR", "WS", "SM", "ST", "SN", "SC", "SL", "SB", "KN", "LC", "VC", "SR", "TL", "TO", "TT", "TV", "VU", "AZ", "BN", "BI", "KH", "CM", "TD", "KM", "GQ", "SZ", "GA", "GN", "KG", "LA", "MO", "MR", "MN", "NP", "RW", "TG", "UZ", "ZW", "BJ", "MG", "MU", "MZ", "AO", "CI", "DJ", "ZM", "CD", "CG", "IQ", "LY", "TJ", "VE", "ET", "XK" ],
+    "disc_number" : 1,
+    "duration_ms" : 257000,
+    "explicit" : false,
+    "external_ids" : {
+      "isrc" : "QZHN32528386"
+    },
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/track/1SEuybgGPzK2KyIV6lQeXp"
+    },
+    "href" : "https://api.spotify.com/v1/tracks/1SEuybgGPzK2KyIV6lQeXp",
+    "id" : "1SEuybgGPzK2KyIV6lQeXp",
+    "is_local" : false,
+    "name" : "Unnerved",
+    "popularity" : 12,
+    "preview_url" : null,
+    "track_number" : 9,
+    "type" : "track",
+    "uri" : "spotify:track:1SEuybgGPzK2KyIV6lQeXp"
+  }, {
+    "album" : {
+      "album_type" : "album",
+      "artists" : [ {
+        "external_urls" : {
+          "spotify" : "https://open.spotify.com/artist/1xd4o3nvXyiD90YBml2A5T"
+        },
+        "href" : "https://api.spotify.com/v1/artists/1xd4o3nvXyiD90YBml2A5T",
+        "id" : "1xd4o3nvXyiD90YBml2A5T",
+        "name" : "Jacob Lizotte",
+        "type" : "artist",
+        "uri" : "spotify:artist:1xd4o3nvXyiD90YBml2A5T"
+      } ],
+      "available_markets" : [ "AR", "AU", "AT", "BE", "BO", "BR", "BG", "CA", "CL", "CO", "CR", "CY", "CZ", "DK", "DO", "DE", "EC", "EE", "SV", "FI", "FR", "GR", "GT", "HN", "HK", "HU", "IS", "IE", "IT", "LV", "LT", "LU", "MY", "MT", "MX", "NL", "NZ", "NI", "NO", "PA", "PY", "PE", "PH", "PL", "PT", "SG", "SK", "ES", "SE", "CH", "TW", "TR", "UY", "US", "GB", "AD", "LI", "MC", "ID", "JP", "TH", "VN", "RO", "IL", "ZA", "SA", "AE", "BH", "QA", "OM", "KW", "EG", "MA", "DZ", "TN", "LB", "JO", "PS", "IN", "BY", "KZ", "MD", "UA", "AL", "BA", "HR", "ME", "MK", "RS", "SI", "KR", "BD", "PK", "LK", "GH", "KE", "NG", "TZ", "UG", "AG", "AM", "BS", "BB", "BZ", "BT", "BW", "BF", "CV", "CW", "DM", "FJ", "GM", "GE", "GD", "GW", "GY", "HT", "JM", "KI", "LS", "LR", "MW", "MV", "ML", "MH", "FM", "NA", "NR", "NE", "PW", "PG", "PR", "WS", "SM", "ST", "SN", "SC", "SL", "SB", "KN", "LC", "VC", "SR", "TL", "TO", "TT", "TV", "VU", "AZ", "BN", "BI", "KH", "CM", "TD", "KM", "GQ", "SZ", "GA", "GN", "KG", "LA", "MO", "MR", "MN", "NP", "RW", "TG", "UZ", "ZW", "BJ", "MG", "MU", "MZ", "AO", "CI", "DJ", "ZM", "CD", "CG", "IQ", "LY", "TJ", "VE", "ET", "XK" ],
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/album/7trVltDzj6YLMWcnCT5lCv"
+      },
+      "href" : "https://api.spotify.com/v1/albums/7trVltDzj6YLMWcnCT5lCv",
+      "id" : "7trVltDzj6YLMWcnCT5lCv",
+      "images" : [ {
+        "height" : 640,
+        "url" : "https://i.scdn.co/image/ab67616d0000b27343bfaf438213421a22fe6cdd",
+        "width" : 640
+      }, {
+        "height" : 300,
+        "url" : "https://i.scdn.co/image/ab67616d00001e0243bfaf438213421a22fe6cdd",
+        "width" : 300
+      }, {
+        "height" : 64,
+        "url" : "https://i.scdn.co/image/ab67616d0000485143bfaf438213421a22fe6cdd",
+        "width" : 64
+      } ],
+      "name" : "Dying Season",
+      "release_date" : "2021-09-30",
+      "release_date_precision" : "day",
+      "total_tracks" : 10,
+      "type" : "album",
+      "uri" : "spotify:album:7trVltDzj6YLMWcnCT5lCv"
+    },
+    "artists" : [ {
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/artist/1xd4o3nvXyiD90YBml2A5T"
+      },
+      "href" : "https://api.spotify.com/v1/artists/1xd4o3nvXyiD90YBml2A5T",
+      "id" : "1xd4o3nvXyiD90YBml2A5T",
+      "name" : "Jacob Lizotte",
+      "type" : "artist",
+      "uri" : "spotify:artist:1xd4o3nvXyiD90YBml2A5T"
+    } ],
+    "available_markets" : [ "AR", "AU", "AT", "BE", "BO", "BR", "BG", "CA", "CL", "CO", "CR", "CY", "CZ", "DK", "DO", "DE", "EC", "EE", "SV", "FI", "FR", "GR", "GT", "HN", "HK", "HU", "IS", "IE", "IT", "LV", "LT", "LU", "MY", "MT", "MX", "NL", "NZ", "NI", "NO", "PA", "PY", "PE", "PH", "PL", "PT", "SG", "SK", "ES", "SE", "CH", "TW", "TR", "UY", "US", "GB", "AD", "LI", "MC", "ID", "JP", "TH", "VN", "RO", "IL", "ZA", "SA", "AE", "BH", "QA", "OM", "KW", "EG", "MA", "DZ", "TN", "LB", "JO", "PS", "IN", "BY", "KZ", "MD", "UA", "AL", "BA", "HR", "ME", "MK", "RS", "SI", "KR", "BD", "PK", "LK", "GH", "KE", "NG", "TZ", "UG", "AG", "AM", "BS", "BB", "BZ", "BT", "BW", "BF", "CV", "CW", "DM", "FJ", "GM", "GE", "GD", "GW", "GY", "HT", "JM", "KI", "LS", "LR", "MW", "MV", "ML", "MH", "FM", "NA", "NR", "NE", "PW", "PG", "PR", "WS", "SM", "ST", "SN", "SC", "SL", "SB", "KN", "LC", "VC", "SR", "TL", "TO", "TT", "TV", "VU", "AZ", "BN", "BI", "KH", "CM", "TD", "KM", "GQ", "SZ", "GA", "GN", "KG", "LA", "MO", "MR", "MN", "NP", "RW", "TG", "UZ", "ZW", "BJ", "MG", "MU", "MZ", "AO", "CI", "DJ", "ZM", "CD", "CG", "IQ", "LY", "TJ", "VE", "ET", "XK" ],
+    "disc_number" : 1,
+    "duration_ms" : 258911,
+    "explicit" : false,
+    "external_ids" : {
+      "isrc" : "QZNWR2143824"
+    },
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/track/4QYQXZJiEobeU6FKCXhpoU"
+    },
+    "href" : "https://api.spotify.com/v1/tracks/4QYQXZJiEobeU6FKCXhpoU",
+    "id" : "4QYQXZJiEobeU6FKCXhpoU",
+    "is_local" : false,
+    "name" : "Unbreakable",
+    "popularity" : 17,
+    "preview_url" : null,
+    "track_number" : 10,
+    "type" : "track",
+    "uri" : "spotify:track:4QYQXZJiEobeU6FKCXhpoU"
+  }, {
+    "album" : {
+      "album_type" : "single",
+      "artists" : [ {
+        "external_urls" : {
+          "spotify" : "https://open.spotify.com/artist/3tTDfNXZMDWXaQGlvXE8Lk"
+        },
+        "href" : "https://api.spotify.com/v1/artists/3tTDfNXZMDWXaQGlvXE8Lk",
+        "id" : "3tTDfNXZMDWXaQGlvXE8Lk",
+        "name" : "The Dark Atom",
+        "type" : "artist",
+        "uri" : "spotify:artist:3tTDfNXZMDWXaQGlvXE8Lk"
+      } ],
+      "available_markets" : [ "AR", "AU", "AT", "BE", "BO", "BR", "BG", "CA", "CL", "CO", "CR", "CY", "CZ", "DK", "DO", "DE", "EC", "EE", "SV", "FI", "FR", "GR", "GT", "HN", "HK", "HU", "IS", "IE", "IT", "LV", "LT", "LU", "MY", "MT", "MX", "NL", "NZ", "NI", "NO", "PA", "PY", "PE", "PH", "PL", "PT", "SG", "SK", "ES", "SE", "CH", "TW", "TR", "UY", "US", "GB", "AD", "LI", "MC", "ID", "JP", "TH", "VN", "RO", "IL", "ZA", "SA", "AE", "BH", "QA", "OM", "KW", "EG", "MA", "DZ", "TN", "LB", "JO", "PS", "IN", "BY", "KZ", "MD", "UA", "AL", "BA", "HR", "ME", "MK", "RS", "SI", "KR", "BD", "PK", "LK", "GH", "KE", "NG", "TZ", "UG", "AG", "AM", "BS", "BB", "BZ", "BT", "BW", "BF", "CV", "CW", "DM", "FJ", "GM", "GE", "GD", "GW", "GY", "HT", "JM", "KI", "LS", "LR", "MW", "MV", "ML", "MH", "FM", "NA", "NR", "NE", "PW", "PG", "PR", "WS", "SM", "ST", "SN", "SC", "SL", "SB", "KN", "LC", "VC", "SR", "TL", "TO", "TT", "TV", "VU", "AZ", "BN", "BI", "KH", "CM", "TD", "KM", "GQ", "SZ", "GA", "GN", "KG", "LA", "MO", "MR", "MN", "NP", "RW", "TG", "UZ", "ZW", "BJ", "MG", "MU", "MZ", "AO", "CI", "DJ", "ZM", "CD", "CG", "IQ", "LY", "TJ", "VE", "ET", "XK" ],
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/album/0au44tLJmdqQMw8Fk3fX7h"
+      },
+      "href" : "https://api.spotify.com/v1/albums/0au44tLJmdqQMw8Fk3fX7h",
+      "id" : "0au44tLJmdqQMw8Fk3fX7h",
+      "images" : [ {
+        "height" : 640,
+        "url" : "https://i.scdn.co/image/ab67616d0000b27325f6b56910961981f015d9d2",
+        "width" : 640
+      }, {
+        "height" : 300,
+        "url" : "https://i.scdn.co/image/ab67616d00001e0225f6b56910961981f015d9d2",
+        "width" : 300
+      }, {
+        "height" : 64,
+        "url" : "https://i.scdn.co/image/ab67616d0000485125f6b56910961981f015d9d2",
+        "width" : 64
+      } ],
+      "name" : "Ancients",
+      "release_date" : "2023-01-07",
+      "release_date_precision" : "day",
+      "total_tracks" : 2,
+      "type" : "album",
+      "uri" : "spotify:album:0au44tLJmdqQMw8Fk3fX7h"
+    },
+    "artists" : [ {
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/artist/3tTDfNXZMDWXaQGlvXE8Lk"
+      },
+      "href" : "https://api.spotify.com/v1/artists/3tTDfNXZMDWXaQGlvXE8Lk",
+      "id" : "3tTDfNXZMDWXaQGlvXE8Lk",
+      "name" : "The Dark Atom",
+      "type" : "artist",
+      "uri" : "spotify:artist:3tTDfNXZMDWXaQGlvXE8Lk"
+    } ],
+    "available_markets" : [ "AR", "AU", "AT", "BE", "BO", "BR", "BG", "CA", "CL", "CO", "CR", "CY", "CZ", "DK", "DO", "DE", "EC", "EE", "SV", "FI", "FR", "GR", "GT", "HN", "HK", "HU", "IS", "IE", "IT", "LV", "LT", "LU", "MY", "MT", "MX", "NL", "NZ", "NI", "NO", "PA", "PY", "PE", "PH", "PL", "PT", "SG", "SK", "ES", "SE", "CH", "TW", "TR", "UY", "US", "GB", "AD", "LI", "MC", "ID", "JP", "TH", "VN", "RO", "IL", "ZA", "SA", "AE", "BH", "QA", "OM", "KW", "EG", "MA", "DZ", "TN", "LB", "JO", "PS", "IN", "BY", "KZ", "MD", "UA", "AL", "BA", "HR", "ME", "MK", "RS", "SI", "KR", "BD", "PK", "LK", "GH", "KE", "NG", "TZ", "UG", "AG", "AM", "BS", "BB", "BZ", "BT", "BW", "BF", "CV", "CW", "DM", "FJ", "GM", "GE", "GD", "GW", "GY", "HT", "JM", "KI", "LS", "LR", "MW", "MV", "ML", "MH", "FM", "NA", "NR", "NE", "PW", "PG", "PR", "WS", "SM", "ST", "SN", "SC", "SL", "SB", "KN", "LC", "VC", "SR", "TL", "TO", "TT", "TV", "VU", "AZ", "BN", "BI", "KH", "CM", "TD", "KM", "GQ", "SZ", "GA", "GN", "KG", "LA", "MO", "MR", "MN", "NP", "RW", "TG", "UZ", "ZW", "BJ", "MG", "MU", "MZ", "AO", "CI", "DJ", "ZM", "CD", "CG", "IQ", "LY", "TJ", "VE", "ET", "XK" ],
+    "disc_number" : 1,
+    "duration_ms" : 223000,
+    "explicit" : false,
+    "external_ids" : {
+      "isrc" : "CH6542302963"
+    },
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/track/0ihizG6Zq6fXGokUKZllXi"
+    },
+    "href" : "https://api.spotify.com/v1/tracks/0ihizG6Zq6fXGokUKZllXi",
+    "id" : "0ihizG6Zq6fXGokUKZllXi",
+    "is_local" : false,
+    "name" : "Cosmic Annihilation",
+    "popularity" : 0,
+    "preview_url" : null,
+    "track_number" : 1,
+    "type" : "track",
+    "uri" : "spotify:track:0ihizG6Zq6fXGokUKZllXi"
+  }, {
+    "album" : {
+      "album_type" : "album",
+      "artists" : [ {
+        "external_urls" : {
+          "spotify" : "https://open.spotify.com/artist/1xd4o3nvXyiD90YBml2A5T"
+        },
+        "href" : "https://api.spotify.com/v1/artists/1xd4o3nvXyiD90YBml2A5T",
+        "id" : "1xd4o3nvXyiD90YBml2A5T",
+        "name" : "Jacob Lizotte",
+        "type" : "artist",
+        "uri" : "spotify:artist:1xd4o3nvXyiD90YBml2A5T"
+      } ],
+      "available_markets" : [ "AR", "AU", "AT", "BE", "BO", "BR", "BG", "CA", "CL", "CO", "CR", "CY", "CZ", "DK", "DO", "DE", "EC", "EE", "SV", "FI", "FR", "GR", "GT", "HN", "HK", "HU", "IS", "IE", "IT", "LV", "LT", "LU", "MY", "MT", "MX", "NL", "NZ", "NI", "NO", "PA", "PY", "PE", "PH", "PL", "PT", "SG", "SK", "ES", "SE", "CH", "TW", "TR", "UY", "US", "GB", "AD", "LI", "MC", "ID", "JP", "TH", "VN", "RO", "IL", "ZA", "SA", "AE", "BH", "QA", "OM", "KW", "EG", "MA", "DZ", "TN", "LB", "JO", "PS", "IN", "BY", "KZ", "MD", "UA", "AL", "BA", "HR", "ME", "MK", "RS", "SI", "KR", "BD", "PK", "LK", "GH", "KE", "NG", "TZ", "UG", "AG", "AM", "BS", "BB", "BZ", "BT", "BW", "BF", "CV", "CW", "DM", "FJ", "GM", "GE", "GD", "GW", "GY", "HT", "JM", "KI", "LS", "LR", "MW", "MV", "ML", "MH", "FM", "NA", "NR", "NE", "PW", "PG", "PR", "WS", "SM", "ST", "SN", "SC", "SL", "SB", "KN", "LC", "VC", "SR", "TL", "TO", "TT", "TV", "VU", "AZ", "BN", "BI", "KH", "CM", "TD", "KM", "GQ", "SZ", "GA", "GN", "KG", "LA", "MO", "MR", "MN", "NP", "RW", "TG", "UZ", "ZW", "BJ", "MG", "MU", "MZ", "AO", "CI", "DJ", "ZM", "CD", "CG", "IQ", "LY", "TJ", "VE", "ET", "XK" ],
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/album/5afYr3I2U8yTBzHCgkEeh7"
+      },
+      "href" : "https://api.spotify.com/v1/albums/5afYr3I2U8yTBzHCgkEeh7",
+      "id" : "5afYr3I2U8yTBzHCgkEeh7",
+      "images" : [ {
+        "height" : 640,
+        "url" : "https://i.scdn.co/image/ab67616d0000b273887cc2085e74e7471d48e3cc",
+        "width" : 640
+      }, {
+        "height" : 300,
+        "url" : "https://i.scdn.co/image/ab67616d00001e02887cc2085e74e7471d48e3cc",
+        "width" : 300
+      }, {
+        "height" : 64,
+        "url" : "https://i.scdn.co/image/ab67616d00004851887cc2085e74e7471d48e3cc",
+        "width" : 64
+      } ],
+      "name" : "Total Collapse",
+      "release_date" : "2024-12-01",
+      "release_date_precision" : "day",
+      "total_tracks" : 9,
+      "type" : "album",
+      "uri" : "spotify:album:5afYr3I2U8yTBzHCgkEeh7"
+    },
+    "artists" : [ {
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/artist/1xd4o3nvXyiD90YBml2A5T"
+      },
+      "href" : "https://api.spotify.com/v1/artists/1xd4o3nvXyiD90YBml2A5T",
+      "id" : "1xd4o3nvXyiD90YBml2A5T",
+      "name" : "Jacob Lizotte",
+      "type" : "artist",
+      "uri" : "spotify:artist:1xd4o3nvXyiD90YBml2A5T"
+    } ],
+    "available_markets" : [ "AR", "AU", "AT", "BE", "BO", "BR", "BG", "CA", "CL", "CO", "CR", "CY", "CZ", "DK", "DO", "DE", "EC", "EE", "SV", "FI", "FR", "GR", "GT", "HN", "HK", "HU", "IS", "IE", "IT", "LV", "LT", "LU", "MY", "MT", "MX", "NL", "NZ", "NI", "NO", "PA", "PY", "PE", "PH", "PL", "PT", "SG", "SK", "ES", "SE", "CH", "TW", "TR", "UY", "US", "GB", "AD", "LI", "MC", "ID", "JP", "TH", "VN", "RO", "IL", "ZA", "SA", "AE", "BH", "QA", "OM", "KW", "EG", "MA", "DZ", "TN", "LB", "JO", "PS", "IN", "BY", "KZ", "MD", "UA", "AL", "BA", "HR", "ME", "MK", "RS", "SI", "KR", "BD", "PK", "LK", "GH", "KE", "NG", "TZ", "UG", "AG", "AM", "BS", "BB", "BZ", "BT", "BW", "BF", "CV", "CW", "DM", "FJ", "GM", "GE", "GD", "GW", "GY", "HT", "JM", "KI", "LS", "LR", "MW", "MV", "ML", "MH", "FM", "NA", "NR", "NE", "PW", "PG", "PR", "WS", "SM", "ST", "SN", "SC", "SL", "SB", "KN", "LC", "VC", "SR", "TL", "TO", "TT", "TV", "VU", "AZ", "BN", "BI", "KH", "CM", "TD", "KM", "GQ", "SZ", "GA", "GN", "KG", "LA", "MO", "MR", "MN", "NP", "RW", "TG", "UZ", "ZW", "BJ", "MG", "MU", "MZ", "AO", "CI", "DJ", "ZM", "CD", "CG", "IQ", "LY", "TJ", "VE", "ET", "XK" ],
+    "disc_number" : 1,
+    "duration_ms" : 301500,
+    "explicit" : false,
+    "external_ids" : {
+      "isrc" : "QZZ7R2427979"
+    },
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/track/7j1JiznpnNnaaEjbXg8FRe"
+    },
+    "href" : "https://api.spotify.com/v1/tracks/7j1JiznpnNnaaEjbXg8FRe",
+    "id" : "7j1JiznpnNnaaEjbXg8FRe",
+    "is_local" : false,
+    "name" : "Unhallowed",
+    "popularity" : 14,
+    "preview_url" : null,
+    "track_number" : 1,
+    "type" : "track",
+    "uri" : "spotify:track:7j1JiznpnNnaaEjbXg8FRe"
+  }, {
+    "album" : {
+      "album_type" : "album",
+      "artists" : [ {
+        "external_urls" : {
+          "spotify" : "https://open.spotify.com/artist/1xd4o3nvXyiD90YBml2A5T"
+        },
+        "href" : "https://api.spotify.com/v1/artists/1xd4o3nvXyiD90YBml2A5T",
+        "id" : "1xd4o3nvXyiD90YBml2A5T",
+        "name" : "Jacob Lizotte",
+        "type" : "artist",
+        "uri" : "spotify:artist:1xd4o3nvXyiD90YBml2A5T"
+      } ],
+      "available_markets" : [ "AR", "AU", "AT", "BE", "BO", "BR", "BG", "CA", "CL", "CO", "CR", "CY", "CZ", "DK", "DO", "DE", "EC", "EE", "SV", "FI", "FR", "GR", "GT", "HN", "HK", "HU", "IS", "IE", "IT", "LV", "LT", "LU", "MY", "MT", "MX", "NL", "NZ", "NI", "NO", "PA", "PY", "PE", "PH", "PL", "PT", "SG", "SK", "ES", "SE", "CH", "TW", "TR", "UY", "US", "GB", "AD", "LI", "MC", "ID", "JP", "TH", "VN", "RO", "IL", "ZA", "SA", "AE", "BH", "QA", "OM", "KW", "EG", "MA", "DZ", "TN", "LB", "JO", "PS", "IN", "BY", "KZ", "MD", "UA", "AL", "BA", "HR", "ME", "MK", "RS", "SI", "KR", "BD", "PK", "LK", "GH", "KE", "NG", "TZ", "UG", "AG", "AM", "BS", "BB", "BZ", "BT", "BW", "BF", "CV", "CW", "DM", "FJ", "GM", "GE", "GD", "GW", "GY", "HT", "JM", "KI", "LS", "LR", "MW", "MV", "ML", "MH", "FM", "NA", "NR", "NE", "PW", "PG", "PR", "WS", "SM", "ST", "SN", "SC", "SL", "SB", "KN", "LC", "VC", "SR", "TL", "TO", "TT", "TV", "VU", "AZ", "BN", "BI", "KH", "CM", "TD", "KM", "GQ", "SZ", "GA", "GN", "KG", "LA", "MO", "MR", "MN", "NP", "RW", "TG", "UZ", "ZW", "BJ", "MG", "MU", "MZ", "AO", "CI", "DJ", "ZM", "CD", "CG", "IQ", "LY", "TJ", "VE", "ET", "XK" ],
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/album/4MsOxB3fNLsvrmvvrW371e"
+      },
+      "href" : "https://api.spotify.com/v1/albums/4MsOxB3fNLsvrmvvrW371e",
+      "id" : "4MsOxB3fNLsvrmvvrW371e",
+      "images" : [ {
+        "height" : 640,
+        "url" : "https://i.scdn.co/image/ab67616d0000b2733971250dd17c7767f45e580a",
+        "width" : 640
+      }, {
+        "height" : 300,
+        "url" : "https://i.scdn.co/image/ab67616d00001e023971250dd17c7767f45e580a",
+        "width" : 300
+      }, {
+        "height" : 64,
+        "url" : "https://i.scdn.co/image/ab67616d000048513971250dd17c7767f45e580a",
+        "width" : 64
+      } ],
+      "name" : "Undefeated",
+      "release_date" : "2023-11-21",
+      "release_date_precision" : "day",
+      "total_tracks" : 10,
+      "type" : "album",
+      "uri" : "spotify:album:4MsOxB3fNLsvrmvvrW371e"
+    },
+    "artists" : [ {
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/artist/1xd4o3nvXyiD90YBml2A5T"
+      },
+      "href" : "https://api.spotify.com/v1/artists/1xd4o3nvXyiD90YBml2A5T",
+      "id" : "1xd4o3nvXyiD90YBml2A5T",
+      "name" : "Jacob Lizotte",
+      "type" : "artist",
+      "uri" : "spotify:artist:1xd4o3nvXyiD90YBml2A5T"
+    } ],
+    "available_markets" : [ "AR", "AU", "AT", "BE", "BO", "BR", "BG", "CA", "CL", "CO", "CR", "CY", "CZ", "DK", "DO", "DE", "EC", "EE", "SV", "FI", "FR", "GR", "GT", "HN", "HK", "HU", "IS", "IE", "IT", "LV", "LT", "LU", "MY", "MT", "MX", "NL", "NZ", "NI", "NO", "PA", "PY", "PE", "PH", "PL", "PT", "SG", "SK", "ES", "SE", "CH", "TW", "TR", "UY", "US", "GB", "AD", "LI", "MC", "ID", "JP", "TH", "VN", "RO", "IL", "ZA", "SA", "AE", "BH", "QA", "OM", "KW", "EG", "MA", "DZ", "TN", "LB", "JO", "PS", "IN", "BY", "KZ", "MD", "UA", "AL", "BA", "HR", "ME", "MK", "RS", "SI", "KR", "BD", "PK", "LK", "GH", "KE", "NG", "TZ", "UG", "AG", "AM", "BS", "BB", "BZ", "BT", "BW", "BF", "CV", "CW", "DM", "FJ", "GM", "GE", "GD", "GW", "GY", "HT", "JM", "KI", "LS", "LR", "MW", "MV", "ML", "MH", "FM", "NA", "NR", "NE", "PW", "PG", "PR", "WS", "SM", "ST", "SN", "SC", "SL", "SB", "KN", "LC", "VC", "SR", "TL", "TO", "TT", "TV", "VU", "AZ", "BN", "BI", "KH", "CM", "TD", "KM", "GQ", "SZ", "GA", "GN", "KG", "LA", "MO", "MR", "MN", "NP", "RW", "TG", "UZ", "ZW", "BJ", "MG", "MU", "MZ", "AO", "CI", "DJ", "ZM", "CD", "CG", "IQ", "LY", "TJ", "VE", "ET", "XK" ],
+    "disc_number" : 1,
+    "duration_ms" : 287677,
+    "explicit" : false,
+    "external_ids" : {
+      "isrc" : "QZWFG2307252"
+    },
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/track/3rQhBWYXqVYC2cbnCIdl07"
+    },
+    "href" : "https://api.spotify.com/v1/tracks/3rQhBWYXqVYC2cbnCIdl07",
+    "id" : "3rQhBWYXqVYC2cbnCIdl07",
+    "is_local" : false,
+    "name" : "Total Machine Takeover",
+    "popularity" : 14,
+    "preview_url" : null,
+    "track_number" : 5,
+    "type" : "track",
+    "uri" : "spotify:track:3rQhBWYXqVYC2cbnCIdl07"
+  }, {
+    "album" : {
+      "album_type" : "single",
+      "artists" : [ {
+        "external_urls" : {
+          "spotify" : "https://open.spotify.com/artist/6bVvggQ1yUcllPPaEqthuU"
+        },
+        "href" : "https://api.spotify.com/v1/artists/6bVvggQ1yUcllPPaEqthuU",
+        "id" : "6bVvggQ1yUcllPPaEqthuU",
+        "name" : "Nick Harris",
+        "type" : "artist",
+        "uri" : "spotify:artist:6bVvggQ1yUcllPPaEqthuU"
+      } ],
+      "available_markets" : [ "AR", "AU", "AT", "BE", "BO", "BR", "BG", "CA", "CL", "CO", "CR", "CY", "CZ", "DK", "DO", "DE", "EC", "EE", "SV", "FI", "FR", "GR", "GT", "HN", "HK", "HU", "IS", "IE", "IT", "LV", "LT", "LU", "MY", "MT", "MX", "NL", "NZ", "NI", "NO", "PA", "PY", "PE", "PH", "PL", "PT", "SG", "SK", "ES", "SE", "CH", "TW", "TR", "UY", "US", "GB", "AD", "LI", "MC", "ID", "JP", "TH", "VN", "RO", "IL", "ZA", "SA", "AE", "BH", "QA", "OM", "KW", "EG", "MA", "DZ", "TN", "LB", "JO", "PS", "IN", "BY", "KZ", "MD", "UA", "AL", "BA", "HR", "ME", "MK", "RS", "SI", "KR", "BD", "PK", "LK", "GH", "KE", "NG", "TZ", "UG", "AG", "AM", "BS", "BB", "BZ", "BT", "BW", "BF", "CV", "CW", "DM", "FJ", "GM", "GE", "GD", "GW", "GY", "HT", "JM", "KI", "LS", "LR", "MW", "MV", "ML", "MH", "FM", "NA", "NR", "NE", "PW", "PG", "PR", "WS", "SM", "ST", "SN", "SC", "SL", "SB", "KN", "LC", "VC", "SR", "TL", "TO", "TT", "TV", "VU", "AZ", "BN", "BI", "KH", "CM", "TD", "KM", "GQ", "SZ", "GA", "GN", "KG", "LA", "MO", "MR", "MN", "NP", "RW", "TG", "UZ", "ZW", "BJ", "MG", "MU", "MZ", "AO", "CI", "DJ", "ZM", "CD", "CG", "IQ", "LY", "TJ", "VE", "ET", "XK" ],
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/album/69WJVxidjWDFydSCnJs5yp"
+      },
+      "href" : "https://api.spotify.com/v1/albums/69WJVxidjWDFydSCnJs5yp",
+      "id" : "69WJVxidjWDFydSCnJs5yp",
+      "images" : [ {
+        "height" : 640,
+        "url" : "https://i.scdn.co/image/ab67616d0000b2732d43b15a823689eca5cfc665",
+        "width" : 640
+      }, {
+        "height" : 300,
+        "url" : "https://i.scdn.co/image/ab67616d00001e022d43b15a823689eca5cfc665",
+        "width" : 300
+      }, {
+        "height" : 64,
+        "url" : "https://i.scdn.co/image/ab67616d000048512d43b15a823689eca5cfc665",
+        "width" : 64
+      } ],
+      "name" : "Invent Animate Stillworld Style Djent",
+      "release_date" : "2025-10-19",
+      "release_date_precision" : "day",
+      "total_tracks" : 1,
+      "type" : "album",
+      "uri" : "spotify:album:69WJVxidjWDFydSCnJs5yp"
+    },
+    "artists" : [ {
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/artist/6bVvggQ1yUcllPPaEqthuU"
+      },
+      "href" : "https://api.spotify.com/v1/artists/6bVvggQ1yUcllPPaEqthuU",
+      "id" : "6bVvggQ1yUcllPPaEqthuU",
+      "name" : "Nick Harris",
+      "type" : "artist",
+      "uri" : "spotify:artist:6bVvggQ1yUcllPPaEqthuU"
+    } ],
+    "available_markets" : [ "AR", "AU", "AT", "BE", "BO", "BR", "BG", "CA", "CL", "CO", "CR", "CY", "CZ", "DK", "DO", "DE", "EC", "EE", "SV", "FI", "FR", "GR", "GT", "HN", "HK", "HU", "IS", "IE", "IT", "LV", "LT", "LU", "MY", "MT", "MX", "NL", "NZ", "NI", "NO", "PA", "PY", "PE", "PH", "PL", "PT", "SG", "SK", "ES", "SE", "CH", "TW", "TR", "UY", "US", "GB", "AD", "LI", "MC", "ID", "JP", "TH", "VN", "RO", "IL", "ZA", "SA", "AE", "BH", "QA", "OM", "KW", "EG", "MA", "DZ", "TN", "LB", "JO", "PS", "IN", "BY", "KZ", "MD", "UA", "AL", "BA", "HR", "ME", "MK", "RS", "SI", "KR", "BD", "PK", "LK", "GH", "KE", "NG", "TZ", "UG", "AG", "AM", "BS", "BB", "BZ", "BT", "BW", "BF", "CV", "CW", "DM", "FJ", "GM", "GE", "GD", "GW", "GY", "HT", "JM", "KI", "LS", "LR", "MW", "MV", "ML", "MH", "FM", "NA", "NR", "NE", "PW", "PG", "PR", "WS", "SM", "ST", "SN", "SC", "SL", "SB", "KN", "LC", "VC", "SR", "TL", "TO", "TT", "TV", "VU", "AZ", "BN", "BI", "KH", "CM", "TD", "KM", "GQ", "SZ", "GA", "GN", "KG", "LA", "MO", "MR", "MN", "NP", "RW", "TG", "UZ", "ZW", "BJ", "MG", "MU", "MZ", "AO", "CI", "DJ", "ZM", "CD", "CG", "IQ", "LY", "TJ", "VE", "ET", "XK" ],
+    "disc_number" : 1,
+    "duration_ms" : 238392,
+    "explicit" : false,
+    "external_ids" : {
+      "isrc" : "QT3FG2581916"
+    },
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/track/6ZE3Syt2Qi3E1BzKAz7axe"
+    },
+    "href" : "https://api.spotify.com/v1/tracks/6ZE3Syt2Qi3E1BzKAz7axe",
+    "id" : "6ZE3Syt2Qi3E1BzKAz7axe",
+    "is_local" : false,
+    "name" : "Invent Animate Stillworld Style Djent",
+    "popularity" : 12,
+    "preview_url" : null,
+    "track_number" : 1,
+    "type" : "track",
+    "uri" : "spotify:track:6ZE3Syt2Qi3E1BzKAz7axe"
+  }, {
+    "album" : {
+      "album_type" : "album",
+      "artists" : [ {
+        "external_urls" : {
+          "spotify" : "https://open.spotify.com/artist/1xd4o3nvXyiD90YBml2A5T"
+        },
+        "href" : "https://api.spotify.com/v1/artists/1xd4o3nvXyiD90YBml2A5T",
+        "id" : "1xd4o3nvXyiD90YBml2A5T",
+        "name" : "Jacob Lizotte",
+        "type" : "artist",
+        "uri" : "spotify:artist:1xd4o3nvXyiD90YBml2A5T"
+      } ],
+      "available_markets" : [ "AR", "AU", "AT", "BE", "BO", "BR", "BG", "CA", "CL", "CO", "CR", "CY", "CZ", "DK", "DO", "DE", "EC", "EE", "SV", "FI", "FR", "GR", "GT", "HN", "HK", "HU", "IS", "IE", "IT", "LV", "LT", "LU", "MY", "MT", "MX", "NL", "NZ", "NI", "NO", "PA", "PY", "PE", "PH", "PL", "PT", "SG", "SK", "ES", "SE", "CH", "TW", "TR", "UY", "US", "GB", "AD", "LI", "MC", "ID", "JP", "TH", "VN", "RO", "IL", "ZA", "SA", "AE", "BH", "QA", "OM", "KW", "EG", "MA", "DZ", "TN", "LB", "JO", "PS", "IN", "BY", "KZ", "MD", "UA", "AL", "BA", "HR", "ME", "MK", "RS", "SI", "KR", "BD", "PK", "LK", "GH", "KE", "NG", "TZ", "UG", "AG", "AM", "BS", "BB", "BZ", "BT", "BW", "BF", "CV", "CW", "DM", "FJ", "GM", "GE", "GD", "GW", "GY", "HT", "JM", "KI", "LS", "LR", "MW", "MV", "ML", "MH", "FM", "NA", "NR", "NE", "PW", "PG", "PR", "WS", "SM", "ST", "SN", "SC", "SL", "SB", "KN", "LC", "VC", "SR", "TL", "TO", "TT", "TV", "VU", "AZ", "BN", "BI", "KH", "CM", "TD", "KM", "GQ", "SZ", "GA", "GN", "KG", "LA", "MO", "MR", "MN", "NP", "RW", "TG", "UZ", "ZW", "BJ", "MG", "MU", "MZ", "AO", "CI", "DJ", "ZM", "CD", "CG", "IQ", "LY", "TJ", "VE", "ET", "XK" ],
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/album/7ElX8KuYjind6ti2GRWAl4"
+      },
+      "href" : "https://api.spotify.com/v1/albums/7ElX8KuYjind6ti2GRWAl4",
+      "id" : "7ElX8KuYjind6ti2GRWAl4",
+      "images" : [ {
+        "height" : 640,
+        "url" : "https://i.scdn.co/image/ab67616d0000b273786eb5d25939c2e37ba13c45",
+        "width" : 640
+      }, {
+        "height" : 300,
+        "url" : "https://i.scdn.co/image/ab67616d00001e02786eb5d25939c2e37ba13c45",
+        "width" : 300
+      }, {
+        "height" : 64,
+        "url" : "https://i.scdn.co/image/ab67616d00004851786eb5d25939c2e37ba13c45",
+        "width" : 64
+      } ],
+      "name" : "Rift",
+      "release_date" : "2026-02-20",
+      "release_date_precision" : "day",
+      "total_tracks" : 19,
+      "type" : "album",
+      "uri" : "spotify:album:7ElX8KuYjind6ti2GRWAl4"
+    },
+    "artists" : [ {
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/artist/1xd4o3nvXyiD90YBml2A5T"
+      },
+      "href" : "https://api.spotify.com/v1/artists/1xd4o3nvXyiD90YBml2A5T",
+      "id" : "1xd4o3nvXyiD90YBml2A5T",
+      "name" : "Jacob Lizotte",
+      "type" : "artist",
+      "uri" : "spotify:artist:1xd4o3nvXyiD90YBml2A5T"
+    } ],
+    "available_markets" : [ "AR", "AU", "AT", "BE", "BO", "BR", "BG", "CA", "CL", "CO", "CR", "CY", "CZ", "DK", "DO", "DE", "EC", "EE", "SV", "FI", "FR", "GR", "GT", "HN", "HK", "HU", "IS", "IE", "IT", "LV", "LT", "LU", "MY", "MT", "MX", "NL", "NZ", "NI", "NO", "PA", "PY", "PE", "PH", "PL", "PT", "SG", "SK", "ES", "SE", "CH", "TW", "TR", "UY", "US", "GB", "AD", "LI", "MC", "ID", "JP", "TH", "VN", "RO", "IL", "ZA", "SA", "AE", "BH", "QA", "OM", "KW", "EG", "MA", "DZ", "TN", "LB", "JO", "PS", "IN", "BY", "KZ", "MD", "UA", "AL", "BA", "HR", "ME", "MK", "RS", "SI", "KR", "BD", "PK", "LK", "GH", "KE", "NG", "TZ", "UG", "AG", "AM", "BS", "BB", "BZ", "BT", "BW", "BF", "CV", "CW", "DM", "FJ", "GM", "GE", "GD", "GW", "GY", "HT", "JM", "KI", "LS", "LR", "MW", "MV", "ML", "MH", "FM", "NA", "NR", "NE", "PW", "PG", "PR", "WS", "SM", "ST", "SN", "SC", "SL", "SB", "KN", "LC", "VC", "SR", "TL", "TO", "TT", "TV", "VU", "AZ", "BN", "BI", "KH", "CM", "TD", "KM", "GQ", "SZ", "GA", "GN", "KG", "LA", "MO", "MR", "MN", "NP", "RW", "TG", "UZ", "ZW", "BJ", "MG", "MU", "MZ", "AO", "CI", "DJ", "ZM", "CD", "CG", "IQ", "LY", "TJ", "VE", "ET", "XK" ],
+    "disc_number" : 1,
+    "duration_ms" : 246485,
+    "explicit" : false,
+    "external_ids" : {
+      "isrc" : "QZK6J2659310"
+    },
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/track/0sKGVpCjwEsJM14MQQ8Fqm"
+    },
+    "href" : "https://api.spotify.com/v1/tracks/0sKGVpCjwEsJM14MQQ8Fqm",
+    "id" : "0sKGVpCjwEsJM14MQQ8Fqm",
+    "is_local" : false,
+    "name" : "Undecay",
+    "popularity" : 12,
+    "preview_url" : null,
+    "track_number" : 14,
+    "type" : "track",
+    "uri" : "spotify:track:0sKGVpCjwEsJM14MQQ8Fqm"
+  }, {
+    "album" : {
+      "album_type" : "album",
+      "artists" : [ {
+        "external_urls" : {
+          "spotify" : "https://open.spotify.com/artist/1xd4o3nvXyiD90YBml2A5T"
+        },
+        "href" : "https://api.spotify.com/v1/artists/1xd4o3nvXyiD90YBml2A5T",
+        "id" : "1xd4o3nvXyiD90YBml2A5T",
+        "name" : "Jacob Lizotte",
+        "type" : "artist",
+        "uri" : "spotify:artist:1xd4o3nvXyiD90YBml2A5T"
+      } ],
+      "available_markets" : [ "AR", "AU", "AT", "BE", "BO", "BR", "BG", "CA", "CL", "CO", "CR", "CY", "CZ", "DK", "DO", "DE", "EC", "EE", "SV", "FI", "FR", "GR", "GT", "HN", "HK", "HU", "IS", "IE", "IT", "LV", "LT", "LU", "MY", "MT", "MX", "NL", "NZ", "NI", "NO", "PA", "PY", "PE", "PH", "PL", "PT", "SG", "SK", "ES", "SE", "CH", "TW", "TR", "UY", "US", "GB", "AD", "LI", "MC", "ID", "JP", "TH", "VN", "RO", "IL", "ZA", "SA", "AE", "BH", "QA", "OM", "KW", "EG", "MA", "DZ", "TN", "LB", "JO", "PS", "IN", "BY", "KZ", "MD", "UA", "AL", "BA", "HR", "ME", "MK", "RS", "SI", "KR", "BD", "PK", "LK", "GH", "KE", "NG", "TZ", "UG", "AG", "AM", "BS", "BB", "BZ", "BT", "BW", "BF", "CV", "CW", "DM", "FJ", "GM", "GE", "GD", "GW", "GY", "HT", "JM", "KI", "LS", "LR", "MW", "MV", "ML", "MH", "FM", "NA", "NR", "NE", "PW", "PG", "PR", "WS", "SM", "ST", "SN", "SC", "SL", "SB", "KN", "LC", "VC", "SR", "TL", "TO", "TT", "TV", "VU", "AZ", "BN", "BI", "KH", "CM", "TD", "KM", "GQ", "SZ", "GA", "GN", "KG", "LA", "MO", "MR", "MN", "NP", "RW", "TG", "UZ", "ZW", "BJ", "MG", "MU", "MZ", "AO", "CI", "DJ", "ZM", "CD", "CG", "IQ", "LY", "TJ", "VE", "ET", "XK" ],
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/album/0fUCXRcqAxmVnXyMlsTg59"
+      },
+      "href" : "https://api.spotify.com/v1/albums/0fUCXRcqAxmVnXyMlsTg59",
+      "id" : "0fUCXRcqAxmVnXyMlsTg59",
+      "images" : [ {
+        "height" : 640,
+        "url" : "https://i.scdn.co/image/ab67616d0000b273d4d6b5063b353e1277ee8cab",
+        "width" : 640
+      }, {
+        "height" : 300,
+        "url" : "https://i.scdn.co/image/ab67616d00001e02d4d6b5063b353e1277ee8cab",
+        "width" : 300
+      }, {
+        "height" : 64,
+        "url" : "https://i.scdn.co/image/ab67616d00004851d4d6b5063b353e1277ee8cab",
+        "width" : 64
+      } ],
+      "name" : "Lose Sight",
+      "release_date" : "2023-12-30",
+      "release_date_precision" : "day",
+      "total_tracks" : 12,
+      "type" : "album",
+      "uri" : "spotify:album:0fUCXRcqAxmVnXyMlsTg59"
+    },
+    "artists" : [ {
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/artist/1xd4o3nvXyiD90YBml2A5T"
+      },
+      "href" : "https://api.spotify.com/v1/artists/1xd4o3nvXyiD90YBml2A5T",
+      "id" : "1xd4o3nvXyiD90YBml2A5T",
+      "name" : "Jacob Lizotte",
+      "type" : "artist",
+      "uri" : "spotify:artist:1xd4o3nvXyiD90YBml2A5T"
+    } ],
+    "available_markets" : [ "AR", "AU", "AT", "BE", "BO", "BR", "BG", "CA", "CL", "CO", "CR", "CY", "CZ", "DK", "DO", "DE", "EC", "EE", "SV", "FI", "FR", "GR", "GT", "HN", "HK", "HU", "IS", "IE", "IT", "LV", "LT", "LU", "MY", "MT", "MX", "NL", "NZ", "NI", "NO", "PA", "PY", "PE", "PH", "PL", "PT", "SG", "SK", "ES", "SE", "CH", "TW", "TR", "UY", "US", "GB", "AD", "LI", "MC", "ID", "JP", "TH", "VN", "RO", "IL", "ZA", "SA", "AE", "BH", "QA", "OM", "KW", "EG", "MA", "DZ", "TN", "LB", "JO", "PS", "IN", "BY", "KZ", "MD", "UA", "AL", "BA", "HR", "ME", "MK", "RS", "SI", "KR", "BD", "PK", "LK", "GH", "KE", "NG", "TZ", "UG", "AG", "AM", "BS", "BB", "BZ", "BT", "BW", "BF", "CV", "CW", "DM", "FJ", "GM", "GE", "GD", "GW", "GY", "HT", "JM", "KI", "LS", "LR", "MW", "MV", "ML", "MH", "FM", "NA", "NR", "NE", "PW", "PG", "PR", "WS", "SM", "ST", "SN", "SC", "SL", "SB", "KN", "LC", "VC", "SR", "TL", "TO", "TT", "TV", "VU", "AZ", "BN", "BI", "KH", "CM", "TD", "KM", "GQ", "SZ", "GA", "GN", "KG", "LA", "MO", "MR", "MN", "NP", "RW", "TG", "UZ", "ZW", "BJ", "MG", "MU", "MZ", "AO", "CI", "DJ", "ZM", "CD", "CG", "IQ", "LY", "TJ", "VE", "ET", "XK" ],
+    "disc_number" : 1,
+    "duration_ms" : 249553,
+    "explicit" : false,
+    "external_ids" : {
+      "isrc" : "QZWFS2315802"
+    },
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/track/0Z9NqeZaXyV3WFDhjOyJHv"
+    },
+    "href" : "https://api.spotify.com/v1/tracks/0Z9NqeZaXyV3WFDhjOyJHv",
+    "id" : "0Z9NqeZaXyV3WFDhjOyJHv",
+    "is_local" : false,
+    "name" : "Lose Sight",
+    "popularity" : 13,
+    "preview_url" : null,
+    "track_number" : 8,
+    "type" : "track",
+    "uri" : "spotify:track:0Z9NqeZaXyV3WFDhjOyJHv"
+  }, {
+    "album" : {
+      "album_type" : "album",
+      "artists" : [ {
+        "external_urls" : {
+          "spotify" : "https://open.spotify.com/artist/5AYl25WcoO1D0J46aDEXeg"
+        },
+        "href" : "https://api.spotify.com/v1/artists/5AYl25WcoO1D0J46aDEXeg",
+        "id" : "5AYl25WcoO1D0J46aDEXeg",
+        "name" : "Aric Fowler",
+        "type" : "artist",
+        "uri" : "spotify:artist:5AYl25WcoO1D0J46aDEXeg"
+      } ],
+      "available_markets" : [ "AR", "AU", "AT", "BE", "BO", "BR", "BG", "CA", "CL", "CO", "CR", "CY", "CZ", "DK", "DO", "DE", "EC", "EE", "SV", "FI", "FR", "GR", "GT", "HN", "HK", "HU", "IS", "IE", "IT", "LV", "LT", "LU", "MY", "MT", "MX", "NL", "NZ", "NI", "NO", "PA", "PY", "PE", "PH", "PL", "PT", "SG", "SK", "ES", "SE", "CH", "TW", "TR", "UY", "US", "GB", "AD", "LI", "MC", "ID", "JP", "TH", "VN", "RO", "IL", "ZA", "SA", "AE", "BH", "QA", "OM", "KW", "EG", "MA", "DZ", "TN", "LB", "JO", "PS", "IN", "BY", "KZ", "MD", "UA", "AL", "BA", "HR", "ME", "MK", "RS", "SI", "KR", "BD", "PK", "LK", "GH", "KE", "NG", "TZ", "UG", "AG", "AM", "BS", "BB", "BZ", "BT", "BW", "BF", "CV", "CW", "DM", "FJ", "GM", "GE", "GD", "GW", "GY", "HT", "JM", "KI", "LS", "LR", "MW", "MV", "ML", "MH", "FM", "NA", "NR", "NE", "PW", "PG", "PR", "WS", "SM", "ST", "SN", "SC", "SL", "SB", "KN", "LC", "VC", "SR", "TL", "TO", "TT", "TV", "VU", "AZ", "BN", "BI", "KH", "CM", "TD", "KM", "GQ", "SZ", "GA", "GN", "KG", "LA", "MO", "MR", "MN", "NP", "RW", "TG", "UZ", "ZW", "BJ", "MG", "MU", "MZ", "AO", "CI", "DJ", "ZM", "CD", "CG", "IQ", "LY", "TJ", "VE", "ET", "XK" ],
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/album/0JWti5vL4BPQdR1scLluAB"
+      },
+      "href" : "https://api.spotify.com/v1/albums/0JWti5vL4BPQdR1scLluAB",
+      "id" : "0JWti5vL4BPQdR1scLluAB",
+      "images" : [ {
+        "height" : 640,
+        "url" : "https://i.scdn.co/image/ab67616d0000b2731b675312929170cd88cd8f68",
+        "width" : 640
+      }, {
+        "height" : 300,
+        "url" : "https://i.scdn.co/image/ab67616d00001e021b675312929170cd88cd8f68",
+        "width" : 300
+      }, {
+        "height" : 64,
+        "url" : "https://i.scdn.co/image/ab67616d000048511b675312929170cd88cd8f68",
+        "width" : 64
+      } ],
+      "name" : "Art Imitates Life Imitates",
+      "release_date" : "2022-07-09",
+      "release_date_precision" : "day",
+      "total_tracks" : 8,
+      "type" : "album",
+      "uri" : "spotify:album:0JWti5vL4BPQdR1scLluAB"
+    },
+    "artists" : [ {
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/artist/5AYl25WcoO1D0J46aDEXeg"
+      },
+      "href" : "https://api.spotify.com/v1/artists/5AYl25WcoO1D0J46aDEXeg",
+      "id" : "5AYl25WcoO1D0J46aDEXeg",
+      "name" : "Aric Fowler",
+      "type" : "artist",
+      "uri" : "spotify:artist:5AYl25WcoO1D0J46aDEXeg"
+    } ],
+    "available_markets" : [ "AR", "AU", "AT", "BE", "BO", "BR", "BG", "CA", "CL", "CO", "CR", "CY", "CZ", "DK", "DO", "DE", "EC", "EE", "SV", "FI", "FR", "GR", "GT", "HN", "HK", "HU", "IS", "IE", "IT", "LV", "LT", "LU", "MY", "MT", "MX", "NL", "NZ", "NI", "NO", "PA", "PY", "PE", "PH", "PL", "PT", "SG", "SK", "ES", "SE", "CH", "TW", "TR", "UY", "US", "GB", "AD", "LI", "MC", "ID", "JP", "TH", "VN", "RO", "IL", "ZA", "SA", "AE", "BH", "QA", "OM", "KW", "EG", "MA", "DZ", "TN", "LB", "JO", "PS", "IN", "BY", "KZ", "MD", "UA", "AL", "BA", "HR", "ME", "MK", "RS", "SI", "KR", "BD", "PK", "LK", "GH", "KE", "NG", "TZ", "UG", "AG", "AM", "BS", "BB", "BZ", "BT", "BW", "BF", "CV", "CW", "DM", "FJ", "GM", "GE", "GD", "GW", "GY", "HT", "JM", "KI", "LS", "LR", "MW", "MV", "ML", "MH", "FM", "NA", "NR", "NE", "PW", "PG", "PR", "WS", "SM", "ST", "SN", "SC", "SL", "SB", "KN", "LC", "VC", "SR", "TL", "TO", "TT", "TV", "VU", "AZ", "BN", "BI", "KH", "CM", "TD", "KM", "GQ", "SZ", "GA", "GN", "KG", "LA", "MO", "MR", "MN", "NP", "RW", "TG", "UZ", "ZW", "BJ", "MG", "MU", "MZ", "AO", "CI", "DJ", "ZM", "CD", "CG", "IQ", "LY", "TJ", "VE", "ET", "XK" ],
+    "disc_number" : 1,
+    "duration_ms" : 286306,
+    "explicit" : false,
+    "external_ids" : {
+      "isrc" : "TCAGI2228459"
+    },
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/track/1K16NL2y7naNf7nPJTMQLR"
+    },
+    "href" : "https://api.spotify.com/v1/tracks/1K16NL2y7naNf7nPJTMQLR",
+    "id" : "1K16NL2y7naNf7nPJTMQLR",
+    "is_local" : false,
+    "name" : "Discrete Time",
+    "popularity" : 15,
+    "preview_url" : null,
+    "track_number" : 1,
+    "type" : "track",
+    "uri" : "spotify:track:1K16NL2y7naNf7nPJTMQLR"
+  }, {
+    "album" : {
+      "album_type" : "album",
+      "artists" : [ {
+        "external_urls" : {
+          "spotify" : "https://open.spotify.com/artist/1xd4o3nvXyiD90YBml2A5T"
+        },
+        "href" : "https://api.spotify.com/v1/artists/1xd4o3nvXyiD90YBml2A5T",
+        "id" : "1xd4o3nvXyiD90YBml2A5T",
+        "name" : "Jacob Lizotte",
+        "type" : "artist",
+        "uri" : "spotify:artist:1xd4o3nvXyiD90YBml2A5T"
+      } ],
+      "available_markets" : [ "AR", "AU", "AT", "BE", "BO", "BR", "BG", "CA", "CL", "CO", "CR", "CY", "CZ", "DK", "DO", "DE", "EC", "EE", "SV", "FI", "FR", "GR", "GT", "HN", "HK", "HU", "IS", "IE", "IT", "LV", "LT", "LU", "MY", "MT", "MX", "NL", "NZ", "NI", "NO", "PA", "PY", "PE", "PH", "PL", "PT", "SG", "SK", "ES", "SE", "CH", "TW", "TR", "UY", "US", "GB", "AD", "LI", "MC", "ID", "JP", "TH", "VN", "RO", "IL", "ZA", "SA", "AE", "BH", "QA", "OM", "KW", "EG", "MA", "DZ", "TN", "LB", "JO", "PS", "IN", "BY", "KZ", "MD", "UA", "AL", "BA", "HR", "ME", "MK", "RS", "SI", "KR", "BD", "PK", "LK", "GH", "KE", "NG", "TZ", "UG", "AG", "AM", "BS", "BB", "BZ", "BT", "BW", "BF", "CV", "CW", "DM", "FJ", "GM", "GE", "GD", "GW", "GY", "HT", "JM", "KI", "LS", "LR", "MW", "MV", "ML", "MH", "FM", "NA", "NR", "NE", "PW", "PG", "PR", "WS", "SM", "ST", "SN", "SC", "SL", "SB", "KN", "LC", "VC", "SR", "TL", "TO", "TT", "TV", "VU", "AZ", "BN", "BI", "KH", "CM", "TD", "KM", "GQ", "SZ", "GA", "GN", "KG", "LA", "MO", "MR", "MN", "NP", "RW", "TG", "UZ", "ZW", "BJ", "MG", "MU", "MZ", "AO", "CI", "DJ", "ZM", "CD", "CG", "IQ", "LY", "TJ", "VE", "ET", "XK" ],
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/album/0fUCXRcqAxmVnXyMlsTg59"
+      },
+      "href" : "https://api.spotify.com/v1/albums/0fUCXRcqAxmVnXyMlsTg59",
+      "id" : "0fUCXRcqAxmVnXyMlsTg59",
+      "images" : [ {
+        "height" : 640,
+        "url" : "https://i.scdn.co/image/ab67616d0000b273d4d6b5063b353e1277ee8cab",
+        "width" : 640
+      }, {
+        "height" : 300,
+        "url" : "https://i.scdn.co/image/ab67616d00001e02d4d6b5063b353e1277ee8cab",
+        "width" : 300
+      }, {
+        "height" : 64,
+        "url" : "https://i.scdn.co/image/ab67616d00004851d4d6b5063b353e1277ee8cab",
+        "width" : 64
+      } ],
+      "name" : "Lose Sight",
+      "release_date" : "2023-12-30",
+      "release_date_precision" : "day",
+      "total_tracks" : 12,
+      "type" : "album",
+      "uri" : "spotify:album:0fUCXRcqAxmVnXyMlsTg59"
+    },
+    "artists" : [ {
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/artist/1xd4o3nvXyiD90YBml2A5T"
+      },
+      "href" : "https://api.spotify.com/v1/artists/1xd4o3nvXyiD90YBml2A5T",
+      "id" : "1xd4o3nvXyiD90YBml2A5T",
+      "name" : "Jacob Lizotte",
+      "type" : "artist",
+      "uri" : "spotify:artist:1xd4o3nvXyiD90YBml2A5T"
+    } ],
+    "available_markets" : [ "AR", "AU", "AT", "BE", "BO", "BR", "BG", "CA", "CL", "CO", "CR", "CY", "CZ", "DK", "DO", "DE", "EC", "EE", "SV", "FI", "FR", "GR", "GT", "HN", "HK", "HU", "IS", "IE", "IT", "LV", "LT", "LU", "MY", "MT", "MX", "NL", "NZ", "NI", "NO", "PA", "PY", "PE", "PH", "PL", "PT", "SG", "SK", "ES", "SE", "CH", "TW", "TR", "UY", "US", "GB", "AD", "LI", "MC", "ID", "JP", "TH", "VN", "RO", "IL", "ZA", "SA", "AE", "BH", "QA", "OM", "KW", "EG", "MA", "DZ", "TN", "LB", "JO", "PS", "IN", "BY", "KZ", "MD", "UA", "AL", "BA", "HR", "ME", "MK", "RS", "SI", "KR", "BD", "PK", "LK", "GH", "KE", "NG", "TZ", "UG", "AG", "AM", "BS", "BB", "BZ", "BT", "BW", "BF", "CV", "CW", "DM", "FJ", "GM", "GE", "GD", "GW", "GY", "HT", "JM", "KI", "LS", "LR", "MW", "MV", "ML", "MH", "FM", "NA", "NR", "NE", "PW", "PG", "PR", "WS", "SM", "ST", "SN", "SC", "SL", "SB", "KN", "LC", "VC", "SR", "TL", "TO", "TT", "TV", "VU", "AZ", "BN", "BI", "KH", "CM", "TD", "KM", "GQ", "SZ", "GA", "GN", "KG", "LA", "MO", "MR", "MN", "NP", "RW", "TG", "UZ", "ZW", "BJ", "MG", "MU", "MZ", "AO", "CI", "DJ", "ZM", "CD", "CG", "IQ", "LY", "TJ", "VE", "ET", "XK" ],
+    "disc_number" : 1,
+    "duration_ms" : 251000,
+    "explicit" : false,
+    "external_ids" : {
+      "isrc" : "QZWFS2315801"
+    },
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/track/3nuo4fMSchGhUxWv1xY9FC"
+    },
+    "href" : "https://api.spotify.com/v1/tracks/3nuo4fMSchGhUxWv1xY9FC",
+    "id" : "3nuo4fMSchGhUxWv1xY9FC",
+    "is_local" : false,
+    "name" : "Strife",
+    "popularity" : 10,
+    "preview_url" : null,
+    "track_number" : 7,
+    "type" : "track",
+    "uri" : "spotify:track:3nuo4fMSchGhUxWv1xY9FC"
+  }, {
+    "album" : {
+      "album_type" : "album",
+      "artists" : [ {
+        "external_urls" : {
+          "spotify" : "https://open.spotify.com/artist/1xd4o3nvXyiD90YBml2A5T"
+        },
+        "href" : "https://api.spotify.com/v1/artists/1xd4o3nvXyiD90YBml2A5T",
+        "id" : "1xd4o3nvXyiD90YBml2A5T",
+        "name" : "Jacob Lizotte",
+        "type" : "artist",
+        "uri" : "spotify:artist:1xd4o3nvXyiD90YBml2A5T"
+      } ],
+      "available_markets" : [ "AR", "AU", "AT", "BE", "BO", "BR", "BG", "CA", "CL", "CO", "CR", "CY", "CZ", "DK", "DO", "DE", "EC", "EE", "SV", "FI", "FR", "GR", "GT", "HN", "HK", "HU", "IS", "IE", "IT", "LV", "LT", "LU", "MY", "MT", "MX", "NL", "NZ", "NI", "NO", "PA", "PY", "PE", "PH", "PL", "PT", "SG", "SK", "ES", "SE", "CH", "TW", "TR", "UY", "US", "GB", "AD", "LI", "MC", "ID", "JP", "TH", "VN", "RO", "IL", "ZA", "SA", "AE", "BH", "QA", "OM", "KW", "EG", "MA", "DZ", "TN", "LB", "JO", "PS", "IN", "BY", "KZ", "MD", "UA", "AL", "BA", "HR", "ME", "MK", "RS", "SI", "KR", "BD", "PK", "LK", "GH", "KE", "NG", "TZ", "UG", "AG", "AM", "BS", "BB", "BZ", "BT", "BW", "BF", "CV", "CW", "DM", "FJ", "GM", "GE", "GD", "GW", "GY", "HT", "JM", "KI", "LS", "LR", "MW", "MV", "ML", "MH", "FM", "NA", "NR", "NE", "PW", "PG", "PR", "WS", "SM", "ST", "SN", "SC", "SL", "SB", "KN", "LC", "VC", "SR", "TL", "TO", "TT", "TV", "VU", "AZ", "BN", "BI", "KH", "CM", "TD", "KM", "GQ", "SZ", "GA", "GN", "KG", "LA", "MO", "MR", "MN", "NP", "RW", "TG", "UZ", "ZW", "BJ", "MG", "MU", "MZ", "AO", "CI", "DJ", "ZM", "CD", "CG", "IQ", "LY", "TJ", "VE", "ET", "XK" ],
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/album/38zH3FwBvbYgGeKwI4EcyK"
+      },
+      "href" : "https://api.spotify.com/v1/albums/38zH3FwBvbYgGeKwI4EcyK",
+      "id" : "38zH3FwBvbYgGeKwI4EcyK",
+      "images" : [ {
+        "height" : 640,
+        "url" : "https://i.scdn.co/image/ab67616d0000b273cf58ecc3124341d4a809adca",
+        "width" : 640
+      }, {
+        "height" : 300,
+        "url" : "https://i.scdn.co/image/ab67616d00001e02cf58ecc3124341d4a809adca",
+        "width" : 300
+      }, {
+        "height" : 64,
+        "url" : "https://i.scdn.co/image/ab67616d00004851cf58ecc3124341d4a809adca",
+        "width" : 64
+      } ],
+      "name" : "I, Colossus",
+      "release_date" : "2024-11-11",
+      "release_date_precision" : "day",
+      "total_tracks" : 9,
+      "type" : "album",
+      "uri" : "spotify:album:38zH3FwBvbYgGeKwI4EcyK"
+    },
+    "artists" : [ {
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/artist/1xd4o3nvXyiD90YBml2A5T"
+      },
+      "href" : "https://api.spotify.com/v1/artists/1xd4o3nvXyiD90YBml2A5T",
+      "id" : "1xd4o3nvXyiD90YBml2A5T",
+      "name" : "Jacob Lizotte",
+      "type" : "artist",
+      "uri" : "spotify:artist:1xd4o3nvXyiD90YBml2A5T"
+    } ],
+    "available_markets" : [ "AR", "AU", "AT", "BE", "BO", "BR", "BG", "CA", "CL", "CO", "CR", "CY", "CZ", "DK", "DO", "DE", "EC", "EE", "SV", "FI", "FR", "GR", "GT", "HN", "HK", "HU", "IS", "IE", "IT", "LV", "LT", "LU", "MY", "MT", "MX", "NL", "NZ", "NI", "NO", "PA", "PY", "PE", "PH", "PL", "PT", "SG", "SK", "ES", "SE", "CH", "TW", "TR", "UY", "US", "GB", "AD", "LI", "MC", "ID", "JP", "TH", "VN", "RO", "IL", "ZA", "SA", "AE", "BH", "QA", "OM", "KW", "EG", "MA", "DZ", "TN", "LB", "JO", "PS", "IN", "BY", "KZ", "MD", "UA", "AL", "BA", "HR", "ME", "MK", "RS", "SI", "KR", "BD", "PK", "LK", "GH", "KE", "NG", "TZ", "UG", "AG", "AM", "BS", "BB", "BZ", "BT", "BW", "BF", "CV", "CW", "DM", "FJ", "GM", "GE", "GD", "GW", "GY", "HT", "JM", "KI", "LS", "LR", "MW", "MV", "ML", "MH", "FM", "NA", "NR", "NE", "PW", "PG", "PR", "WS", "SM", "ST", "SN", "SC", "SL", "SB", "KN", "LC", "VC", "SR", "TL", "TO", "TT", "TV", "VU", "AZ", "BN", "BI", "KH", "CM", "TD", "KM", "GQ", "SZ", "GA", "GN", "KG", "LA", "MO", "MR", "MN", "NP", "RW", "TG", "UZ", "ZW", "BJ", "MG", "MU", "MZ", "AO", "CI", "DJ", "ZM", "CD", "CG", "IQ", "LY", "TJ", "VE", "ET", "XK" ],
+    "disc_number" : 1,
+    "duration_ms" : 227000,
+    "explicit" : false,
+    "external_ids" : {
+      "isrc" : "QZZ772459430"
+    },
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/track/3To4kWxy14P9yY1hzhWRnh"
+    },
+    "href" : "https://api.spotify.com/v1/tracks/3To4kWxy14P9yY1hzhWRnh",
+    "id" : "3To4kWxy14P9yY1hzhWRnh",
+    "is_local" : false,
+    "name" : "I, Colossus",
+    "popularity" : 12,
+    "preview_url" : null,
+    "track_number" : 2,
+    "type" : "track",
+    "uri" : "spotify:track:3To4kWxy14P9yY1hzhWRnh"
+  }, {
+    "album" : {
+      "album_type" : "album",
+      "artists" : [ {
+        "external_urls" : {
+          "spotify" : "https://open.spotify.com/artist/7tbJlZj8aYvqi9RlBAywCh"
+        },
+        "href" : "https://api.spotify.com/v1/artists/7tbJlZj8aYvqi9RlBAywCh",
+        "id" : "7tbJlZj8aYvqi9RlBAywCh",
+        "name" : "34BigThings",
+        "type" : "artist",
+        "uri" : "spotify:artist:7tbJlZj8aYvqi9RlBAywCh"
+      } ],
+      "available_markets" : [ "AR", "AU", "AT", "BE", "BO", "BR", "BG", "CA", "CL", "CO", "CR", "CY", "CZ", "DK", "DO", "DE", "EC", "EE", "SV", "FI", "FR", "GR", "GT", "HN", "HK", "HU", "IS", "IE", "IT", "LV", "LT", "LU", "MY", "MT", "MX", "NL", "NZ", "NI", "NO", "PA", "PY", "PE", "PH", "PL", "PT", "SG", "SK", "ES", "SE", "CH", "TW", "TR", "UY", "US", "GB", "AD", "LI", "MC", "ID", "JP", "TH", "VN", "RO", "IL", "ZA", "SA", "AE", "BH", "QA", "OM", "KW", "EG", "MA", "DZ", "TN", "LB", "JO", "PS", "IN", "BY", "KZ", "MD", "UA", "AL", "BA", "HR", "ME", "MK", "RS", "SI", "KR", "BD", "PK", "LK", "GH", "KE", "NG", "TZ", "UG", "AG", "AM", "BS", "BB", "BZ", "BT", "BW", "BF", "CV", "CW", "DM", "FJ", "GM", "GE", "GD", "GW", "GY", "HT", "JM", "KI", "LS", "LR", "MW", "MV", "ML", "MH", "FM", "NA", "NR", "NE", "PW", "PG", "PR", "WS", "SM", "ST", "SN", "SC", "SL", "SB", "KN", "LC", "VC", "SR", "TL", "TO", "TT", "TV", "VU", "AZ", "BN", "BI", "KH", "CM", "TD", "KM", "GQ", "SZ", "GA", "GN", "KG", "LA", "MO", "MR", "MN", "NP", "RW", "TG", "UZ", "ZW", "BJ", "MG", "MU", "MZ", "AO", "CI", "DJ", "ZM", "CD", "CG", "IQ", "LY", "TJ", "VE", "ET", "XK" ],
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/album/7IvN3QIsypIjpLj4rpWwbz"
+      },
+      "href" : "https://api.spotify.com/v1/albums/7IvN3QIsypIjpLj4rpWwbz",
+      "id" : "7IvN3QIsypIjpLj4rpWwbz",
+      "images" : [ {
+        "height" : 640,
+        "url" : "https://i.scdn.co/image/ab67616d0000b27366810ff43fd91398a7d58ced",
+        "width" : 640
+      }, {
+        "height" : 300,
+        "url" : "https://i.scdn.co/image/ab67616d00001e0266810ff43fd91398a7d58ced",
+        "width" : 300
+      }, {
+        "height" : 64,
+        "url" : "https://i.scdn.co/image/ab67616d0000485166810ff43fd91398a7d58ced",
+        "width" : 64
+      } ],
+      "name" : "Carmageddon: Rogue Shift (Original Game Soundtrack)",
+      "release_date" : "2026-02-06",
+      "release_date_precision" : "day",
+      "total_tracks" : 15,
+      "type" : "album",
+      "uri" : "spotify:album:7IvN3QIsypIjpLj4rpWwbz"
+    },
+    "artists" : [ {
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/artist/7tbJlZj8aYvqi9RlBAywCh"
+      },
+      "href" : "https://api.spotify.com/v1/artists/7tbJlZj8aYvqi9RlBAywCh",
+      "id" : "7tbJlZj8aYvqi9RlBAywCh",
+      "name" : "34BigThings",
+      "type" : "artist",
+      "uri" : "spotify:artist:7tbJlZj8aYvqi9RlBAywCh"
+    }, {
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/artist/43whCJV3KKPFkp7ynYz8H8"
+      },
+      "href" : "https://api.spotify.com/v1/artists/43whCJV3KKPFkp7ynYz8H8",
+      "id" : "43whCJV3KKPFkp7ynYz8H8",
+      "name" : "Federico Vese",
+      "type" : "artist",
+      "uri" : "spotify:artist:43whCJV3KKPFkp7ynYz8H8"
+    } ],
+    "available_markets" : [ "AR", "AU", "AT", "BE", "BO", "BR", "BG", "CA", "CL", "CO", "CR", "CY", "CZ", "DK", "DO", "DE", "EC", "EE", "SV", "FI", "FR", "GR", "GT", "HN", "HK", "HU", "IS", "IE", "IT", "LV", "LT", "LU", "MY", "MT", "MX", "NL", "NZ", "NI", "NO", "PA", "PY", "PE", "PH", "PL", "PT", "SG", "SK", "ES", "SE", "CH", "TW", "TR", "UY", "US", "GB", "AD", "LI", "MC", "ID", "JP", "TH", "VN", "RO", "IL", "ZA", "SA", "AE", "BH", "QA", "OM", "KW", "EG", "MA", "DZ", "TN", "LB", "JO", "PS", "IN", "BY", "KZ", "MD", "UA", "AL", "BA", "HR", "ME", "MK", "RS", "SI", "KR", "BD", "PK", "LK", "GH", "KE", "NG", "TZ", "UG", "AG", "AM", "BS", "BB", "BZ", "BT", "BW", "BF", "CV", "CW", "DM", "FJ", "GM", "GE", "GD", "GW", "GY", "HT", "JM", "KI", "LS", "LR", "MW", "MV", "ML", "MH", "FM", "NA", "NR", "NE", "PW", "PG", "PR", "WS", "SM", "ST", "SN", "SC", "SL", "SB", "KN", "LC", "VC", "SR", "TL", "TO", "TT", "TV", "VU", "AZ", "BN", "BI", "KH", "CM", "TD", "KM", "GQ", "SZ", "GA", "GN", "KG", "LA", "MO", "MR", "MN", "NP", "RW", "TG", "UZ", "ZW", "BJ", "MG", "MU", "MZ", "AO", "CI", "DJ", "ZM", "CD", "CG", "IQ", "LY", "TJ", "VE", "ET", "XK" ],
+    "disc_number" : 1,
+    "duration_ms" : 215531,
+    "explicit" : false,
+    "external_ids" : {
+      "isrc" : "QMFMF2586212"
+    },
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/track/3GTzP18aVBezwUOQ0k1Myb"
+    },
+    "href" : "https://api.spotify.com/v1/tracks/3GTzP18aVBezwUOQ0k1Myb",
+    "id" : "3GTzP18aVBezwUOQ0k1Myb",
+    "is_local" : false,
+    "name" : "Dead Tyred",
+    "popularity" : 5,
+    "preview_url" : null,
+    "track_number" : 8,
+    "type" : "track",
+    "uri" : "spotify:track:3GTzP18aVBezwUOQ0k1Myb"
+  }, {
+    "album" : {
+      "album_type" : "album",
+      "artists" : [ {
+        "external_urls" : {
+          "spotify" : "https://open.spotify.com/artist/1xd4o3nvXyiD90YBml2A5T"
+        },
+        "href" : "https://api.spotify.com/v1/artists/1xd4o3nvXyiD90YBml2A5T",
+        "id" : "1xd4o3nvXyiD90YBml2A5T",
+        "name" : "Jacob Lizotte",
+        "type" : "artist",
+        "uri" : "spotify:artist:1xd4o3nvXyiD90YBml2A5T"
+      } ],
+      "available_markets" : [ "AR", "AU", "AT", "BE", "BO", "BR", "BG", "CA", "CL", "CO", "CR", "CY", "CZ", "DK", "DO", "DE", "EC", "EE", "SV", "FI", "FR", "GR", "GT", "HN", "HK", "HU", "IS", "IE", "IT", "LV", "LT", "LU", "MY", "MT", "MX", "NL", "NZ", "NI", "NO", "PA", "PY", "PE", "PH", "PL", "PT", "SG", "SK", "ES", "SE", "CH", "TW", "TR", "UY", "US", "GB", "AD", "LI", "MC", "ID", "JP", "TH", "VN", "RO", "IL", "ZA", "SA", "AE", "BH", "QA", "OM", "KW", "EG", "MA", "DZ", "TN", "LB", "JO", "PS", "IN", "BY", "KZ", "MD", "UA", "AL", "BA", "HR", "ME", "MK", "RS", "SI", "KR", "BD", "PK", "LK", "GH", "KE", "NG", "TZ", "UG", "AG", "AM", "BS", "BB", "BZ", "BT", "BW", "BF", "CV", "CW", "DM", "FJ", "GM", "GE", "GD", "GW", "GY", "HT", "JM", "KI", "LS", "LR", "MW", "MV", "ML", "MH", "FM", "NA", "NR", "NE", "PW", "PG", "PR", "WS", "SM", "ST", "SN", "SC", "SL", "SB", "KN", "LC", "VC", "SR", "TL", "TO", "TT", "TV", "VU", "AZ", "BN", "BI", "KH", "CM", "TD", "KM", "GQ", "SZ", "GA", "GN", "KG", "LA", "MO", "MR", "MN", "NP", "RW", "TG", "UZ", "ZW", "BJ", "MG", "MU", "MZ", "AO", "CI", "DJ", "ZM", "CD", "CG", "IQ", "LY", "TJ", "VE", "ET", "XK" ],
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/album/1ZGAzkrJIN50oE13GdTFNl"
+      },
+      "href" : "https://api.spotify.com/v1/albums/1ZGAzkrJIN50oE13GdTFNl",
+      "id" : "1ZGAzkrJIN50oE13GdTFNl",
+      "images" : [ {
+        "height" : 640,
+        "url" : "https://i.scdn.co/image/ab67616d0000b273859de683f4d25168a38bf862",
+        "width" : 640
+      }, {
+        "height" : 300,
+        "url" : "https://i.scdn.co/image/ab67616d00001e02859de683f4d25168a38bf862",
+        "width" : 300
+      }, {
+        "height" : 64,
+        "url" : "https://i.scdn.co/image/ab67616d00004851859de683f4d25168a38bf862",
+        "width" : 64
+      } ],
+      "name" : "Descent",
+      "release_date" : "2024-05-22",
+      "release_date_precision" : "day",
+      "total_tracks" : 9,
+      "type" : "album",
+      "uri" : "spotify:album:1ZGAzkrJIN50oE13GdTFNl"
+    },
+    "artists" : [ {
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/artist/1xd4o3nvXyiD90YBml2A5T"
+      },
+      "href" : "https://api.spotify.com/v1/artists/1xd4o3nvXyiD90YBml2A5T",
+      "id" : "1xd4o3nvXyiD90YBml2A5T",
+      "name" : "Jacob Lizotte",
+      "type" : "artist",
+      "uri" : "spotify:artist:1xd4o3nvXyiD90YBml2A5T"
+    } ],
+    "available_markets" : [ "AR", "AU", "AT", "BE", "BO", "BR", "BG", "CA", "CL", "CO", "CR", "CY", "CZ", "DK", "DO", "DE", "EC", "EE", "SV", "FI", "FR", "GR", "GT", "HN", "HK", "HU", "IS", "IE", "IT", "LV", "LT", "LU", "MY", "MT", "MX", "NL", "NZ", "NI", "NO", "PA", "PY", "PE", "PH", "PL", "PT", "SG", "SK", "ES", "SE", "CH", "TW", "TR", "UY", "US", "GB", "AD", "LI", "MC", "ID", "JP", "TH", "VN", "RO", "IL", "ZA", "SA", "AE", "BH", "QA", "OM", "KW", "EG", "MA", "DZ", "TN", "LB", "JO", "PS", "IN", "BY", "KZ", "MD", "UA", "AL", "BA", "HR", "ME", "MK", "RS", "SI", "KR", "BD", "PK", "LK", "GH", "KE", "NG", "TZ", "UG", "AG", "AM", "BS", "BB", "BZ", "BT", "BW", "BF", "CV", "CW", "DM", "FJ", "GM", "GE", "GD", "GW", "GY", "HT", "JM", "KI", "LS", "LR", "MW", "MV", "ML", "MH", "FM", "NA", "NR", "NE", "PW", "PG", "PR", "WS", "SM", "ST", "SN", "SC", "SL", "SB", "KN", "LC", "VC", "SR", "TL", "TO", "TT", "TV", "VU", "AZ", "BN", "BI", "KH", "CM", "TD", "KM", "GQ", "SZ", "GA", "GN", "KG", "LA", "MO", "MR", "MN", "NP", "RW", "TG", "UZ", "ZW", "BJ", "MG", "MU", "MZ", "AO", "CI", "DJ", "ZM", "CD", "CG", "IQ", "LY", "TJ", "VE", "ET", "XK" ],
+    "disc_number" : 1,
+    "duration_ms" : 236636,
+    "explicit" : false,
+    "external_ids" : {
+      "isrc" : "QZMEQ2461093"
+    },
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/track/6hfj52HQFyFOeTIZQYXMJ8"
+    },
+    "href" : "https://api.spotify.com/v1/tracks/6hfj52HQFyFOeTIZQYXMJ8",
+    "id" : "6hfj52HQFyFOeTIZQYXMJ8",
+    "is_local" : false,
+    "name" : "The Answer",
+    "popularity" : 12,
+    "preview_url" : null,
+    "track_number" : 2,
+    "type" : "track",
+    "uri" : "spotify:track:6hfj52HQFyFOeTIZQYXMJ8"
+  }, {
+    "album" : {
+      "album_type" : "single",
+      "artists" : [ {
+        "external_urls" : {
+          "spotify" : "https://open.spotify.com/artist/1xd4o3nvXyiD90YBml2A5T"
+        },
+        "href" : "https://api.spotify.com/v1/artists/1xd4o3nvXyiD90YBml2A5T",
+        "id" : "1xd4o3nvXyiD90YBml2A5T",
+        "name" : "Jacob Lizotte",
+        "type" : "artist",
+        "uri" : "spotify:artist:1xd4o3nvXyiD90YBml2A5T"
+      } ],
+      "available_markets" : [ "AR", "AU", "AT", "BE", "BO", "BR", "BG", "CA", "CL", "CO", "CR", "CY", "CZ", "DK", "DO", "DE", "EC", "EE", "SV", "FI", "FR", "GR", "GT", "HN", "HK", "HU", "IS", "IE", "IT", "LV", "LT", "LU", "MY", "MT", "MX", "NL", "NZ", "NI", "NO", "PA", "PY", "PE", "PH", "PL", "PT", "SG", "SK", "ES", "SE", "CH", "TW", "TR", "UY", "US", "GB", "AD", "LI", "MC", "ID", "JP", "TH", "VN", "RO", "IL", "ZA", "SA", "AE", "BH", "QA", "OM", "KW", "EG", "MA", "DZ", "TN", "LB", "JO", "PS", "IN", "BY", "KZ", "MD", "UA", "AL", "BA", "HR", "ME", "MK", "RS", "SI", "KR", "BD", "PK", "LK", "GH", "KE", "NG", "TZ", "UG", "AG", "AM", "BS", "BB", "BZ", "BT", "BW", "BF", "CV", "CW", "DM", "FJ", "GM", "GE", "GD", "GW", "GY", "HT", "JM", "KI", "LS", "LR", "MW", "MV", "ML", "MH", "FM", "NA", "NR", "NE", "PW", "PG", "PR", "WS", "SM", "ST", "SN", "SC", "SL", "SB", "KN", "LC", "VC", "SR", "TL", "TO", "TT", "TV", "VU", "AZ", "BN", "BI", "KH", "CM", "TD", "KM", "GQ", "SZ", "GA", "GN", "KG", "LA", "MO", "MR", "MN", "NP", "RW", "TG", "UZ", "ZW", "BJ", "MG", "MU", "MZ", "AO", "CI", "DJ", "ZM", "CD", "CG", "IQ", "LY", "TJ", "VE", "ET", "XK" ],
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/album/7rzTsA1ESntalWHhYUk8FA"
+      },
+      "href" : "https://api.spotify.com/v1/albums/7rzTsA1ESntalWHhYUk8FA",
+      "id" : "7rzTsA1ESntalWHhYUk8FA",
+      "images" : [ {
+        "height" : 640,
+        "url" : "https://i.scdn.co/image/ab67616d0000b273eeddd28e5a46ac371b091989",
+        "width" : 640
+      }, {
+        "height" : 300,
+        "url" : "https://i.scdn.co/image/ab67616d00001e02eeddd28e5a46ac371b091989",
+        "width" : 300
+      }, {
+        "height" : 64,
+        "url" : "https://i.scdn.co/image/ab67616d00004851eeddd28e5a46ac371b091989",
+        "width" : 64
+      } ],
+      "name" : "Unbecoming",
+      "release_date" : "2024-03-30",
+      "release_date_precision" : "day",
+      "total_tracks" : 1,
+      "type" : "album",
+      "uri" : "spotify:album:7rzTsA1ESntalWHhYUk8FA"
+    },
+    "artists" : [ {
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/artist/1xd4o3nvXyiD90YBml2A5T"
+      },
+      "href" : "https://api.spotify.com/v1/artists/1xd4o3nvXyiD90YBml2A5T",
+      "id" : "1xd4o3nvXyiD90YBml2A5T",
+      "name" : "Jacob Lizotte",
+      "type" : "artist",
+      "uri" : "spotify:artist:1xd4o3nvXyiD90YBml2A5T"
+    } ],
+    "available_markets" : [ "AR", "AU", "AT", "BE", "BO", "BR", "BG", "CA", "CL", "CO", "CR", "CY", "CZ", "DK", "DO", "DE", "EC", "EE", "SV", "FI", "FR", "GR", "GT", "HN", "HK", "HU", "IS", "IE", "IT", "LV", "LT", "LU", "MY", "MT", "MX", "NL", "NZ", "NI", "NO", "PA", "PY", "PE", "PH", "PL", "PT", "SG", "SK", "ES", "SE", "CH", "TW", "TR", "UY", "US", "GB", "AD", "LI", "MC", "ID", "JP", "TH", "VN", "RO", "IL", "ZA", "SA", "AE", "BH", "QA", "OM", "KW", "EG", "MA", "DZ", "TN", "LB", "JO", "PS", "IN", "BY", "KZ", "MD", "UA", "AL", "BA", "HR", "ME", "MK", "RS", "SI", "KR", "BD", "PK", "LK", "GH", "KE", "NG", "TZ", "UG", "AG", "AM", "BS", "BB", "BZ", "BT", "BW", "BF", "CV", "CW", "DM", "FJ", "GM", "GE", "GD", "GW", "GY", "HT", "JM", "KI", "LS", "LR", "MW", "MV", "ML", "MH", "FM", "NA", "NR", "NE", "PW", "PG", "PR", "WS", "SM", "ST", "SN", "SC", "SL", "SB", "KN", "LC", "VC", "SR", "TL", "TO", "TT", "TV", "VU", "AZ", "BN", "BI", "KH", "CM", "TD", "KM", "GQ", "SZ", "GA", "GN", "KG", "LA", "MO", "MR", "MN", "NP", "RW", "TG", "UZ", "ZW", "BJ", "MG", "MU", "MZ", "AO", "CI", "DJ", "ZM", "CD", "CG", "IQ", "LY", "TJ", "VE", "ET", "XK" ],
+    "disc_number" : 1,
+    "duration_ms" : 293618,
+    "explicit" : false,
+    "external_ids" : {
+      "isrc" : "QZHNA2478715"
+    },
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/track/1l6FDJmDqY3605iXd0kiCx"
+    },
+    "href" : "https://api.spotify.com/v1/tracks/1l6FDJmDqY3605iXd0kiCx",
+    "id" : "1l6FDJmDqY3605iXd0kiCx",
+    "is_local" : false,
+    "name" : "Unbecoming",
+    "popularity" : 14,
+    "preview_url" : null,
+    "track_number" : 1,
+    "type" : "track",
+    "uri" : "spotify:track:1l6FDJmDqY3605iXd0kiCx"
+  }, {
+    "album" : {
+      "album_type" : "single",
+      "artists" : [ {
+        "external_urls" : {
+          "spotify" : "https://open.spotify.com/artist/3tTDfNXZMDWXaQGlvXE8Lk"
+        },
+        "href" : "https://api.spotify.com/v1/artists/3tTDfNXZMDWXaQGlvXE8Lk",
+        "id" : "3tTDfNXZMDWXaQGlvXE8Lk",
+        "name" : "The Dark Atom",
+        "type" : "artist",
+        "uri" : "spotify:artist:3tTDfNXZMDWXaQGlvXE8Lk"
+      } ],
+      "available_markets" : [ "AR", "AU", "AT", "BE", "BO", "BR", "BG", "CA", "CL", "CO", "CR", "CY", "CZ", "DK", "DO", "DE", "EC", "EE", "SV", "FI", "FR", "GR", "GT", "HN", "HK", "HU", "IS", "IE", "IT", "LV", "LT", "LU", "MY", "MT", "MX", "NL", "NZ", "NI", "NO", "PA", "PY", "PE", "PH", "PL", "PT", "SG", "SK", "ES", "SE", "CH", "TW", "TR", "UY", "US", "GB", "AD", "LI", "MC", "ID", "JP", "TH", "VN", "RO", "IL", "ZA", "SA", "AE", "BH", "QA", "OM", "KW", "EG", "MA", "DZ", "TN", "LB", "JO", "PS", "IN", "BY", "KZ", "MD", "UA", "AL", "BA", "HR", "ME", "MK", "RS", "SI", "KR", "BD", "PK", "LK", "GH", "KE", "NG", "TZ", "UG", "AG", "AM", "BS", "BB", "BZ", "BT", "BW", "BF", "CV", "CW", "DM", "FJ", "GM", "GE", "GD", "GW", "GY", "HT", "JM", "KI", "LS", "LR", "MW", "MV", "ML", "MH", "FM", "NA", "NR", "NE", "PW", "PG", "PR", "WS", "SM", "ST", "SN", "SC", "SL", "SB", "KN", "LC", "VC", "SR", "TL", "TO", "TT", "TV", "VU", "AZ", "BN", "BI", "KH", "CM", "TD", "KM", "GQ", "SZ", "GA", "GN", "KG", "LA", "MO", "MR", "MN", "NP", "RW", "TG", "UZ", "ZW", "BJ", "MG", "MU", "MZ", "AO", "CI", "DJ", "ZM", "CD", "CG", "IQ", "LY", "TJ", "VE", "ET", "XK" ],
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/album/04zNqTs4cwaY4QflCwlXsT"
+      },
+      "href" : "https://api.spotify.com/v1/albums/04zNqTs4cwaY4QflCwlXsT",
+      "id" : "04zNqTs4cwaY4QflCwlXsT",
+      "images" : [ {
+        "height" : 640,
+        "url" : "https://i.scdn.co/image/ab67616d0000b27305362dbef337dde4aaacdf4a",
+        "width" : 640
+      }, {
+        "height" : 300,
+        "url" : "https://i.scdn.co/image/ab67616d00001e0205362dbef337dde4aaacdf4a",
+        "width" : 300
+      }, {
+        "height" : 64,
+        "url" : "https://i.scdn.co/image/ab67616d0000485105362dbef337dde4aaacdf4a",
+        "width" : 64
+      } ],
+      "name" : "Wormhole",
+      "release_date" : "2022-10-07",
+      "release_date_precision" : "day",
+      "total_tracks" : 1,
+      "type" : "album",
+      "uri" : "spotify:album:04zNqTs4cwaY4QflCwlXsT"
+    },
+    "artists" : [ {
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/artist/3tTDfNXZMDWXaQGlvXE8Lk"
+      },
+      "href" : "https://api.spotify.com/v1/artists/3tTDfNXZMDWXaQGlvXE8Lk",
+      "id" : "3tTDfNXZMDWXaQGlvXE8Lk",
+      "name" : "The Dark Atom",
+      "type" : "artist",
+      "uri" : "spotify:artist:3tTDfNXZMDWXaQGlvXE8Lk"
+    } ],
+    "available_markets" : [ "AR", "AU", "AT", "BE", "BO", "BR", "BG", "CA", "CL", "CO", "CR", "CY", "CZ", "DK", "DO", "DE", "EC", "EE", "SV", "FI", "FR", "GR", "GT", "HN", "HK", "HU", "IS", "IE", "IT", "LV", "LT", "LU", "MY", "MT", "MX", "NL", "NZ", "NI", "NO", "PA", "PY", "PE", "PH", "PL", "PT", "SG", "SK", "ES", "SE", "CH", "TW", "TR", "UY", "US", "GB", "AD", "LI", "MC", "ID", "JP", "TH", "VN", "RO", "IL", "ZA", "SA", "AE", "BH", "QA", "OM", "KW", "EG", "MA", "DZ", "TN", "LB", "JO", "PS", "IN", "BY", "KZ", "MD", "UA", "AL", "BA", "HR", "ME", "MK", "RS", "SI", "KR", "BD", "PK", "LK", "GH", "KE", "NG", "TZ", "UG", "AG", "AM", "BS", "BB", "BZ", "BT", "BW", "BF", "CV", "CW", "DM", "FJ", "GM", "GE", "GD", "GW", "GY", "HT", "JM", "KI", "LS", "LR", "MW", "MV", "ML", "MH", "FM", "NA", "NR", "NE", "PW", "PG", "PR", "WS", "SM", "ST", "SN", "SC", "SL", "SB", "KN", "LC", "VC", "SR", "TL", "TO", "TT", "TV", "VU", "AZ", "BN", "BI", "KH", "CM", "TD", "KM", "GQ", "SZ", "GA", "GN", "KG", "LA", "MO", "MR", "MN", "NP", "RW", "TG", "UZ", "ZW", "BJ", "MG", "MU", "MZ", "AO", "CI", "DJ", "ZM", "CD", "CG", "IQ", "LY", "TJ", "VE", "ET", "XK" ],
+    "disc_number" : 1,
+    "duration_ms" : 398688,
+    "explicit" : false,
+    "external_ids" : {
+      "isrc" : "CH6542273447"
+    },
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/track/2n5MH3RcWYUNzMx9pBjyjG"
+    },
+    "href" : "https://api.spotify.com/v1/tracks/2n5MH3RcWYUNzMx9pBjyjG",
+    "id" : "2n5MH3RcWYUNzMx9pBjyjG",
+    "is_local" : false,
+    "name" : "Wormhole",
+    "popularity" : 0,
+    "preview_url" : null,
+    "track_number" : 1,
+    "type" : "track",
+    "uri" : "spotify:track:2n5MH3RcWYUNzMx9pBjyjG"
+  }, {
+    "album" : {
+      "album_type" : "album",
+      "artists" : [ {
+        "external_urls" : {
+          "spotify" : "https://open.spotify.com/artist/1xd4o3nvXyiD90YBml2A5T"
+        },
+        "href" : "https://api.spotify.com/v1/artists/1xd4o3nvXyiD90YBml2A5T",
+        "id" : "1xd4o3nvXyiD90YBml2A5T",
+        "name" : "Jacob Lizotte",
+        "type" : "artist",
+        "uri" : "spotify:artist:1xd4o3nvXyiD90YBml2A5T"
+      } ],
+      "available_markets" : [ "AR", "AU", "AT", "BE", "BO", "BR", "BG", "CA", "CL", "CO", "CR", "CY", "CZ", "DK", "DO", "DE", "EC", "EE", "SV", "FI", "FR", "GR", "GT", "HN", "HK", "HU", "IS", "IE", "IT", "LV", "LT", "LU", "MY", "MT", "MX", "NL", "NZ", "NI", "NO", "PA", "PY", "PE", "PH", "PL", "PT", "SG", "SK", "ES", "SE", "CH", "TW", "TR", "UY", "US", "GB", "AD", "LI", "MC", "ID", "JP", "TH", "VN", "RO", "IL", "ZA", "SA", "AE", "BH", "QA", "OM", "KW", "EG", "MA", "DZ", "TN", "LB", "JO", "PS", "IN", "BY", "KZ", "MD", "UA", "AL", "BA", "HR", "ME", "MK", "RS", "SI", "KR", "BD", "PK", "LK", "GH", "KE", "NG", "TZ", "UG", "AG", "AM", "BS", "BB", "BZ", "BT", "BW", "BF", "CV", "CW", "DM", "FJ", "GM", "GE", "GD", "GW", "GY", "HT", "JM", "KI", "LS", "LR", "MW", "MV", "ML", "MH", "FM", "NA", "NR", "NE", "PW", "PG", "PR", "WS", "SM", "ST", "SN", "SC", "SL", "SB", "KN", "LC", "VC", "SR", "TL", "TO", "TT", "TV", "VU", "AZ", "BN", "BI", "KH", "CM", "TD", "KM", "GQ", "SZ", "GA", "GN", "KG", "LA", "MO", "MR", "MN", "NP", "RW", "TG", "UZ", "ZW", "BJ", "MG", "MU", "MZ", "AO", "CI", "DJ", "ZM", "CD", "CG", "IQ", "LY", "TJ", "VE", "ET", "XK" ],
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/album/3ni1A7MuKEdkbbn0EXSMpl"
+      },
+      "href" : "https://api.spotify.com/v1/albums/3ni1A7MuKEdkbbn0EXSMpl",
+      "id" : "3ni1A7MuKEdkbbn0EXSMpl",
+      "images" : [ {
+        "height" : 640,
+        "url" : "https://i.scdn.co/image/ab67616d0000b2738ee44bd5e7804890a9376553",
+        "width" : 640
+      }, {
+        "height" : 300,
+        "url" : "https://i.scdn.co/image/ab67616d00001e028ee44bd5e7804890a9376553",
+        "width" : 300
+      }, {
+        "height" : 64,
+        "url" : "https://i.scdn.co/image/ab67616d000048518ee44bd5e7804890a9376553",
+        "width" : 64
+      } ],
+      "name" : "Fallout",
+      "release_date" : "2023-07-13",
+      "release_date_precision" : "day",
+      "total_tracks" : 10,
+      "type" : "album",
+      "uri" : "spotify:album:3ni1A7MuKEdkbbn0EXSMpl"
+    },
+    "artists" : [ {
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/artist/1xd4o3nvXyiD90YBml2A5T"
+      },
+      "href" : "https://api.spotify.com/v1/artists/1xd4o3nvXyiD90YBml2A5T",
+      "id" : "1xd4o3nvXyiD90YBml2A5T",
+      "name" : "Jacob Lizotte",
+      "type" : "artist",
+      "uri" : "spotify:artist:1xd4o3nvXyiD90YBml2A5T"
+    } ],
+    "available_markets" : [ "AR", "AU", "AT", "BE", "BO", "BR", "BG", "CA", "CL", "CO", "CR", "CY", "CZ", "DK", "DO", "DE", "EC", "EE", "SV", "FI", "FR", "GR", "GT", "HN", "HK", "HU", "IS", "IE", "IT", "LV", "LT", "LU", "MY", "MT", "MX", "NL", "NZ", "NI", "NO", "PA", "PY", "PE", "PH", "PL", "PT", "SG", "SK", "ES", "SE", "CH", "TW", "TR", "UY", "US", "GB", "AD", "LI", "MC", "ID", "JP", "TH", "VN", "RO", "IL", "ZA", "SA", "AE", "BH", "QA", "OM", "KW", "EG", "MA", "DZ", "TN", "LB", "JO", "PS", "IN", "BY", "KZ", "MD", "UA", "AL", "BA", "HR", "ME", "MK", "RS", "SI", "KR", "BD", "PK", "LK", "GH", "KE", "NG", "TZ", "UG", "AG", "AM", "BS", "BB", "BZ", "BT", "BW", "BF", "CV", "CW", "DM", "FJ", "GM", "GE", "GD", "GW", "GY", "HT", "JM", "KI", "LS", "LR", "MW", "MV", "ML", "MH", "FM", "NA", "NR", "NE", "PW", "PG", "PR", "WS", "SM", "ST", "SN", "SC", "SL", "SB", "KN", "LC", "VC", "SR", "TL", "TO", "TT", "TV", "VU", "AZ", "BN", "BI", "KH", "CM", "TD", "KM", "GQ", "SZ", "GA", "GN", "KG", "LA", "MO", "MR", "MN", "NP", "RW", "TG", "UZ", "ZW", "BJ", "MG", "MU", "MZ", "AO", "CI", "DJ", "ZM", "CD", "CG", "IQ", "LY", "TJ", "VE", "ET", "XK" ],
+    "disc_number" : 1,
+    "duration_ms" : 277183,
+    "explicit" : false,
+    "external_ids" : {
+      "isrc" : "QZNWT2352818"
+    },
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/track/2O12XqYeOqENojgIc3h3UU"
+    },
+    "href" : "https://api.spotify.com/v1/tracks/2O12XqYeOqENojgIc3h3UU",
+    "id" : "2O12XqYeOqENojgIc3h3UU",
+    "is_local" : false,
+    "name" : "Fear Machine",
+    "popularity" : 11,
+    "preview_url" : null,
+    "track_number" : 8,
+    "type" : "track",
+    "uri" : "spotify:track:2O12XqYeOqENojgIc3h3UU"
+  }, {
+    "album" : {
+      "album_type" : "album",
+      "artists" : [ {
+        "external_urls" : {
+          "spotify" : "https://open.spotify.com/artist/1xd4o3nvXyiD90YBml2A5T"
+        },
+        "href" : "https://api.spotify.com/v1/artists/1xd4o3nvXyiD90YBml2A5T",
+        "id" : "1xd4o3nvXyiD90YBml2A5T",
+        "name" : "Jacob Lizotte",
+        "type" : "artist",
+        "uri" : "spotify:artist:1xd4o3nvXyiD90YBml2A5T"
+      } ],
+      "available_markets" : [ "AR", "AU", "AT", "BE", "BO", "BR", "BG", "CA", "CL", "CO", "CR", "CY", "CZ", "DK", "DO", "DE", "EC", "EE", "SV", "FI", "FR", "GR", "GT", "HN", "HK", "HU", "IS", "IE", "IT", "LV", "LT", "LU", "MY", "MT", "MX", "NL", "NZ", "NI", "NO", "PA", "PY", "PE", "PH", "PL", "PT", "SG", "SK", "ES", "SE", "CH", "TW", "TR", "UY", "US", "GB", "AD", "LI", "MC", "ID", "JP", "TH", "VN", "RO", "IL", "ZA", "SA", "AE", "BH", "QA", "OM", "KW", "EG", "MA", "DZ", "TN", "LB", "JO", "PS", "IN", "BY", "KZ", "MD", "UA", "AL", "BA", "HR", "ME", "MK", "RS", "SI", "KR", "BD", "PK", "LK", "GH", "KE", "NG", "TZ", "UG", "AG", "AM", "BS", "BB", "BZ", "BT", "BW", "BF", "CV", "CW", "DM", "FJ", "GM", "GE", "GD", "GW", "GY", "HT", "JM", "KI", "LS", "LR", "MW", "MV", "ML", "MH", "FM", "NA", "NR", "NE", "PW", "PG", "PR", "WS", "SM", "ST", "SN", "SC", "SL", "SB", "KN", "LC", "VC", "SR", "TL", "TO", "TT", "TV", "VU", "AZ", "BN", "BI", "KH", "CM", "TD", "KM", "GQ", "SZ", "GA", "GN", "KG", "LA", "MO", "MR", "MN", "NP", "RW", "TG", "UZ", "ZW", "BJ", "MG", "MU", "MZ", "AO", "CI", "DJ", "ZM", "CD", "CG", "IQ", "LY", "TJ", "VE", "ET", "XK" ],
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/album/2iALdI1LkWO6ZqkrBP4J7B"
+      },
+      "href" : "https://api.spotify.com/v1/albums/2iALdI1LkWO6ZqkrBP4J7B",
+      "id" : "2iALdI1LkWO6ZqkrBP4J7B",
+      "images" : [ {
+        "height" : 640,
+        "url" : "https://i.scdn.co/image/ab67616d0000b273745d0df4454ef926da5ab42b",
+        "width" : 640
+      }, {
+        "height" : 300,
+        "url" : "https://i.scdn.co/image/ab67616d00001e02745d0df4454ef926da5ab42b",
+        "width" : 300
+      }, {
+        "height" : 64,
+        "url" : "https://i.scdn.co/image/ab67616d00004851745d0df4454ef926da5ab42b",
+        "width" : 64
+      } ],
+      "name" : "Nevermore",
+      "release_date" : "2024-07-12",
+      "release_date_precision" : "day",
+      "total_tracks" : 10,
+      "type" : "album",
+      "uri" : "spotify:album:2iALdI1LkWO6ZqkrBP4J7B"
+    },
+    "artists" : [ {
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/artist/1xd4o3nvXyiD90YBml2A5T"
+      },
+      "href" : "https://api.spotify.com/v1/artists/1xd4o3nvXyiD90YBml2A5T",
+      "id" : "1xd4o3nvXyiD90YBml2A5T",
+      "name" : "Jacob Lizotte",
+      "type" : "artist",
+      "uri" : "spotify:artist:1xd4o3nvXyiD90YBml2A5T"
+    } ],
+    "available_markets" : [ "AR", "AU", "AT", "BE", "BO", "BR", "BG", "CA", "CL", "CO", "CR", "CY", "CZ", "DK", "DO", "DE", "EC", "EE", "SV", "FI", "FR", "GR", "GT", "HN", "HK", "HU", "IS", "IE", "IT", "LV", "LT", "LU", "MY", "MT", "MX", "NL", "NZ", "NI", "NO", "PA", "PY", "PE", "PH", "PL", "PT", "SG", "SK", "ES", "SE", "CH", "TW", "TR", "UY", "US", "GB", "AD", "LI", "MC", "ID", "JP", "TH", "VN", "RO", "IL", "ZA", "SA", "AE", "BH", "QA", "OM", "KW", "EG", "MA", "DZ", "TN", "LB", "JO", "PS", "IN", "BY", "KZ", "MD", "UA", "AL", "BA", "HR", "ME", "MK", "RS", "SI", "KR", "BD", "PK", "LK", "GH", "KE", "NG", "TZ", "UG", "AG", "AM", "BS", "BB", "BZ", "BT", "BW", "BF", "CV", "CW", "DM", "FJ", "GM", "GE", "GD", "GW", "GY", "HT", "JM", "KI", "LS", "LR", "MW", "MV", "ML", "MH", "FM", "NA", "NR", "NE", "PW", "PG", "PR", "WS", "SM", "ST", "SN", "SC", "SL", "SB", "KN", "LC", "VC", "SR", "TL", "TO", "TT", "TV", "VU", "AZ", "BN", "BI", "KH", "CM", "TD", "KM", "GQ", "SZ", "GA", "GN", "KG", "LA", "MO", "MR", "MN", "NP", "RW", "TG", "UZ", "ZW", "BJ", "MG", "MU", "MZ", "AO", "CI", "DJ", "ZM", "CD", "CG", "IQ", "LY", "TJ", "VE", "ET", "XK" ],
+    "disc_number" : 1,
+    "duration_ms" : 302956,
+    "explicit" : false,
+    "external_ids" : {
+      "isrc" : "QZTAS2442527"
+    },
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/track/5sRoA7AKkKlu6dnfbs00Io"
+    },
+    "href" : "https://api.spotify.com/v1/tracks/5sRoA7AKkKlu6dnfbs00Io",
+    "id" : "5sRoA7AKkKlu6dnfbs00Io",
+    "is_local" : false,
+    "name" : "Nevermore",
+    "popularity" : 13,
+    "preview_url" : null,
+    "track_number" : 2,
+    "type" : "track",
+    "uri" : "spotify:track:5sRoA7AKkKlu6dnfbs00Io"
+  }, {
+    "album" : {
+      "album_type" : "album",
+      "artists" : [ {
+        "external_urls" : {
+          "spotify" : "https://open.spotify.com/artist/0Iya8LminBqbPLY0bISqZ8"
+        },
+        "href" : "https://api.spotify.com/v1/artists/0Iya8LminBqbPLY0bISqZ8",
+        "id" : "0Iya8LminBqbPLY0bISqZ8",
+        "name" : "Thorr",
+        "type" : "artist",
+        "uri" : "spotify:artist:0Iya8LminBqbPLY0bISqZ8"
+      } ],
+      "available_markets" : [ "AR", "AU", "AT", "BE", "BO", "BR", "BG", "CA", "CL", "CO", "CR", "CY", "CZ", "DK", "DO", "DE", "EC", "EE", "SV", "FI", "FR", "GR", "GT", "HN", "HK", "HU", "IS", "IE", "IT", "LV", "LT", "LU", "MY", "MT", "MX", "NL", "NZ", "NI", "NO", "PA", "PY", "PE", "PH", "PL", "PT", "SG", "SK", "ES", "SE", "CH", "TW", "TR", "UY", "US", "GB", "AD", "LI", "MC", "ID", "JP", "TH", "VN", "RO", "IL", "ZA", "SA", "AE", "BH", "QA", "OM", "KW", "EG", "MA", "DZ", "TN", "LB", "JO", "PS", "IN", "BY", "KZ", "MD", "UA", "AL", "BA", "HR", "ME", "MK", "RS", "SI", "KR", "BD", "PK", "LK", "GH", "KE", "NG", "TZ", "UG", "AG", "AM", "BS", "BB", "BZ", "BT", "BW", "BF", "CV", "CW", "DM", "FJ", "GM", "GE", "GD", "GW", "GY", "HT", "JM", "KI", "LS", "LR", "MW", "MV", "ML", "MH", "FM", "NA", "NR", "NE", "PW", "PG", "PR", "WS", "SM", "ST", "SN", "SC", "SL", "SB", "KN", "LC", "VC", "SR", "TL", "TO", "TT", "TV", "VU", "AZ", "BN", "BI", "KH", "CM", "TD", "KM", "GQ", "SZ", "GA", "GN", "KG", "LA", "MO", "MR", "MN", "NP", "RW", "TG", "UZ", "ZW", "BJ", "MG", "MU", "MZ", "AO", "CI", "DJ", "ZM", "CD", "CG", "IQ", "LY", "TJ", "VE", "ET", "XK" ],
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/album/3PwydZ7CPvjnkrIlF8hM4C"
+      },
+      "href" : "https://api.spotify.com/v1/albums/3PwydZ7CPvjnkrIlF8hM4C",
+      "id" : "3PwydZ7CPvjnkrIlF8hM4C",
+      "images" : [ {
+        "height" : 640,
+        "url" : "https://i.scdn.co/image/ab67616d0000b2738b5f4600864d3aff5dc59aa3",
+        "width" : 640
+      }, {
+        "height" : 300,
+        "url" : "https://i.scdn.co/image/ab67616d00001e028b5f4600864d3aff5dc59aa3",
+        "width" : 300
+      }, {
+        "height" : 64,
+        "url" : "https://i.scdn.co/image/ab67616d000048518b5f4600864d3aff5dc59aa3",
+        "width" : 64
+      } ],
+      "name" : "Sigil 2 Collection",
+      "release_date" : "2023-12-10",
+      "release_date_precision" : "day",
+      "total_tracks" : 11,
+      "type" : "album",
+      "uri" : "spotify:album:3PwydZ7CPvjnkrIlF8hM4C"
+    },
+    "artists" : [ {
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/artist/0Iya8LminBqbPLY0bISqZ8"
+      },
+      "href" : "https://api.spotify.com/v1/artists/0Iya8LminBqbPLY0bISqZ8",
+      "id" : "0Iya8LminBqbPLY0bISqZ8",
+      "name" : "Thorr",
+      "type" : "artist",
+      "uri" : "spotify:artist:0Iya8LminBqbPLY0bISqZ8"
+    } ],
+    "available_markets" : [ "AR", "AU", "AT", "BE", "BO", "BR", "BG", "CA", "CL", "CO", "CR", "CY", "CZ", "DK", "DO", "DE", "EC", "EE", "SV", "FI", "FR", "GR", "GT", "HN", "HK", "HU", "IS", "IE", "IT", "LV", "LT", "LU", "MY", "MT", "MX", "NL", "NZ", "NI", "NO", "PA", "PY", "PE", "PH", "PL", "PT", "SG", "SK", "ES", "SE", "CH", "TW", "TR", "UY", "US", "GB", "AD", "LI", "MC", "ID", "JP", "TH", "VN", "RO", "IL", "ZA", "SA", "AE", "BH", "QA", "OM", "KW", "EG", "MA", "DZ", "TN", "LB", "JO", "PS", "IN", "BY", "KZ", "MD", "UA", "AL", "BA", "HR", "ME", "MK", "RS", "SI", "KR", "BD", "PK", "LK", "GH", "KE", "NG", "TZ", "UG", "AG", "AM", "BS", "BB", "BZ", "BT", "BW", "BF", "CV", "CW", "DM", "FJ", "GM", "GE", "GD", "GW", "GY", "HT", "JM", "KI", "LS", "LR", "MW", "MV", "ML", "MH", "FM", "NA", "NR", "NE", "PW", "PG", "PR", "WS", "SM", "ST", "SN", "SC", "SL", "SB", "KN", "LC", "VC", "SR", "TL", "TO", "TT", "TV", "VU", "AZ", "BN", "BI", "KH", "CM", "TD", "KM", "GQ", "SZ", "GA", "GN", "KG", "LA", "MO", "MR", "MN", "NP", "RW", "TG", "UZ", "ZW", "BJ", "MG", "MU", "MZ", "AO", "CI", "DJ", "ZM", "CD", "CG", "IQ", "LY", "TJ", "VE", "ET", "XK" ],
+    "disc_number" : 1,
+    "duration_ms" : 376615,
+    "explicit" : false,
+    "external_ids" : {
+      "isrc" : "QZWFJ2342428"
+    },
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/track/6Gd57lv6kXrQAmhMYleg7C"
+    },
+    "href" : "https://api.spotify.com/v1/tracks/6Gd57lv6kXrQAmhMYleg7C",
+    "id" : "6Gd57lv6kXrQAmhMYleg7C",
+    "is_local" : false,
+    "name" : "Umbral Uprising",
+    "popularity" : 12,
+    "preview_url" : null,
+    "track_number" : 2,
+    "type" : "track",
+    "uri" : "spotify:track:6Gd57lv6kXrQAmhMYleg7C"
+  }, {
+    "album" : {
+      "album_type" : "album",
+      "artists" : [ {
+        "external_urls" : {
+          "spotify" : "https://open.spotify.com/artist/1xd4o3nvXyiD90YBml2A5T"
+        },
+        "href" : "https://api.spotify.com/v1/artists/1xd4o3nvXyiD90YBml2A5T",
+        "id" : "1xd4o3nvXyiD90YBml2A5T",
+        "name" : "Jacob Lizotte",
+        "type" : "artist",
+        "uri" : "spotify:artist:1xd4o3nvXyiD90YBml2A5T"
+      } ],
+      "available_markets" : [ "AR", "AU", "AT", "BE", "BO", "BR", "BG", "CA", "CL", "CO", "CR", "CY", "CZ", "DK", "DO", "DE", "EC", "EE", "SV", "FI", "FR", "GR", "GT", "HN", "HK", "HU", "IS", "IE", "IT", "LV", "LT", "LU", "MY", "MT", "MX", "NL", "NZ", "NI", "NO", "PA", "PY", "PE", "PH", "PL", "PT", "SG", "SK", "ES", "SE", "CH", "TW", "TR", "UY", "US", "GB", "AD", "LI", "MC", "ID", "JP", "TH", "VN", "RO", "IL", "ZA", "SA", "AE", "BH", "QA", "OM", "KW", "EG", "MA", "DZ", "TN", "LB", "JO", "PS", "IN", "BY", "KZ", "MD", "UA", "AL", "BA", "HR", "ME", "MK", "RS", "SI", "KR", "BD", "PK", "LK", "GH", "KE", "NG", "TZ", "UG", "AG", "AM", "BS", "BB", "BZ", "BT", "BW", "BF", "CV", "CW", "DM", "FJ", "GM", "GE", "GD", "GW", "GY", "HT", "JM", "KI", "LS", "LR", "MW", "MV", "ML", "MH", "FM", "NA", "NR", "NE", "PW", "PG", "PR", "WS", "SM", "ST", "SN", "SC", "SL", "SB", "KN", "LC", "VC", "SR", "TL", "TO", "TT", "TV", "VU", "AZ", "BN", "BI", "KH", "CM", "TD", "KM", "GQ", "SZ", "GA", "GN", "KG", "LA", "MO", "MR", "MN", "NP", "RW", "TG", "UZ", "ZW", "BJ", "MG", "MU", "MZ", "AO", "CI", "DJ", "ZM", "CD", "CG", "IQ", "LY", "TJ", "VE", "ET", "XK" ],
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/album/3updhsqSKhX9TrJDYrmiq1"
+      },
+      "href" : "https://api.spotify.com/v1/albums/3updhsqSKhX9TrJDYrmiq1",
+      "id" : "3updhsqSKhX9TrJDYrmiq1",
+      "images" : [ {
+        "height" : 640,
+        "url" : "https://i.scdn.co/image/ab67616d0000b27334a749dd307506c03583ea6c",
+        "width" : 640
+      }, {
+        "height" : 300,
+        "url" : "https://i.scdn.co/image/ab67616d00001e0234a749dd307506c03583ea6c",
+        "width" : 300
+      }, {
+        "height" : 64,
+        "url" : "https://i.scdn.co/image/ab67616d0000485134a749dd307506c03583ea6c",
+        "width" : 64
+      } ],
+      "name" : "HELLBEAST",
+      "release_date" : "2025-10-24",
+      "release_date_precision" : "day",
+      "total_tracks" : 10,
+      "type" : "album",
+      "uri" : "spotify:album:3updhsqSKhX9TrJDYrmiq1"
+    },
+    "artists" : [ {
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/artist/1xd4o3nvXyiD90YBml2A5T"
+      },
+      "href" : "https://api.spotify.com/v1/artists/1xd4o3nvXyiD90YBml2A5T",
+      "id" : "1xd4o3nvXyiD90YBml2A5T",
+      "name" : "Jacob Lizotte",
+      "type" : "artist",
+      "uri" : "spotify:artist:1xd4o3nvXyiD90YBml2A5T"
+    } ],
+    "available_markets" : [ "AR", "AU", "AT", "BE", "BO", "BR", "BG", "CA", "CL", "CO", "CR", "CY", "CZ", "DK", "DO", "DE", "EC", "EE", "SV", "FI", "FR", "GR", "GT", "HN", "HK", "HU", "IS", "IE", "IT", "LV", "LT", "LU", "MY", "MT", "MX", "NL", "NZ", "NI", "NO", "PA", "PY", "PE", "PH", "PL", "PT", "SG", "SK", "ES", "SE", "CH", "TW", "TR", "UY", "US", "GB", "AD", "LI", "MC", "ID", "JP", "TH", "VN", "RO", "IL", "ZA", "SA", "AE", "BH", "QA", "OM", "KW", "EG", "MA", "DZ", "TN", "LB", "JO", "PS", "IN", "BY", "KZ", "MD", "UA", "AL", "BA", "HR", "ME", "MK", "RS", "SI", "KR", "BD", "PK", "LK", "GH", "KE", "NG", "TZ", "UG", "AG", "AM", "BS", "BB", "BZ", "BT", "BW", "BF", "CV", "CW", "DM", "FJ", "GM", "GE", "GD", "GW", "GY", "HT", "JM", "KI", "LS", "LR", "MW", "MV", "ML", "MH", "FM", "NA", "NR", "NE", "PW", "PG", "PR", "WS", "SM", "ST", "SN", "SC", "SL", "SB", "KN", "LC", "VC", "SR", "TL", "TO", "TT", "TV", "VU", "AZ", "BN", "BI", "KH", "CM", "TD", "KM", "GQ", "SZ", "GA", "GN", "KG", "LA", "MO", "MR", "MN", "NP", "RW", "TG", "UZ", "ZW", "BJ", "MG", "MU", "MZ", "AO", "CI", "DJ", "ZM", "CD", "CG", "IQ", "LY", "TJ", "VE", "ET", "XK" ],
+    "disc_number" : 1,
+    "duration_ms" : 225150,
+    "explicit" : false,
+    "external_ids" : {
+      "isrc" : "QT6E52534272"
+    },
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/track/4YnsuFvWzpcmW54J6637Jx"
+    },
+    "href" : "https://api.spotify.com/v1/tracks/4YnsuFvWzpcmW54J6637Jx",
+    "id" : "4YnsuFvWzpcmW54J6637Jx",
+    "is_local" : false,
+    "name" : "Cut Down",
+    "popularity" : 14,
+    "preview_url" : null,
+    "track_number" : 6,
+    "type" : "track",
+    "uri" : "spotify:track:4YnsuFvWzpcmW54J6637Jx"
+  } ]
+}

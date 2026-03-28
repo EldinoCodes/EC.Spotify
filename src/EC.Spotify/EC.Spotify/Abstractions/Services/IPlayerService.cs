@@ -49,6 +49,30 @@ public interface IPlayerService
     Task<SpotifyResult<bool>> TransferAsync(string? deviceId, bool play = false, CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// Retrieves the current playback state for the user's Spotify account asynchronously.
+    /// </summary>
+    /// <remarks>Returns information about the user's current playback, including the active device, repeat
+    /// state, shuffle state, and the currently playing item. Requires the
+    /// <c>user-read-playback-state</c> scope.</remarks>
+    /// <param name="cancellationToken">A cancellation token that can be used to cancel the operation.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains a <see
+    /// cref="SpotifyResult{PlayerState}"/> with the user's current playback state, or an error if the
+    /// request fails or the user has no active session.</returns>
+    Task<SpotifyResult<PlayerState>> PlayerStateGetAsync(CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieves the item currently playing on the user's Spotify account asynchronously.
+    /// </summary>
+    /// <remarks>Returns the full playback state for the currently playing item, which may be a track,
+    /// episode, or other media type. Requires the <c>user-read-playback-state</c> scope. Returns an empty
+    /// result if nothing is currently playing.</remarks>
+    /// <param name="cancellationToken">A cancellation token that can be used to cancel the operation.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains a <see
+    /// cref="SpotifyResult{PlayerState}"/> describing the currently playing item and its playback
+    /// context.</returns>
+    Task<SpotifyResult<PlayerState>> CurrentlyPlayingGetAsync(CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Starts playback of the specified tracks on the given Spotify device asynchronously.
     /// </summary>
     /// <remarks>If the device is not available or the user does not have playback permissions, the operation

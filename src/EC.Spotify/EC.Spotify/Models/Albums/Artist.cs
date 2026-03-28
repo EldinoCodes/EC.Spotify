@@ -14,8 +14,6 @@ public class Artist : IPolymorphicItem
     public List<Image>? Images { get; set; }
     [JsonPropertyName("name")]
     public string? Name { get; set; }
-    [JsonPropertyName("type")]
-    public string? Type { get; set; }
     [JsonPropertyName("uri")]
     public string? Uri { get; set; }
 }

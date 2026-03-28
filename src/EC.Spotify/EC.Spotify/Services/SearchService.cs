@@ -6,7 +6,6 @@ using EC.Spotify.Models;
 using EC.Spotify.Models.Searches;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System.Web;
 
 namespace EC.Spotify.Services;
 
@@ -18,38 +17,56 @@ internal class SearchService(ILogger<SearchService> logger, IOptions<SpotifyOpti
 
     private const string SpotifySearchUri = "https://api.spotify.com/v1/search";
 
-    public async Task<SpotifyResult<SpotifyPageResult>> SearchAsync(SearchQuery? searchQuery, CancellationToken cancellationToken = default)
+    public async Task<SpotifyResult<SpotifyPolymorphicPageResult>> SearchAsync(SearchQuery? searchQuery, CancellationToken cancellationToken = default)
     {
-        var q = new List<string>();
-        if (!string.IsNullOrEmpty(searchQuery?.ArtistName)) q.Add($"artist:{searchQuery.ArtistName}");
-        if (!string.IsNullOrEmpty(searchQuery?.AlbumName)) q.Add($"album:{searchQuery.AlbumName}");
-        if (!string.IsNullOrEmpty(searchQuery?.TrackName)) q.Add($"track:{searchQuery.TrackName}");
-        if (!string.IsNullOrEmpty(searchQuery?.Genre)) q.Add($"genre:{searchQuery.Genre}");
-        var searchQueryType = typeof(SearchType);
-        var searchTypes = string.Join(",", Enum.GetValues(searchQueryType)
-            .Cast<SearchType>()
-            .Where(t => searchQuery?.Type.HasFlag(t) ?? false)
-            .Select(t => Enum.GetName(searchQueryType, t)?.ToLower())
-        );
-
-        var queryParams = new Dictionary<string, string?>()
+        var ret = new SpotifyResult<SpotifyPolymorphicPageResult>();
+        try
         {
-            { "q", HttpUtility.UrlEncode(string.Join(" ", q)) },
-            { "type", HttpUtility.UrlEncode(searchTypes) },
-            { "limit", $"{searchQuery?.Limit ?? 20}"},
-            { "offset", $"{searchQuery?.Offset ?? 0 }"}
-        };
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("SearchAsync called with query: {Query}, type: {Type}, limit: {Limit}, offset: {Offset}",
+                    searchQuery?.Query, searchQuery?.Type, searchQuery?.Limit, searchQuery?.Offset);
 
-        var uri = SpotifySearchUri.ToUri(queryParams);
+            var limit = searchQuery?.Limit;
+            var offset = searchQuery?.Offset;
 
-        return await _spotifyProvider.ExecuteSpotifyResultAsync<SpotifyPageResult>("get", uri, null, new() { 
-            "albums", 
-            "artists", 
-            "audiobooks", 
-            "episodes", 
-            "playlists",
-            "shows", 
-            "tracks" 
-        }, cancellationToken: cancellationToken);
+            var q = new List<string>();
+            if (!string.IsNullOrEmpty(searchQuery?.Query)) q.Add(searchQuery.Query);
+            var searchQueryType = typeof(SearchType);
+            var searchTypes = string.Join(",", Enum.GetValues(searchQueryType)
+                .Cast<SearchType>()
+                .Where(t => searchQuery?.Type.HasFlag(t) ?? false)
+                .Select(t => Enum.GetName(searchQueryType, t)?.ToLower())
+            );
+
+            var queryParams = new Dictionary<string, string?>()
+            {
+                { "q", string.Join(" ", q) },
+                { "type", searchTypes },
+                { "limit", $"{limit}"},
+                { "offset", $"{offset}"}
+            };
+
+            var uri = SpotifySearchUri.ToUri(queryParams);
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("SearchAsync requesting URI: {Uri}", uri);
+
+            return await _spotifyProvider.ExecuteSpotifyResultAsync<SpotifyPolymorphicPageResult>("get", uri, null, [
+                "albums",
+                "artists",
+                "audiobooks",
+                "episodes",
+                "playlists",
+                "shows",
+                "tracks"
+            ], cancellationToken: cancellationToken);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError(ex, "Error occurred while searching Spotify");
+
+            ret.Error = ex.ToSpotifyError();
+        }
+        return ret;
     }
 }

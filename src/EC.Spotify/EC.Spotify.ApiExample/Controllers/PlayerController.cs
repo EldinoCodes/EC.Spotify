@@ -40,6 +40,21 @@ public class PlayerController(ISpotifyClient spotifyClient) : ControllerBase
 
         return new JsonResult(ret);
     }
+
+    [HttpGet("state")]
+    public async Task<IActionResult> PlayerStateGetAsync(CancellationToken cancellationToken = default)
+    {
+        var ret = await _spotifyClient.Player.PlayerStateGetAsync(cancellationToken);
+
+        return new JsonResult(ret);
+    }
+    [HttpGet("currently-playing")]
+    public async Task<IActionResult> CurrentlyPlayingGetAsync(CancellationToken cancellationToken = default)
+    {
+        var ret = await _spotifyClient.Player.CurrentlyPlayingGetAsync(cancellationToken);
+
+        return new JsonResult(ret);
+    }
     
     [HttpPost("play")]
     public async Task<IActionResult> PlayerPlayAsync(string? deviceId, List<string>? playList, CancellationToken cancellationToken = default)

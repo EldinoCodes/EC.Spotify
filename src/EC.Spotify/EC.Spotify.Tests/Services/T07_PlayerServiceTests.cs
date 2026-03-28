@@ -136,4 +136,24 @@ public sealed class T07_PlayerServiceTests
         var result = await sut.PlayerVolumeAsync(volumePercent);
         Assert.IsNotNull(result?.Data);
     }
+
+    [TestMethod]
+    public async Task PlayerStateGetAsync_ShouldReturnPlayerState()
+    {
+        var sut = Initializer.Resolve<IPlayerService>();
+        ArgumentNullException.ThrowIfNull(sut, nameof(sut));
+
+        var result = await sut.PlayerStateGetAsync();
+        Assert.IsNotNull(result?.Data);
+    }
+
+    [TestMethod]
+    public async Task CurrentlyPlayingGetAsync_ShouldReturnCurrentlyPlaying()
+    {
+        var sut = Initializer.Resolve<IPlayerService>();
+        ArgumentNullException.ThrowIfNull(sut, nameof(sut));
+
+        var result = await sut.CurrentlyPlayingGetAsync();
+        Assert.IsNotNull(result?.Data);
+    }
 }

@@ -1,5 +1,6 @@
 ﻿using EC.Spotify.Abstractions.Providers;
 using EC.Spotify.Abstractions.Services;
+using EC.Spotify.Extensions;
 using EC.Spotify.Models;
 using EC.Spotify.Models.Albums;
 using Microsoft.Extensions.Logging;
@@ -17,8 +18,22 @@ internal class TrackService(ILogger<TrackService> logger, IOptions<SpotifyOption
 
     public async Task<SpotifyResult<Track>> TrackGetAsync(string? id, CancellationToken cancellationToken = default)
     {
-        var uri = string.Format(SpotifyTrackUri, id);
+        try
+        {
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("TrackGetAsync called with id: {Id}", id);
 
-        return await _spotifyProvider.ExecuteSpotifyResultAsync<Track>("get", uri, cancellationToken: cancellationToken);
+            var uri = string.Format(SpotifyTrackUri, id);
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("TrackGetAsync requesting URI: {Uri}", uri);
+
+            return await _spotifyProvider.ExecuteSpotifyResultAsync<Track>("get", uri, cancellationToken: cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "TrackGetAsync failed for id: {Id}", id);
+            return new SpotifyResult<Track> { Error = ex.ToSpotifyError() };
+        }
     }
 }

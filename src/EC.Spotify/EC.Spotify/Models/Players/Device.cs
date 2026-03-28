@@ -16,8 +16,6 @@ public class Device
     public string? Name { get; set; }
     [JsonPropertyName("supports_volume")]
     public bool SupportsVolume { get; set; }
-    [JsonPropertyName("type")]
-    public string? Type { get; set; }
     [JsonPropertyName("volume_percent")]
     public int VolumePercent { get; set; }
 }

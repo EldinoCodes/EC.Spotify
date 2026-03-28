@@ -19,17 +19,46 @@ internal class AudiobookService(ILogger<AudiobookService> logger, IOptions<Spoti
 
     public async Task<SpotifyResult<Audiobook>> AudiobookGetAsync(string? id, CancellationToken cancellationToken = default)
     {
-        var uri = string.Format(SpotifyAudiobookUri, id);
-
-        return await _spotifyProvider.ExecuteSpotifyResultAsync<Audiobook>("get", uri, cancellationToken: cancellationToken);
-    }
-    public async Task<SpotifyResult<SpotifyPageResult>> AudiobookChapterGetAllAsync(string? id, int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)
-    {
-        var uri = string.Format(SpotifyAudiobookChaptersUri, id).ToUri(new()
+        try
         {
-            { "limit", $"{limit}"},
-            { "offset", $"{offset}"}
-        });
-        return await _spotifyProvider.ExecuteSpotifyResultAsync<SpotifyPageResult>("get", uri, cancellationToken: cancellationToken);
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("AudiobookGetAsync called with id: {Id}", id);
+
+            var uri = string.Format(SpotifyAudiobookUri, id);
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("AudiobookGetAsync requesting URI: {Uri}", uri);
+
+            return await _spotifyProvider.ExecuteSpotifyResultAsync<Audiobook>("get", uri, cancellationToken: cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "AudiobookGetAsync failed for id: {Id}", id);
+            return new SpotifyResult<Audiobook> { Error = ex.ToSpotifyError() };
+        }
+    }
+    public async Task<SpotifyResult<SpotifyPageResult<Chapter>>> AudiobookChapterGetAllAsync(string? id, int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("AudiobookChapterGetAllAsync called with id: {Id}, limit: {Limit}, offset: {Offset}", id, limit, offset);
+
+            var uri = string.Format(SpotifyAudiobookChaptersUri, id).ToUri(new()
+            {
+                { "limit", $"{limit}"},
+                { "offset", $"{offset}"}
+            });
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("AudiobookChapterGetAllAsync requesting URI: {Uri}", uri);
+
+            return await _spotifyProvider.ExecuteSpotifyResultAsync<SpotifyPageResult<Chapter>>("get", uri, cancellationToken: cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "AudiobookChapterGetAllAsync failed for id: {Id}", id);
+            return new SpotifyResult<SpotifyPageResult<Chapter>> { Error = ex.ToSpotifyError() };
+        }
     }
 }

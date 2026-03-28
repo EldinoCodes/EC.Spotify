@@ -1,6 +1,7 @@
 ﻿using EC.Spotify.Models;
 using EC.Spotify.Models.Library;
 using EC.Spotify.Models.Playlists;
+using EC.Spotify.Models.Shows;
 
 namespace EC.Spotify.Abstractions.Services;
 
@@ -14,7 +15,7 @@ public interface IPlaylistService
     /// <param name="cancellationToken">A cancellation token that can be used to cancel the asynchronous operation.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains a SpotifyResult with a
     /// SpotifyPageResult holding the user's playlists.</returns>
-    Task<SpotifyResult<SpotifyPageResult>> MyPlaylistGetAllAsync(CancellationToken cancellationToken = default);
+    Task<SpotifyResult<SpotifyPageResult<Playlist>>> MyPlaylistGetAllAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the details of a Spotify playlist by its unique identifier asynchronously.
@@ -33,7 +34,7 @@ public interface IPlaylistService
     /// <param name="cancellationToken">A cancellation token that can be used to cancel the asynchronous operation.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains a SpotifyResult with a
     /// SpotifyPageResult holding the playlist items.</returns>
-    Task<SpotifyResult<SpotifyPageResult>> PlaylistItemGetAllAsync(string? id, int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default);
+    Task<SpotifyResult<PlaylistPageResult>> PlaylistItemGetAllAsync(string? id, int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Asynchronously updates the details of an existing playlist with the specified information.
@@ -84,12 +85,11 @@ public interface IPlaylistService
     /// <summary>
     /// Removes an item from a playlist asynchronously.
     /// </summary>
-    /// <remarks>Either <paramref name="id"/> or <paramref name="libraryItem"/> must be provided to identify
-    /// the item to remove. If both are null, the operation will not remove any item.</remarks>
-    /// <param name="id">The unique identifier of the playlist item to remove. Can be null if the item is specified by <paramref
-    /// name="libraryItem"/>.</param>
-    /// <param name="libraryItem">A reference to the library item to remove from the playlist. Can be null if the item is specified by <paramref
-    /// name="id"/>.</param>
+    /// <remarks>The <paramref name="id"/> parameter identifies the playlist from which to remove an item,
+    /// and <paramref name="libraryItem"/> identifies the specific track or episode to remove. If <paramref
+    /// name="libraryItem"/> is <see langword="null"/>, no item will be removed.</remarks>
+    /// <param name="id">The unique identifier of the playlist from which the item will be removed. Can be null.</param>
+    /// <param name="libraryItem">A reference to the track or episode to remove from the playlist. Can be null, in which case no action is taken.</param>
     /// <param name="cancellationToken">A cancellation token that can be used to cancel the operation.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains a <see
     /// cref="SpotifyResult{Boolean}"/> indicating <see langword="true"/> if the item was successfully removed;

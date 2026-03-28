@@ -13,7 +13,7 @@ namespace EC.Spotify.Tests.Mocks.Providers;
 /// <remarks>This class simulates HTTP interactions with the Spotify API, allowing for controlled testing without
 /// actual network calls. It is designed to return predefined results, making it useful for unit tests and scenarios
 /// where real API calls are not feasible.</remarks>
-internal class MockSpotifyHttpProvider(ILogger<SpotifyHttpProvider> logger, IConfiguration configuration, HttpClient httpClient) : SpotifyHttpProvider(logger, httpClient), ISpotifyHttpProvider
+internal class MockSpotifyHttpProvider(ILogger<SpotifyHttpProvider> logger, IConfiguration configuration, IHttpClientFactory httpClientFactory) : SpotifyHttpProvider(logger, httpClientFactory), ISpotifyHttpProvider
 {
     private readonly IConfiguration _configuration = configuration;
     public async new Task<string?> ExecuteAsync(string? method, string? uri, HttpContent? httpContent = null, Action<HttpRequestHeaders>? configureHttpHeaders = null, CancellationToken cancellationToken = default)

@@ -1,5 +1,6 @@
 ﻿using EC.Spotify.Abstractions.Providers;
 using EC.Spotify.Abstractions.Services;
+using EC.Spotify.Extensions;
 using EC.Spotify.Models;
 using EC.Spotify.Models.Audiobooks;
 using Microsoft.Extensions.Logging;
@@ -17,8 +18,22 @@ internal class ChapterService(ILogger<ChapterService> logger, IOptions<SpotifyOp
 
     public async Task<SpotifyResult<Chapter>> ChapterGetAsync(string? chapterId, CancellationToken cancellationToken = default)
     {
-        var uri = string.Format(SpotifyChapterUri, chapterId);
-        
-        return await _spotifyProvider.ExecuteSpotifyResultAsync<Chapter>("get", uri, cancellationToken: cancellationToken);
+        try
+        {
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("ChapterGetAsync called with chapterId: {ChapterId}", chapterId);
+
+            var uri = string.Format(SpotifyChapterUri, chapterId);
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("ChapterGetAsync requesting URI: {Uri}", uri);
+
+            return await _spotifyProvider.ExecuteSpotifyResultAsync<Chapter>("get", uri, cancellationToken: cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "ChapterGetAsync failed for chapterId: {ChapterId}", chapterId);
+            return new SpotifyResult<Chapter> { Error = ex.ToSpotifyError() };
+        }
     }
 }

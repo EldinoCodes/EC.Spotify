@@ -24,7 +24,7 @@ public interface IArtistService
     /// filter the types of albums returned. The operation is performed asynchronously and can be cancelled using the
     /// cancellation token.</remarks>
     /// <param name="id">The Spotify ID of the artist whose albums are to be retrieved. Can be null to indicate no artist.</param>
-    /// <param name="limit">The maximum number of albums to return in the result. Must be a positive integer. The default is 20.</param>
+    /// <param name="limit">The maximum number of albums to return in the result. Must be a positive integer. The default is 10.</param>
     /// <param name="offset">The index of the first album to return. Used for pagination. The default is 0.</param>
     /// <param name="includeGroups">A comma-separated list of album types to include, such as "album", "single", "appears_on", or "compilation". If
     /// null or empty, all album types are included.</param>
@@ -32,5 +32,5 @@ public interface IArtistService
     /// <returns>A task that represents the asynchronous operation. The task result contains a SpotifyResult with a
     /// SpotifyPageResult of Album objects for the specified artist. The result may be empty if the artist has no albums
     /// or the ID is invalid.</returns>
-    Task<SpotifyResult<SpotifyPageResult>> ArtistAlbumGetAllAsync(string? id, int? limit = 20, int? offset = 0, string? includeGroups = default, CancellationToken cancellationToken = default);
+    Task<SpotifyResult<SpotifyPageResult<Album>>> ArtistAlbumGetAllAsync(string? id, int? limit = 10, int? offset = 0, string? includeGroups = default, CancellationToken cancellationToken = default);
 }

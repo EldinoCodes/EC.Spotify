@@ -30,8 +30,6 @@ public class Show : IPolymorphicItem
     public string? Name { get; set; }
     [JsonPropertyName("publisher")]
     public string? Publisher { get; set; }
-    [JsonPropertyName("type")]
-    public string? Type { get; set; }
     [JsonPropertyName("uri")]
     public string? Uri { get; set; }
     [JsonPropertyName("total_episodes")]

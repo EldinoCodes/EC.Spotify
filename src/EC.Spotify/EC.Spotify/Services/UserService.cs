@@ -1,163 +1,81 @@
 ﻿using EC.Spotify.Abstractions.Providers;
+using EC.Spotify.Abstractions.Services;
+using EC.Spotify.Extensions;
+using EC.Spotify.Models;
+using EC.Spotify.Models.Albums;
+using EC.Spotify.Models.Shows;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace EC.Spotify.Services;
 
-internal class UserService(ILogger<UserService> logger, IOptions<SpotifyOptions> options, ISpotifyProvider spotifyProvider)
+internal class UserService(ILogger<UserService> logger, IOptions<SpotifyOptions> options, ISpotifyProvider spotifyProvider) : IUserService
 {
     private readonly ILogger<UserService> _logger = logger;
     private readonly SpotifyOptions _options = options.Value;
     private readonly ISpotifyProvider _spotifyProvider = spotifyProvider;
 
     private const string SpotifyMyAlbumsUri = "https://api.spotify.com/v1/me/albums";
+    private const string SpotifyMyEpisodesUri = "https://api.spotify.com/v1/me/episodes";
 
-    private const string SpotifyMyLibraryUri = "https://api.spotify.com/v1/me/library";
-    private const string SpotifyMyLibraryContainsUri = "https://api.spotify.com/v1/me/library/contains";
-
-/*
-    public async Task<SpotifyResult<SpotifyPageResult>> MyAlbumGetAllAsync(int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)
+    public async Task<SpotifyResult<SpotifyPageResult<Album>>> MyAlbumGetAllAsync(int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)
     {
-        var requiredScopes = new List<string>() { "user-library-read" };
-        var missingScopes = _options.Scopes.Except(requiredScopes);
-        if (missingScopes.Any()) throw new Exception($"Missing required scopes: {string.Join(", ", missingScopes)}");
-
-        var queryParams = new Dictionary<string, string?>()
-        {
-            { "limit", $"{limit}"},
-            { "offset", $"{offset }"}
-        };
-        var uri = BuildUri(SpotifyMyAlbumsUri, queryParams);
-        var header = await GetAuthorizationHeaderAsync(cancellationToken);
-        var ret = await _httpSpotifyProvider.ExecuteAsync<SpotifyPageResult>("get", uri, null, header, null, cancellationToken);
-
-        return ret;
-    }
-
-
-    public async Task<SpotifyResult<bool>> LibraryCheckAsync(ReferenceItem? libraryItem, CancellationToken cancellationToken = default)
-    {
-        var ret = new SpotifyResult<bool>();
-
-        var res = await LibraryCheckAllAsync(libraryItem is not null ? [libraryItem] : [], cancellationToken);
-        if (res.IsSuccess)
-            ret.Data = res.Data?.FirstOrDefault() ?? false;
-
-        return ret;
-    }
-    public async Task<SpotifyResult<List<bool>>> LibraryCheckAllAsync(List<ReferenceItem> libraryItems, CancellationToken cancellationToken = default)
-    {
-        var ret = new SpotifyResult<List<bool>>();
-
         try
         {
-            // imposed cap from spotify of 40 items per request, so we need to chunk the list and make multiple requests if necessary
-            foreach (var batch in libraryItems.Chunk(40))
-            {
-                var uris = batch.Select(x => x.Uri).ToList();
-                var queryParams = new Dictionary<string, string?>()
-                {
-                    { "uris", HttpUtility.UrlEncode(string.Join(",", uris)) }
-                };
-                var uri = BuildUri(SpotifyMyLibraryContainsUri, queryParams);
-                var header = await GetAuthorizationHeaderAsync(cancellationToken);
-                var result = await _httpSpotifyProvider.ExecuteAsync<List<bool>>("get", uri, null, header, null, cancellationToken);
-                if (!result.IsSuccess) continue;
-                if (result.Data is null) continue;
+            var error = _options.ValidateScopes(["user-library-read"]);
+            if (error is not null) return new SpotifyResult<SpotifyPageResult<Album>>() { Error = error };
 
-                ret.Data ??= [];
-                ret.Data.AddRange(result.Data);
-            }
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("MyAlbumGetAllAsync called with limit: {Limit}, offset: {Offset}", limit, offset);
+
+            if (limit.HasValue && (limit < 1 || limit > 50)) throw new ArgumentOutOfRangeException(nameof(limit), "Limit must be between 1 and 50");
+
+            var uri = SpotifyMyAlbumsUri.ToUri(new()
+            {
+                { "limit", $"{limit}"},
+                { "offset", $"{offset}"}
+            });
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("MyAlbumGetAllAsync requesting URI: {Uri}", uri);
+
+            return await _spotifyProvider.ExecuteSpotifyResultAsync<SpotifyPageResult<Album>>("get", uri, cancellationToken: cancellationToken);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error checking library items");
+            _logger.LogError(ex, "MyAlbumGetAllAsync failed");
+            return new SpotifyResult<SpotifyPageResult<Album>> { Error = ex.ToSpotifyError() };
         }
-        return ret;
     }
 
-    public async Task<SpotifyResult<bool>> LibraryAddAsync(ReferenceItem? libraryItem, CancellationToken cancellationToken = default)
+    public async Task<SpotifyResult<SpotifyPageResult<Episode>>> MyEpisodeGetAllAsync(int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)
     {
-        var ret = new SpotifyResult<bool>();
-
-        var res = await LibraryAddAllAsync(libraryItem is not null ? [libraryItem] : [], cancellationToken);
-        if (res.IsSuccess == true)
-            ret.Data = res.Data?.FirstOrDefault() ?? false;
-
-        return ret;
-    }
-    public async Task<SpotifyResult<List<bool>>> LibraryAddAllAsync(List<ReferenceItem> libraryItems, CancellationToken cancellationToken = default)
-    {
-        var ret = new SpotifyResult<List<bool>>();
-
         try
         {
-            // imposed cap from spotify of 40 items per request, so we need to chunk the list and make multiple requests if necessary
-            foreach (var batch in libraryItems.Chunk(40))
+            var error = _options.ValidateScopes(["user-library-read", "user-read-playback-position"]);
+            if (error is not null) return new SpotifyResult<SpotifyPageResult<Episode>>() { Error = error };
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("MyEpisodeGetAllAsync called with limit: {Limit}, offset: {Offset}", limit, offset);
+
+            if (limit.HasValue && (limit < 1 || limit > 50)) throw new ArgumentOutOfRangeException(nameof(limit), "Limit must be between 1 and 50");
+
+            var uri = SpotifyMyEpisodesUri.ToUri(new()
             {
-                var uris = batch.Select(x => x.Uri).ToList();
-                var queryParams = new Dictionary<string, string?>()
-                {
-                    { "uris", HttpUtility.UrlEncode(string.Join(",", uris)) }
-                };
-                var uri = BuildUri(SpotifyMyLibraryUri, queryParams);
-                var header = await GetAuthorizationHeaderAsync(cancellationToken);
-                var result = await _httpSpotifyProvider.ExecuteAsync<List<bool>>("put", uri, null, header, null, cancellationToken);
-                if (!result.IsSuccess) continue;
+                { "limit", $"{limit}"},
+                { "offset", $"{offset}"}
+            });
 
-                result.Data = [.. Enumerable.Range(0, batch.Count()).Select(i => true)];
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("MyEpisodeGetAllAsync requesting URI: {Uri}", uri);
 
-                ret.Data ??= [];
-                ret.Data.AddRange(result.Data);
-            }
+            return await _spotifyProvider.ExecuteSpotifyResultAsync<SpotifyPageResult<Episode>>("get", uri, cancellationToken: cancellationToken);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error adding library items");
+            _logger.LogError(ex, "MyEpisodeGetAllAsync failed");
+            return new SpotifyResult<SpotifyPageResult<Episode>> { Error = ex.ToSpotifyError() };
         }
-        return ret;
     }
 
-    public async Task<SpotifyResult<bool>> LibraryRemoveAsync(ReferenceItem? libraryItem, CancellationToken cancellationToken = default)
-    {
-        var ret = new SpotifyResult<bool>();
-
-        var res = await LibraryRemoveAllAsync(libraryItem is not null ? [libraryItem] : [], cancellationToken);
-        if (res.IsSuccess == true)
-            ret.Data = res.Data?.FirstOrDefault() ?? false;
-
-        return ret;
     }
-    public async Task<SpotifyResult<List<bool>>> LibraryRemoveAllAsync(List<ReferenceItem> libraryItems, CancellationToken cancellationToken = default)
-    {
-        var ret = new SpotifyResult<List<bool>>();
-
-        try
-        {
-            // imposed cap from spotify of 40 items per request, so we need to chunk the list and make multiple requests if necessary
-            foreach (var batch in libraryItems.Chunk(40))
-            {
-                var uris = batch.Select(x => x.Uri).ToList();
-                var queryParams = new Dictionary<string, string?>()
-                {
-                    { "uris", HttpUtility.UrlEncode(string.Join(",", uris)) }
-                };
-                var uri = BuildUri(SpotifyMyLibraryUri, queryParams);
-                var header = await GetAuthorizationHeaderAsync(cancellationToken);
-                var result = await _httpSpotifyProvider.ExecuteAsync<List<bool>>("delete", uri, null, header, null, cancellationToken);
-                if (!result.IsSuccess) continue;
-
-                result.Data = [.. Enumerable.Range(0, batch.Count()).Select(i => true)];
-
-                ret.Data ??= [];
-                ret.Data.AddRange(result.Data);
-            }
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error checking library items");
-        }
-        return ret;
-    }
-*/
-}

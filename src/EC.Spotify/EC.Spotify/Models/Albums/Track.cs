@@ -30,8 +30,6 @@ public class Track : IPolymorphicItem
     public string? Name { get; set; }
     [JsonPropertyName("track_number")]
     public int TrackNumber { get; set; }
-    [JsonPropertyName("type")]
-    public string? Type { get; set; }
     [JsonPropertyName("uri")]
     public string? Uri { get; set; }
     [JsonPropertyName("is_local")]

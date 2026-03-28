@@ -33,9 +33,6 @@ public class Album : IPolymorphicItem
     [JsonPropertyName("restrictions")]
     public Restriction? Restrictions { get; set; }
 
-    [JsonPropertyName("type")]
-    public string? Type { get; set; }
-
     [JsonPropertyName("uri")]
     public string? Uri { get; set; }
 
@@ -43,7 +40,7 @@ public class Album : IPolymorphicItem
     public List<Artist>? Artists { get; set; }
 
     [JsonPropertyName("tracks")]
-    public SpotifyPageResult? Tracks { get; set; }
+    public SpotifyPageResult<Track>? Tracks { get; set; }
 
     [JsonPropertyName("copyrights")]
     public List<Copyright>? Copyrights { get; set; }
