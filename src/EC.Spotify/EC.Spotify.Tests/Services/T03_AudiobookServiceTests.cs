@@ -7,7 +7,7 @@ public sealed class T03_AudiobookServiceTests
 {
     [TestMethod]
     [DataRow("587ehiVcGuXjxKMECQneQ6")]
-    public async Task AudiobookGetAsync_ShouldReturnAudiobook(string? id)
+    public async Task T001_AudiobookGetAsync_ShouldReturnAudiobook(string? id)
     {
         ArgumentException.ThrowIfNullOrEmpty(id, nameof(id));
 
@@ -15,12 +15,12 @@ public sealed class T03_AudiobookServiceTests
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
         var result = await sut.AudiobookGetAsync(id);
-        Assert.IsNotNull(result?.Data);
+        Assert.IsNotNull(result?.Data, result?.Error?.Message);
     }
 
     [TestMethod]
     [DataRow("587ehiVcGuXjxKMECQneQ6")]
-    public async Task AudiobookChapterGetAllAsync_ShouldReturnChapters(string? id)
+    public async Task T002_AudiobookChapterGetAllAsync_ShouldReturnChapters(string? id)
     {
         ArgumentException.ThrowIfNullOrEmpty(id, nameof(id));
 
@@ -28,6 +28,6 @@ public sealed class T03_AudiobookServiceTests
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
         var result = await sut.AudiobookChapterGetAllAsync(id);
-        Assert.IsNotNull(result?.Data);
+        Assert.IsNotNull(result?.Data, result?.Error?.Message);
     }
 }

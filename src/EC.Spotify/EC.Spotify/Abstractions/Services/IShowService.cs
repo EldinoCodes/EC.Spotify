@@ -8,6 +8,7 @@ public interface IShowService
     /// <summary>
     /// Retrieves a Spotify show by its unique identifier asynchronously.
     /// </summary>
+    /// <remarks>Requires the <c>user-read-playback-position</c> scope.</remarks>
     /// <param name="id">The Spotify show ID to retrieve. Can be null or empty to indicate an invalid request.</param>
     /// <param name="cancellationToken">A cancellation token that can be used to cancel the operation.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains a <see cref="SpotifyResult{Show}"/>
@@ -16,7 +17,7 @@ public interface IShowService
     /// <summary>
     /// Retrieves a paginated list of episodes for the specified show asynchronously.
     /// </summary>
-    /// <remarks>If the show contains more episodes than the specified limit, use the offset parameter to
+    /// <remarks>Requires the <c>user-read-playback-position</c> scope. If the show contains more episodes than the specified limit, use the offset parameter to
     /// retrieve additional pages. The method does not throw if the show has no episodes; the result will contain an
     /// empty page.</remarks>
     /// <param name="id">The Spotify identifier of the show for which to retrieve episodes. Can be null to indicate no show.</param>

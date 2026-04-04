@@ -28,6 +28,7 @@ public interface IPlaylistService
     /// <summary>
     /// Retrieves a paged list of items from the specified Spotify playlist asynchronously.
     /// </summary>
+    /// <remarks>Requires the <c>playlist-read-private</c> scope.</remarks>
     /// <param name="id">The Spotify ID of the playlist to retrieve items from. Can be null to indicate no playlist.</param>
     /// <param name="limit">The maximum number of items to return in the result. Must be a positive integer. The default is 20.</param>
     /// <param name="offset">The index of the first item to return. Must be zero or greater. The default is 0.</param>
@@ -39,6 +40,7 @@ public interface IPlaylistService
     /// <summary>
     /// Asynchronously updates the details of an existing playlist with the specified information.
     /// </summary>
+    /// <remarks>Requires the <c>playlist-modify-public</c> and <c>playlist-modify-private</c> scopes.</remarks>
     /// <param name="id">The unique identifier of the playlist to update. Can be null to indicate no playlist will be updated.</param>
     /// <param name="playlistDetail">The new details to apply to the playlist. If null, no changes will be made.</param>
     /// <param name="cancellationToken">A token to monitor for cancellation requests. The default value is None.</param>
@@ -49,6 +51,7 @@ public interface IPlaylistService
     /// <summary>
     /// Adds all specified items to a playlist asynchronously.
     /// </summary>
+    /// <remarks>Requires the <c>playlist-modify-public</c> and <c>playlist-modify-private</c> scopes.</remarks>
     /// <param name="id">The unique identifier of the playlist to which the items will be added. Can be null to indicate the current
     /// user's default playlist.</param>
     /// <param name="libraryItems">A list of reference items to add to the playlist. Each item represents a track or media to be added. Cannot be
@@ -62,6 +65,7 @@ public interface IPlaylistService
     /// <summary>
     /// Adds an item to a playlist asynchronously at the specified position.
     /// </summary>
+    /// <remarks>Requires the <c>playlist-modify-public</c> and <c>playlist-modify-private</c> scopes.</remarks>
     /// <param name="id">The identifier of the playlist to which the item will be added. Can be null if the playlist is specified by
     /// other means.</param>
     /// <param name="libraryItem">The item to add to the playlist. Represents a reference to a track or other supported media. Cannot be null.</param>
@@ -75,6 +79,7 @@ public interface IPlaylistService
     /// <summary>
     /// Removes all specified items from the playlist with the given identifier asynchronously.
     /// </summary>
+    /// <remarks>Requires the <c>playlist-modify-public</c> and <c>playlist-modify-private</c> scopes.</remarks>
     /// <param name="id">The unique identifier of the playlist from which items will be removed. Can be null to indicate the current
     /// user's default playlist.</param>
     /// <param name="libraryItems">A list of reference items representing the tracks or playlist items to remove. Cannot be null or empty.</param>
@@ -85,7 +90,7 @@ public interface IPlaylistService
     /// <summary>
     /// Removes an item from a playlist asynchronously.
     /// </summary>
-    /// <remarks>The <paramref name="id"/> parameter identifies the playlist from which to remove an item,
+    /// <remarks>Requires the <c>playlist-modify-public</c> and <c>playlist-modify-private</c> scopes. The <paramref name="id"/> parameter identifies the playlist from which to remove an item,
     /// and <paramref name="libraryItem"/> identifies the specific track or episode to remove. If <paramref
     /// name="libraryItem"/> is <see langword="null"/>, no item will be removed.</remarks>
     /// <param name="id">The unique identifier of the playlist from which the item will be removed. Can be null.</param>
@@ -99,7 +104,7 @@ public interface IPlaylistService
     /// <summary>
     /// Adds or replaces the image for the specified playlist asynchronously.
     /// </summary>
-    /// <remarks>The image replaces any existing playlist image. The operation may fail if the image does not
+    /// <remarks>Requires the <c>ugc-image-upload</c>, <c>playlist-modify-public</c>, and <c>playlist-modify-private</c> scopes. The image replaces any existing playlist image. The operation may fail if the image does not
     /// meet Spotify's requirements or if the user does not have permission to modify the playlist.</remarks>
     /// <param name="id">The Spotify ID of the playlist to update. Cannot be null or empty.</param>
     /// <param name="imageData">A byte array containing the image data in JPEG format. The image must be a valid JPEG and meet Spotify's size

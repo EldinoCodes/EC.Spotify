@@ -7,8 +7,8 @@
 
 A comprehensive .NET client library for the Spotify Web API, providing a clean and intuitive interface for interacting with Spotify's music streaming platform.
 
-## LATEST NEWS - 2026.03.27
-The EC.Spotify library has been heavily refactored.  Search functionality has been reworked, additional validation of scopes has been added, rework of deserialization handling and finally added additional error handling.  I believe some of these changes may break some existing using of my project but I am reluctant to jump Major version due to it.  I am moving to v1.0.5 for these changes.  I hope to make a few more changes to support additional API's before I jump to v2.0.0 which will likely include some breaking changes.  Please let me know if you have any questions or concerns about the changes in v1.0.5.  
+## LATEST NEWS - 2026.04.03
+The EC.Spotify library has been updated with some new functionality, methods simplified method calls and plan to release 2.0.0 hopefully 2026.4.05 provided testing of libraryservice works.  Plan to add new player method still supported by Spotify API.  If you are using this library and find any issues, please report them.  Thanks yall, much love.
 
 ## Overview
 
@@ -70,15 +70,15 @@ Register Spotify services by binding to a configuration section (e.g., from `app
     "Scopes": [
       "ugc-image-upload", // PlaylistService.PlaylistImageAddAsync
       "user-read-currently-playing", // PlayerService.QueueGetAsync
-      "user-read-playback-state", // PlayerService.QueueGetAsync, DeviceGetAllAsync, PlayerStateGetAsync, CurrentlyPlayingGetAsync
-      "user-modify-playback-state", // PlayerService.QueueAddAsync, TransferAsync, PlayerPlayAsync, PlayerPauseAsync, PlayerNextAsync, PlayerPreviousAsync, PlayerSeekAsync, PlayerRepeatAsync, PlayerShuffleAsync, PlayerVolumeAsync
-      "user-follow-read", // LibraryService.LibraryCheckAllAsync
-      "user-follow-modify", // LibraryService.LibraryAddAllAsync, LibraryRemoveAllAsync
-      "user-library-read", // UserService.MyAlbumGetAllAsync, MyEpisodeGetAllAsync | LibraryService.LibraryCheckAllAsync
-      "user-library-modify", // LibraryService.LibraryAddAllAsync, LibraryRemoveAllAsync
-      "playlist-modify-public", // LibraryService.LibraryAddAllAsync, LibraryRemoveAllAsync | PlaylistService.PlaylistDetailUpdateAsync, PlaylistItemAddAllAsync, PlaylistItemRemoveAllAsync, PlaylistImageAddAsync
-      "playlist-modify-private", // PlaylistService.PlaylistDetailUpdateAsync, PlaylistItemAddAllAsync, PlaylistItemRemoveAllAsync, PlaylistImageAddAsync
-      "playlist-read-private" // LibraryService.LibraryCheckAllAsync | PlaylistService.PlaylistItemGetAllAsync
+      "user-read-playback-state", // PlayerService.QueueGetAsync, DeviceGetAllAsync, StateGetAsync, CurrentlyPlayingGetAsync
+      "user-modify-playback-state", // PlayerService.QueueAddAsync, TransferAsync, PlayAsync, PauseAsync, NextAsync, PreviousAsync, SeekAsync, RepeatAsync, ShuffleAsync, VolumeAsync
+      "user-read-playback-position", // EpisodeService.EpisodeGetAsync | ShowService.ShowGetAsync, ShowEpisodeGetAllAsync | UserService.MyEpisodeGetAllAsync, MyShowGetAllAsync
+      "user-library-read", // LibraryService.LibraryCheckAsync, LibraryCheckAllAsync | UserService.MyAlbumGetAllAsync, MyAudiobookGetAllAsync, MyEpisodeGetAllAsync, MyShowGetAllAsync, MyTrackGetAllAsync
+      "user-library-modify", // LibraryService.LibraryAddAsync, LibraryAddAllAsync, LibraryRemoveAsync, LibraryRemoveAllAsync
+      "user-top-read", // UserService.MyTopItemGetAllAsync
+      "playlist-read-private", // PlaylistService.PlaylistItemGetAllAsync
+      "playlist-modify-public", // PlaylistService.PlaylistDetailUpdateAsync, PlaylistItemAddAsync, PlaylistItemAddAllAsync, PlaylistItemRemoveAsync, PlaylistItemRemoveAllAsync, PlaylistImageAddAsync
+      "playlist-modify-private" // PlaylistService.PlaylistDetailUpdateAsync, PlaylistItemAddAsync, PlaylistItemAddAllAsync, PlaylistItemRemoveAsync, PlaylistItemRemoveAllAsync, PlaylistImageAddAsync
     ]
   }
 }
@@ -336,7 +336,7 @@ Provides methods for retrieving podcast episode data.
 
 **Available Methods:**
 - **`EpisodeGetAsync(string? id, CancellationToken cancellationToken = default)`**  
-  Retrieves detailed episode information including name, description, duration, release date, and show information.
+  Retrieves detailed episode information including name, description, duration, release date, and show information. Requires the `user-read-playback-position` scope.
 
 **Example:**
 ```csharp
@@ -428,16 +428,16 @@ Controls Spotify playback and manages player state.
 - **`QueueAddAsync(string? trackId, string? deviceId = null, CancellationToken cancellationToken = default)`** — Adds a track to the playback queue. Requires the `user-modify-playback-state` scope.
 - **`DeviceGetAllAsync(CancellationToken cancellationToken = default)`** — Retrieves all available playback devices. Requires the `user-read-playback-state` scope.
 - **`TransferAsync(string? deviceId, bool play = false, CancellationToken cancellationToken = default)`** — Transfers playback to a specific device. Requires the `user-modify-playback-state` scope.
-- **`PlayerStateGetAsync(CancellationToken cancellationToken = default)`** — Retrieves the full current playback state including active device, track, and shuffle/repeat modes. Requires the `user-read-playback-state` scope.
+- **`StateGetAsync(CancellationToken cancellationToken = default)`** — Retrieves the full current playback state including active device, track, and shuffle/repeat modes. Requires the `user-read-playback-state` scope.
 - **`CurrentlyPlayingGetAsync(CancellationToken cancellationToken = default)`** — Retrieves the currently playing item and its playback context. Requires the `user-read-playback-state` scope.
-- **`PlayerPlayAsync(string? deviceId, List<string>? trackUris, CancellationToken cancellationToken = default)`** — Starts playback. Requires the `user-modify-playback-state` scope.
-- **`PlayerPauseAsync(string? deviceId = null, CancellationToken cancellationToken = default)`** — Pauses playback. Requires the `user-modify-playback-state` scope.
-- **`PlayerNextAsync(string? deviceId = null, CancellationToken cancellationToken = default)`** — Skips to the next track. Requires the `user-modify-playback-state` scope.
-- **`PlayerPreviousAsync(string? deviceId = null, CancellationToken cancellationToken = default)`** — Skips to the previous track. Requires the `user-modify-playback-state` scope.
-- **`PlayerSeekAsync(int positionMs, string? deviceId = null, CancellationToken cancellationToken = default)`** — Seeks to a position in the current track. Requires the `user-modify-playback-state` scope.
-- **`PlayerRepeatAsync(PlayerRepeatMode playerRepeatMode = PlayerRepeatMode.Off, string? deviceId = null, CancellationToken cancellationToken = default)`** — Sets the repeat mode. Requires the `user-modify-playback-state` scope.
-- **`PlayerShuffleAsync(PlayerShuffleMode playerShuffleMode = PlayerShuffleMode.Off, string? deviceId = null, CancellationToken cancellationToken = default)`** — Enables or disables shuffle. Requires the `user-modify-playback-state` scope.
-- **`PlayerVolumeAsync(int volumePercent, string? deviceId = null, CancellationToken cancellationToken = default)`** — Sets the playback volume. Requires the `user-modify-playback-state` scope.
+- **`PlayAsync(string? deviceId, List<string>? trackUris, CancellationToken cancellationToken = default)`** — Starts playback. Requires the `user-modify-playback-state` scope.
+- **`PauseAsync(string? deviceId = null, CancellationToken cancellationToken = default)`** — Pauses playback. Requires the `user-modify-playback-state` scope.
+- **`NextAsync(string? deviceId = null, CancellationToken cancellationToken = default)`** — Skips to the next track. Requires the `user-modify-playback-state` scope.
+- **`PreviousAsync(string? deviceId = null, CancellationToken cancellationToken = default)`** — Skips to the previous track. Requires the `user-modify-playback-state` scope.
+- **`SeekAsync(int positionMs, string? deviceId = null, CancellationToken cancellationToken = default)`** — Seeks to a position in the current track. Requires the `user-modify-playback-state` scope.
+- **`RepeatAsync(PlayerRepeatMode playerRepeatMode = PlayerRepeatMode.Off, string? deviceId = null, CancellationToken cancellationToken = default)`** — Sets the repeat mode. Requires the `user-modify-playback-state` scope.
+- **`ShuffleAsync(PlayerShuffleMode playerShuffleMode = PlayerShuffleMode.Off, string? deviceId = null, CancellationToken cancellationToken = default)`** — Enables or disables shuffle. Requires the `user-modify-playback-state` scope.
+- **`VolumeAsync(int volumePercent, string? deviceId = null, CancellationToken cancellationToken = default)`** — Sets the playback volume. Requires the `user-modify-playback-state` scope.
 
 **Example:**
 ```csharp
@@ -445,7 +445,7 @@ Controls Spotify playback and manages player state.
 var devicesResult = await _spotifyClient.Player.DeviceGetAllAsync();
 
 // Get full playback state
-var stateResult = await _spotifyClient.Player.PlayerStateGetAsync();
+var stateResult = await _spotifyClient.Player.StateGetAsync();
 if (stateResult.IsSuccess)
 {
     Console.WriteLine($"Playing: {stateResult.Data.Item?.Name}");
@@ -457,16 +457,16 @@ var nowPlaying = await _spotifyClient.Player.CurrentlyPlayingGetAsync();
 
 // Start playback
 var trackUris = new List<string> { "spotify:track:6rqhFgbbKwnb9MLmUQDhG6" };
-await _spotifyClient.Player.PlayerPlayAsync(deviceId: null, trackUris);
+await _spotifyClient.Player.PlayAsync(deviceId: null, trackUris);
 
 // Control playback
-await _spotifyClient.Player.PlayerPauseAsync();
-await _spotifyClient.Player.PlayerNextAsync();
-await _spotifyClient.Player.PlayerVolumeAsync(volumePercent: 75);
+await _spotifyClient.Player.PauseAsync();
+await _spotifyClient.Player.NextAsync();
+await _spotifyClient.Player.VolumeAsync(volumePercent: 75);
 
 // Set playback modes
-await _spotifyClient.Player.PlayerRepeatAsync(PlayerRepeatMode.Track);
-await _spotifyClient.Player.PlayerShuffleAsync(PlayerShuffleMode.On);
+await _spotifyClient.Player.RepeatAsync(PlayerRepeatMode.Track);
+await _spotifyClient.Player.ShuffleAsync(PlayerShuffleMode.On);
 ```
 
 ### IPlaylistService
@@ -611,10 +611,10 @@ Provides methods for retrieving podcast show data and episodes.
 
 **Available Methods:**
 - **`ShowGetAsync(string? id, CancellationToken cancellationToken = default)`**  
-  Retrieves detailed show information by show ID.
+  Retrieves detailed show information by show ID. Requires the `user-read-playback-position` scope.
 
 - **`ShowEpisodeGetAllAsync(string? id, int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)`**  
-  Retrieves paginated episodes for a specific show.
+  Retrieves paginated episodes for a specific show. Requires the `user-read-playback-position` scope.
 
 **Example:**
 ```csharp
@@ -648,14 +648,41 @@ if (trackResult.IsSuccess)
 
 ### IUserService
 
-Provides methods for accessing items saved in the current user's Spotify library.
+Provides methods for retrieving items from the current user's Spotify library and top listening history.
 
 **Available Methods:**
 - **`MyAlbumGetAllAsync(int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)`**  
   Retrieves a paginated list of albums saved in the current user's library. The `limit` value must be between 1 and 50. Requires the `user-library-read` scope.
 
+- **`MyAudiobookGetAllAsync(int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)`**  
+  Retrieves a paginated list of audiobooks saved in the current user's library. The `limit` value must be between 1 and 50. Requires the `user-library-read` scope.
+
 - **`MyEpisodeGetAllAsync(int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)`**  
   Retrieves a paginated list of episodes saved in the current user's library. The `limit` value must be between 1 and 50. Requires the `user-library-read` and `user-read-playback-position` scopes.
+
+- **`MyShowGetAllAsync(int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)`**  
+  Retrieves a paginated list of shows saved in the current user's library. The `limit` value must be between 1 and 50. Requires the `user-library-read` and `user-read-playback-position` scopes.
+
+- **`MyTrackGetAllAsync(int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)`**  
+  Retrieves a paginated list of tracks saved in the current user's library. The `limit` value must be between 1 and 50. Requires the `user-library-read` scope.
+
+- **`MyTopItemGetAllAsync(UserTopType userTopType = UserTopType.Artists, UserTopTimeRange userTopTimeRange = UserTopTimeRange.MediumTerm, int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)`**  
+  Retrieves the current user's top artists or tracks based on calculated affinity over a given time range. The `limit` value must be between 1 and 50. Requires the `user-top-read` scope.
+
+**`UserTopType` Enum:**
+
+| Value | Description |
+|-------|-------------|
+| `Artists` | Retrieve the user's top artists |
+| `Tracks` | Retrieve the user's top tracks |
+
+**`UserTopTimeRange` Enum:**
+
+| Value | Description |
+|-------|-------------|
+| `LongTerm` | Calculated from several years of data including all new data as it becomes available |
+| `MediumTerm` | Approximately last 6 months |
+| `ShortTerm` | Approximately last 4 weeks |
 
 **Example:**
 ```csharp
@@ -670,6 +697,16 @@ if (albumsResult.IsSuccess)
     Console.WriteLine($"Total saved albums: {albumsResult.Data.Total}");
 }
 
+// Get saved audiobooks
+var audiobooksResult = await _spotifyClient.User.MyAudiobookGetAllAsync(limit: 20);
+if (audiobooksResult.IsSuccess)
+{
+    foreach (var audiobook in audiobooksResult.Data.Items)
+    {
+        Console.WriteLine($"Audiobook: {audiobook.Name}");
+    }
+}
+
 // Get saved episodes
 var episodesResult = await _spotifyClient.User.MyEpisodeGetAllAsync(limit: 50);
 if (episodesResult.IsSuccess)
@@ -677,6 +714,52 @@ if (episodesResult.IsSuccess)
     foreach (var episode in episodesResult.Data.Items)
     {
         Console.WriteLine($"Episode: {episode.Name} — {episode.Show?.Name}");
+    }
+}
+
+// Get saved shows
+var showsResult = await _spotifyClient.User.MyShowGetAllAsync(limit: 20);
+if (showsResult.IsSuccess)
+{
+    foreach (var show in showsResult.Data.Items)
+    {
+        Console.WriteLine($"Show: {show.Name}");
+    }
+}
+
+// Get saved tracks
+var tracksResult = await _spotifyClient.User.MyTrackGetAllAsync(limit: 50);
+if (tracksResult.IsSuccess)
+{
+    foreach (var track in tracksResult.Data.Items)
+    {
+        Console.WriteLine($"Track: {track.Name} by {track.Artists[0].Name}");
+    }
+}
+
+// Get top artists over the last 6 months
+var topArtistsResult = await _spotifyClient.User.MyTopItemGetAllAsync(
+    UserTopType.Artists,
+    UserTopTimeRange.MediumTerm,
+    limit: 20);
+if (topArtistsResult.IsSuccess)
+{
+    foreach (var artist in topArtistsResult.Data.Items)
+    {
+        Console.WriteLine($"Top Artist: {artist.Name}");
+    }
+}
+
+// Get top tracks over the last 4 weeks
+var topTracksResult = await _spotifyClient.User.MyTopItemGetAllAsync(
+    UserTopType.Tracks,
+    UserTopTimeRange.ShortTerm,
+    limit: 10);
+if (topTracksResult.IsSuccess)
+{
+    foreach (var track in topTracksResult.Data.Items)
+    {
+        Console.WriteLine($"Top Track: {track.Name}");
     }
 }
 ```

@@ -21,6 +21,9 @@ internal class ShowService(ILogger<ShowService> logger, IOptions<SpotifyOptions>
     {
         try
         {
+            var error = _options.ValidateScopes(["user-read-playback-position"]);
+            if (error is not null) return new SpotifyResult<Show>() { Error = error };
+
             if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
                 _logger.LogDebug("ShowGetAsync called with id: {Id}", id);
 
@@ -41,6 +44,9 @@ internal class ShowService(ILogger<ShowService> logger, IOptions<SpotifyOptions>
     {
         try
         {
+            var error = _options.ValidateScopes(["user-read-playback-position"]);
+            if (error is not null) return new SpotifyResult<SpotifyPageResult<Episode>>() { Error = error };
+
             if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
                 _logger.LogDebug("ShowEpisodeGetAllAsync called with id: {Id}, limit: {Limit}, offset: {Offset}", id, limit, offset);
 

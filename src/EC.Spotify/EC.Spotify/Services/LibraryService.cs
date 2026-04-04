@@ -57,7 +57,7 @@ internal class LibraryService(ILogger<LibraryService> logger, IOptions<SpotifyOp
                 var uris = batch.Select(x => x.Uri).ToList();
                 var queryParams = new Dictionary<string, string?>()
                 {
-                    { "uris", HttpUtility.UrlEncode(string.Join(",", uris)) }
+                    { "uris", string.Join(",", uris) }
                 };
                 var uri = SpotifyLibraryContainsUri.ToUri(queryParams);
 
@@ -65,7 +65,7 @@ internal class LibraryService(ILogger<LibraryService> logger, IOptions<SpotifyOp
                     _logger.LogDebug("LibraryCheckAllAsync requesting URI: {Uri}", uri);
 
                 var result = await _spotifyProvider.ExecuteSpotifyResultAsync<List<bool>>("get", uri, cancellationToken: cancellationToken);
-                if (!result.IsSuccess) continue;
+                if (!result.IsSuccess) return result;
                 if (result.Data is null) continue;
 
                 ret.Data ??= [];
@@ -120,7 +120,7 @@ internal class LibraryService(ILogger<LibraryService> logger, IOptions<SpotifyOp
                 var uris = batch.Select(x => x.Uri).ToList();
                 var queryParams = new Dictionary<string, string?>()
                 {
-                    { "uris", HttpUtility.UrlEncode(string.Join(",", uris)) }
+                    { "uris", string.Join(",", uris) }
                 };
                 var uri = SpotifyLibraryUri.ToUri(queryParams);
 
@@ -128,7 +128,7 @@ internal class LibraryService(ILogger<LibraryService> logger, IOptions<SpotifyOp
                     _logger.LogDebug("LibraryAddAllAsync requesting URI: {Uri}", uri);
 
                 var result = await _spotifyProvider.ExecuteSpotifyResultAsync<List<bool>>("put", uri, cancellationToken: cancellationToken);
-                if (!result.IsSuccess) continue;
+                if (!result.IsSuccess) return result;
 
                 result.Data = [..Enumerable.Range(0, batch.Count()).Select(i => true)];
 
@@ -184,7 +184,7 @@ internal class LibraryService(ILogger<LibraryService> logger, IOptions<SpotifyOp
                 var uris = batch.Select(x => x.Uri).ToList();
                 var queryParams = new Dictionary<string, string?>()
                 {
-                    { "uris", HttpUtility.UrlEncode(string.Join(",", uris)) }
+                    { "uris", string.Join(",", uris) }
                 };
                 var uri = SpotifyLibraryUri.ToUri(queryParams);
 
@@ -192,7 +192,7 @@ internal class LibraryService(ILogger<LibraryService> logger, IOptions<SpotifyOp
                     _logger.LogDebug("LibraryRemoveAllAsync requesting URI: {Uri}", uri);
 
                 var result = await _spotifyProvider.ExecuteSpotifyResultAsync<List<bool>>("delete", uri, cancellationToken: cancellationToken);
-                if (!result.IsSuccess) continue;
+                if (!result.IsSuccess) return result;
 
                 result.Data = [.. Enumerable.Range(0, batch.Count()).Select(i => true)];
 

@@ -1,5 +1,6 @@
 ﻿using EC.Spotify.Abstractions.Providers;
 using EC.Spotify.Abstractions.Services;
+using EC.Spotify.Enums;
 using EC.Spotify.Extensions;
 using EC.Spotify.Models;
 using EC.Spotify.Models.Albums;
@@ -37,20 +38,27 @@ internal class ArtistService(ILogger<ArtistService> logger, IOptions<SpotifyOpti
             return new SpotifyResult<Artist> { Error = ex.ToSpotifyError() };
         }
     }
-    public async Task<SpotifyResult<SpotifyPageResult<Album>>> ArtistAlbumGetAllAsync(string? id, int? limit = 5, int? offset = 0, string? includeGroups = default, CancellationToken cancellationToken = default)
+    public async Task<SpotifyResult<SpotifyPageResult<Album>>> ArtistAlbumGetAllAsync(string? id, int? limit = 5, int? offset = 0, AlbumType? albumTypes = default, CancellationToken cancellationToken = default)
     {
         try
         {
+            var albumType = typeof(AlbumType);
+            var includeTypes = string.Join(",", Enum.GetValues(albumType)
+                .Cast<AlbumType>()
+                .Where(t => albumTypes?.HasFlag(t) ?? false)
+                .Select(t => Enum.GetName(albumType, t)?.ToLower())
+            );
+
             if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
-                _logger.LogDebug("ArtistAlbumGetAllAsync called with id: {Id}, limit: {Limit}, offset: {Offset}, includeGroups: {IncludeGroups}", id, limit, offset, includeGroups);
+                _logger.LogDebug("ArtistAlbumGetAllAsync called with id: {Id}, limit: {Limit}, offset: {Offset}, includeGroups: {IncludeGroups}", id, limit, offset, includeTypes);
 
             var queryParams = new Dictionary<string, string?>()
             {
                 { "limit", $"{limit}"},
                 { "offset", $"{offset }"}
             };
-            if (!string.IsNullOrEmpty(includeGroups))
-                queryParams.Add("include_groups", includeGroups);
+            if (!string.IsNullOrEmpty(includeTypes))
+                queryParams.Add("include_groups", includeTypes);
 
             var uri = string.Format(SpotifyArtistAlbumsUri, id).ToUri(queryParams);
 

@@ -7,7 +7,7 @@ public sealed class T05_EpisodeServiceTests
 {
     [TestMethod]
     [DataRow("3UcmY44Vwv4Ldh0Jd1HZ4m")]
-    public async Task EpisodeGetAsync_ShouldReturnEpisode(string? id)
+    public async Task T001_EpisodeGetAsync_ShouldReturnEpisode(string? id)
     {
         ArgumentException.ThrowIfNullOrEmpty(id, nameof(id));
 
@@ -15,6 +15,6 @@ public sealed class T05_EpisodeServiceTests
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
         var result = await sut.EpisodeGetAsync(id);
-        Assert.IsNotNull(result?.Data);
+        Assert.IsNotNull(result?.Data, result?.Error?.Message);
     }
 }

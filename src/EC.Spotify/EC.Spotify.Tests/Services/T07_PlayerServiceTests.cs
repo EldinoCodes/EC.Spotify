@@ -7,18 +7,18 @@ namespace EC.Spotify.Tests.Services;
 public sealed class T07_PlayerServiceTests
 {
     [TestMethod]
-    public async Task QueueGetAsync_ShouldReturnQueue()
+    public async Task T001_QueueGetAsync_ShouldReturnQueue()
     {
         var sut = Initializer.Resolve<IPlayerService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
         var result = await sut.QueueGetAsync();
-        Assert.IsNotNull(result?.Data);
+        Assert.IsNotNull(result?.Data, result?.Error?.Message);
     }
 
     [TestMethod]
     [DataRow("spotify:track:4tjcBY787A2ZkRJpPIsGIS")]
-    public async Task QueueAddAsync_ShouldAddTrackToQueue(string? id)
+    public async Task T002_QueueAddAsync_ShouldAddTrackToQueue(string? id)
     {
         ArgumentException.ThrowIfNullOrEmpty(id, nameof(id));
 
@@ -26,22 +26,22 @@ public sealed class T07_PlayerServiceTests
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
         var result = await sut.QueueAddAsync(id);
-        Assert.IsNotNull(result?.Data);
+        Assert.IsNotNull(result?.Data, result?.Error?.Message);
     }
 
     [TestMethod]
-    public async Task DeviceGetAllAsync_ShouldReturnDevices()
+    public async Task T003_DeviceGetAllAsync_ShouldReturnDevices()
     {
         var sut = Initializer.Resolve<IPlayerService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
         var result = await sut.DeviceGetAllAsync();
-        Assert.IsNotNull(result?.Data);
+        Assert.IsNotNull(result?.Data, result?.Error?.Message);
     }
 
     [TestMethod]
     [DataRow("test")]
-    public async Task TransferAsync_ShouldTransferPlayback(string? id)
+    public async Task T004_TransferAsync_ShouldTransferPlayback(string? id)
     {
         ArgumentException.ThrowIfNullOrEmpty(id, nameof(id));
 
@@ -49,111 +49,110 @@ public sealed class T07_PlayerServiceTests
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
         var result = await sut.TransferAsync(id);
-        Assert.IsNotNull(result?.Data);
+        Assert.IsNotNull(result?.Data, result?.Error?.Message);
     }
 
     [TestMethod]
-    public async Task PlayerPlayAsync_ShouldStartPlayback()
+    public async Task T005_PlayAsync_ShouldStartPlayback()
     {
         var sut = Initializer.Resolve<IPlayerService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
-        var result = await sut.PlayerPlayAsync(null, null);
-        Assert.IsNotNull(result?.Data);
+        var result = await sut.PlayAsync(null, null);
+        Assert.IsNotNull(result?.Data, result?.Error?.Message);
     }
 
     [TestMethod]
-    public async Task PlayerPauseAsync_ShouldPausePlayback()
+    public async Task T006_PauseAsync_ShouldPausePlayback()
     {
         var sut = Initializer.Resolve<IPlayerService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
-        var result = await sut.PlayerPauseAsync(null);
-        Assert.IsNotNull(result?.Data);
+        var result = await sut.PauseAsync(null);
+        Assert.IsNotNull(result?.Data, result?.Error?.Message);
     }
 
     [TestMethod]
-    public async Task PlayerNextAsync_ShouldSkipToNextTrack()
+    public async Task T007_NextAsync_ShouldSkipToNextTrack()
     {
         var sut = Initializer.Resolve<IPlayerService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
-        var result = await sut.PlayerNextAsync(null);
-        Assert.IsNotNull(result?.Data);
+        var result = await sut.NextAsync(null);
+        Assert.IsNotNull(result?.Data, result?.Error?.Message);
     }
 
     [TestMethod]
-    public async Task PlayerPreviousAsync_ShouldSkipToPreviousTrack()
+    public async Task T008_PreviousAsync_ShouldSkipToPreviousTrack()
     {
         var sut = Initializer.Resolve<IPlayerService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
-        var result = await sut.PlayerPreviousAsync(null);
-        Assert.IsNotNull(result?.Data);
+        var result = await sut.PreviousAsync(null);
+        Assert.IsNotNull(result?.Data, result?.Error?.Message);
     }
 
     [TestMethod]
-    public async Task PlayerSeekAsync_ShouldSeekToPosition()
+    public async Task T009_SeekAsync_ShouldSeekToPosition()
     {
         var sut = Initializer.Resolve<IPlayerService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
-        var result = await sut.PlayerSeekAsync(60000);
-        Assert.IsNotNull(result?.Data);
+        var result = await sut.SeekAsync(60000);
+        Assert.IsNotNull(result?.Data, result?.Error?.Message);
     }
 
     [TestMethod]
     [DataRow(PlayerRepeatMode.Track)]
-    public async Task PlayerRepeatAsync_ShouldSetRepeatMode(PlayerRepeatMode playerRepeatMode = PlayerRepeatMode.Off)
+    public async Task T010_RepeatAsync_ShouldSetRepeatMode(PlayerRepeatMode playerRepeatMode = PlayerRepeatMode.Off)
     {
         var sut = Initializer.Resolve<IPlayerService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
-        var result = await sut.PlayerRepeatAsync(playerRepeatMode);
-        Assert.IsNotNull(result?.Data);
+        var result = await sut.RepeatAsync(playerRepeatMode);
+        Assert.IsNotNull(result?.Data, result?.Error?.Message);
     }
 
     [TestMethod]
     [DataRow(PlayerShuffleMode.On)]
-    public async Task PlayerShuffleAsync_ShouldSetShuffleMode(PlayerShuffleMode playerShuffleMode = PlayerShuffleMode.Off)
+    public async Task T011_ShuffleAsync_ShouldSetShuffleMode(PlayerShuffleMode playerShuffleMode = PlayerShuffleMode.Off)
     {
         var sut = Initializer.Resolve<IPlayerService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
-        var result = await sut.PlayerShuffleAsync(playerShuffleMode);
-        Assert.IsNotNull(result?.Data);
-
+        var result = await sut.ShuffleAsync(playerShuffleMode);
+        Assert.IsNotNull(result?.Data, result?.Error?.Message);
     }
 
     [TestMethod]
     [DataRow(20)]
     [DataRow(80)]
-    public async Task PlayerVolumeAsync_ShouldSetVolume(int volumePercent)
+    public async Task T012_VolumeAsync_ShouldSetVolume(int volumePercent)
     {
         var sut = Initializer.Resolve<IPlayerService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
-        var result = await sut.PlayerVolumeAsync(volumePercent);
-        Assert.IsNotNull(result?.Data);
+        var result = await sut.VolumeAsync(volumePercent);
+        Assert.IsNotNull(result?.Data, result?.Error?.Message);
     }
 
     [TestMethod]
-    public async Task PlayerStateGetAsync_ShouldReturnPlayerState()
+    public async Task T013_StateGetAsync_ShouldReturnPlayerState()
     {
         var sut = Initializer.Resolve<IPlayerService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
-        var result = await sut.PlayerStateGetAsync();
-        Assert.IsNotNull(result?.Data);
+        var result = await sut.StateGetAsync();
+        Assert.IsNotNull(result?.Data, result?.Error?.Message);
     }
 
     [TestMethod]
-    public async Task CurrentlyPlayingGetAsync_ShouldReturnCurrentlyPlaying()
+    public async Task T014_CurrentlyPlayingGetAsync_ShouldReturnCurrentlyPlaying()
     {
         var sut = Initializer.Resolve<IPlayerService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
         var result = await sut.CurrentlyPlayingGetAsync();
-        Assert.IsNotNull(result?.Data);
+        Assert.IsNotNull(result?.Data, result?.Error?.Message);
     }
 }

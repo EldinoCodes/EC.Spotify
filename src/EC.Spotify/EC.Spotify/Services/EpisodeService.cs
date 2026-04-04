@@ -20,6 +20,9 @@ internal class EpisodeService(ILogger<EpisodeService> logger, IOptions<SpotifyOp
     {
         try
         {
+            var error = _options.ValidateScopes(["user-read-playback-position"]);
+            if (error is not null) return new SpotifyResult<Episode>() { Error = error };
+
             if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
                 _logger.LogDebug("EpisodeGetAsync called with id: {Id}", id);
 

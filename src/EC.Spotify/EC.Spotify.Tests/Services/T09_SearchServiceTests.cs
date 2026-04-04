@@ -11,7 +11,7 @@ public sealed class T09_SearchServiceTests
     [DataRow("The Beatles", SearchType.Artist)]
     [DataRow("Abbey Road", SearchType.Album)]
     [DataRow("Come Together", SearchType.Track)]
-    public async Task SearchAsync_ShouldReturnSearchResults(string? query, SearchType searchType = SearchType.Track)
+    public async Task T001_SearchAsync_ShouldReturnSearchResults(string? query, SearchType searchType = SearchType.Track)
     {
         if (string.IsNullOrEmpty(query))
         {
@@ -28,6 +28,6 @@ public sealed class T09_SearchServiceTests
         };
 
         var result = await sut.SearchAsync(searchQuery);
-        Assert.IsNotNull(result?.Data);
+        Assert.IsNotNull(result?.Data, result?.Error?.Message);
     }
 }

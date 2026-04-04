@@ -1,7 +1,7 @@
 ﻿using EC.Spotify.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EC.Spotify.Controllers;
+namespace EC.Spotify.ApiExample.Controllers;
 
 [Route("[controller]")]
 [ApiController]

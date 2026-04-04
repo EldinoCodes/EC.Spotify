@@ -1,4 +1,5 @@
 ﻿using EC.Spotify.Abstractions;
+using EC.Spotify.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EC.Spotify.Controllers;
@@ -17,9 +18,9 @@ public class ArtistsController(ISpotifyClient spotifyClient) : ControllerBase
         return new JsonResult(ret);
     }
     [HttpGet("{artistId}/albums")]
-    public async Task<IActionResult> ArtistAlbumGetAllAsync(string? artistId, int? limit, int? offset, string? includeGroups = default, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> ArtistAlbumGetAllAsync(string? artistId, int? limit, int? offset, AlbumType? albumTypes = default, CancellationToken cancellationToken = default)
     {
-        var ret = await _spotifyClient.Artists.ArtistAlbumGetAllAsync(artistId, limit, offset, includeGroups, cancellationToken);
+        var ret = await _spotifyClient.Artists.ArtistAlbumGetAllAsync(artistId, limit, offset, albumTypes, cancellationToken);
 
         return new JsonResult(ret);
     }

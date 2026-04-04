@@ -6,7 +6,7 @@ namespace EC.Spotify.Tests.Services;
 public sealed class A00_AuthorizationServiceTests
 {
     [TestMethod]
-    public async Task Validate_ShouldReturnAuthorizationUrl()
+    public async Task T001_Validate_ShouldReturnAuthorizationUrl()
     {
         var sut = Initializer.Resolve<IAuthorizationService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));

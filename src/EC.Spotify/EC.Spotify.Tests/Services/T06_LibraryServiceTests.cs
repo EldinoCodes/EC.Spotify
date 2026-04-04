@@ -8,7 +8,7 @@ namespace EC.Spotify.Tests.Services;
 public sealed class T06_LibraryServiceTests
 {
     [TestMethod]
-    [DataRow("4tjcBY787A2ZkRJpPIsGIS", ReferenceItemType.Track)]
+    [DataRow("7a3LWj5xSFhFRYmztS8wgK", ReferenceItemType.Track)]
     public async Task T001_LibraryAddAsync_ShouldReturnTrue(string? id, ReferenceItemType libraryType)
     {
         ArgumentException.ThrowIfNullOrEmpty(id, nameof(id));
@@ -19,10 +19,10 @@ public sealed class T06_LibraryServiceTests
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
         var result = await sut.LibraryAddAsync(item);
-        Assert.IsTrue(result?.Data);
+        Assert.IsTrue(result?.Data, result?.Error?.Message);
     }
     [TestMethod]
-    [DataRow("4tjcBY787A2ZkRJpPIsGIS", ReferenceItemType.Track)]
+    [DataRow("7a3LWj5xSFhFRYmztS8wgK", ReferenceItemType.Track)]
     public async Task T002_LibraryCheckAsync_ShouldReturnTrue(string? id, ReferenceItemType libraryType)
     {
         ArgumentException.ThrowIfNullOrEmpty(id, nameof(id));
@@ -33,10 +33,10 @@ public sealed class T06_LibraryServiceTests
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
         var result = await sut.LibraryCheckAsync(item);
-        Assert.IsTrue(result?.Data);
+        Assert.IsTrue(result?.Data, result?.Error?.Message);
     }
     [TestMethod]
-    [DataRow("4tjcBY787A2ZkRJpPIsGIS", ReferenceItemType.Track)]
+    [DataRow("7a3LWj5xSFhFRYmztS8wgK", ReferenceItemType.Track)]
     public async Task T003_LibraryRemoveAsync_ShouldReturnTrue(string? id, ReferenceItemType libraryType)
     {
         ArgumentException.ThrowIfNullOrEmpty(id, nameof(id));
@@ -47,12 +47,12 @@ public sealed class T06_LibraryServiceTests
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
         var result = await sut.LibraryRemoveAsync(item);
-        Assert.IsTrue(result?.Data);
+        Assert.IsTrue(result?.Data, result?.Error?.Message);
     }
 
 
     [TestMethod]
-    [DataRow("4tjcBY787A2ZkRJpPIsGIS", ReferenceItemType.Track)]
+    [DataRow("7a3LWj5xSFhFRYmztS8wgK", ReferenceItemType.Track)]
     public async Task T004_LibraryAddAllAsync_ShouldReturnTrue(string? id, ReferenceItemType libraryType)
     {
         ArgumentException.ThrowIfNullOrEmpty(id, nameof(id));
@@ -63,10 +63,10 @@ public sealed class T06_LibraryServiceTests
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
         var result = await sut.LibraryAddAllAsync([item]);
-        Assert.IsTrue(result?.Data?.All(i => i == true));
+        Assert.IsTrue(result?.Data?.All(i => i == true), result?.Error?.Message);
     }
     [TestMethod]
-    [DataRow("4tjcBY787A2ZkRJpPIsGIS", ReferenceItemType.Track)]
+    [DataRow("7a3LWj5xSFhFRYmztS8wgK", ReferenceItemType.Track)]
     public async Task T005_LibraryCheckAllAsync_ShouldReturnTrue(string? id, ReferenceItemType libraryType)
     {
         ArgumentException.ThrowIfNullOrEmpty(id, nameof(id));
@@ -77,10 +77,10 @@ public sealed class T06_LibraryServiceTests
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
         var result = await sut.LibraryCheckAllAsync([item]);
-        Assert.IsTrue(result?.Data?.All(i => i == true));
+        Assert.IsTrue(result?.Data?.All(i => i == true), result?.Error?.Message);
     }
     [TestMethod]
-    [DataRow("4tjcBY787A2ZkRJpPIsGIS", ReferenceItemType.Track)]
+    [DataRow("7a3LWj5xSFhFRYmztS8wgK", ReferenceItemType.Track)]
     public async Task T006_LibraryRemoveAllAsync_ShouldReturnTrue(string? id, ReferenceItemType libraryType)
     {
         ArgumentException.ThrowIfNullOrEmpty(id, nameof(id));
@@ -91,6 +91,6 @@ public sealed class T06_LibraryServiceTests
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
         var result = await sut.LibraryRemoveAllAsync([item]);
-        Assert.IsTrue(result?.Data?.All(i => i == true));
+        Assert.IsTrue(result?.Data?.All(i => i == true), result?.Error?.Message);
     }
 }

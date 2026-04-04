@@ -1,4 +1,5 @@
 ﻿using EC.Spotify.Abstractions.Models;
+using EC.Spotify.Enums;
 using EC.Spotify.Models.Shared;
 using System.Text.Json.Serialization;
 
@@ -7,7 +8,7 @@ namespace EC.Spotify.Models.Albums;
 public class Album : IPolymorphicItem
 {
     [JsonPropertyName("album_type")]
-    public string? AlbumType { get; set; }
+    public AlbumType? AlbumType { get; set; }
 
     [JsonPropertyName("total_tracks")]
     public int TotalTracks { get; set; }

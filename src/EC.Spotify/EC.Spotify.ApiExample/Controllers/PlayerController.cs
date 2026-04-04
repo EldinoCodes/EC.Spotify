@@ -42,9 +42,9 @@ public class PlayerController(ISpotifyClient spotifyClient) : ControllerBase
     }
 
     [HttpGet("state")]
-    public async Task<IActionResult> PlayerStateGetAsync(CancellationToken cancellationToken = default)
+    public async Task<IActionResult> StateGetAsync(CancellationToken cancellationToken = default)
     {
-        var ret = await _spotifyClient.Player.PlayerStateGetAsync(cancellationToken);
+        var ret = await _spotifyClient.Player.StateGetAsync(cancellationToken);
 
         return new JsonResult(ret);
     }
@@ -57,59 +57,59 @@ public class PlayerController(ISpotifyClient spotifyClient) : ControllerBase
     }
     
     [HttpPost("play")]
-    public async Task<IActionResult> PlayerPlayAsync(string? deviceId, List<string>? playList, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> PlayAsync(string? deviceId, List<string>? playList, CancellationToken cancellationToken = default)
     {
-        var ret = await _spotifyClient.Player.PlayerPlayAsync(deviceId, playList, cancellationToken);
+        var ret = await _spotifyClient.Player.PlayAsync(deviceId, playList, cancellationToken);
 
         return new JsonResult(ret);
     }
     [HttpPost("pause")]
-    public async Task<IActionResult> PlayerPauseAsync(string? deviceId, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> PauseAsync(string? deviceId, CancellationToken cancellationToken = default)
     {
-        var ret = await _spotifyClient.Player.PlayerPauseAsync(deviceId, cancellationToken);
+        var ret = await _spotifyClient.Player.PauseAsync(deviceId, cancellationToken);
 
         return new JsonResult(ret);
     }
     [HttpPost("next")]
-    public async Task<IActionResult> PlayerNextAsync(string? deviceId, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> NextAsync(string? deviceId, CancellationToken cancellationToken = default)
     {
-        var ret = await _spotifyClient.Player.PlayerNextAsync(deviceId, cancellationToken);
+        var ret = await _spotifyClient.Player.NextAsync(deviceId, cancellationToken);
 
         return new JsonResult(ret);
     }
     [HttpPost("previous")]
-    public async Task<IActionResult> PlayerPreviousAsync(string? deviceId, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> PreviousAsync(string? deviceId, CancellationToken cancellationToken = default)
     {
-        var ret = await _spotifyClient.Player.PlayerPreviousAsync(deviceId, cancellationToken);
+        var ret = await _spotifyClient.Player.PreviousAsync(deviceId, cancellationToken);
 
         return new JsonResult(ret);
     }
 
     [HttpPost("seek")]
-    public async Task<IActionResult> PlayerSeekAsync(int positionMilliseconds, string? deviceId, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> SeekAsync(int positionMilliseconds, string? deviceId, CancellationToken cancellationToken = default)
     {
-        var ret = await _spotifyClient.Player.PlayerSeekAsync(positionMilliseconds, deviceId, cancellationToken);
+        var ret = await _spotifyClient.Player.SeekAsync(positionMilliseconds, deviceId, cancellationToken);
 
         return new JsonResult(ret);
     }
     [HttpPost("repeat")]
-    public async Task<IActionResult> PlayerRepeatAsync(PlayerRepeatMode playerRepeatMode, string? deviceId, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> RepeatAsync(PlayerRepeatMode playerRepeatMode, string? deviceId, CancellationToken cancellationToken = default)
     {
-        var ret = await _spotifyClient.Player.PlayerRepeatAsync(playerRepeatMode, deviceId, cancellationToken);
+        var ret = await _spotifyClient.Player.RepeatAsync(playerRepeatMode, deviceId, cancellationToken);
 
         return new JsonResult(ret);
     }
     [HttpPost("shuffle")]
-    public async Task<IActionResult> PlayerShuffleAsync(PlayerShuffleMode playerShuffleMode, string? deviceId, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> ShuffleAsync(PlayerShuffleMode playerShuffleMode, string? deviceId, CancellationToken cancellationToken = default)
     {
-        var ret = await _spotifyClient.Player.PlayerShuffleAsync(playerShuffleMode, deviceId, cancellationToken);
+        var ret = await _spotifyClient.Player.ShuffleAsync(playerShuffleMode, deviceId, cancellationToken);
 
         return new JsonResult(ret);
     }
     [HttpPost("volume")]
-    public async Task<IActionResult> PlayerVolumeAsync(int volume, string? deviceId, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> VolumeAsync(int volume, string? deviceId, CancellationToken cancellationToken = default)
     {
-        var ret = await _spotifyClient.Player.PlayerVolumeAsync(volume, deviceId, cancellationToken);
+        var ret = await _spotifyClient.Player.VolumeAsync(volume, deviceId, cancellationToken);
 
         return new JsonResult(ret);
     }

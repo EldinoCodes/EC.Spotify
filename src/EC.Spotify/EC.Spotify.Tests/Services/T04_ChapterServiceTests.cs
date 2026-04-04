@@ -7,7 +7,7 @@ public sealed class T04_ChapterServiceTests
 {
     [TestMethod]
     [DataRow("3OCSAZnatejMEd0Q5Ohlq7")]
-    public async Task ChapterGetAsync_ShouldReturnChapter(string? id)
+    public async Task T001_ChapterGetAsync_ShouldReturnChapter(string? id)
     {
         ArgumentException.ThrowIfNullOrEmpty(id, nameof(id));
 
@@ -15,6 +15,6 @@ public sealed class T04_ChapterServiceTests
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
         var result = await sut.ChapterGetAsync(id);
-        Assert.IsNotNull(result?.Data);
+        Assert.IsNotNull(result?.Data, result?.Error?.Message);
     }
 }

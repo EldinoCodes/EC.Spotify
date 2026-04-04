@@ -30,7 +30,12 @@ GET {{EC.Spotify.HostAddress}}/Artists/{{EC.Spotify.ArtistId}}/albums
 Accept: application/json
 
 ### artist albums page
-GET {{EC.Spotify.HostAddress}}/Artists/{{EC.Spotify.ArtistId}}/albums?offset=20&limit=20&include_groups=album,single,compilation,appears_on
+#  AlbumType
+#    Album = 1,
+#    Single =  2,
+#    AppearsOn = 4,
+#    Compilation = 8
+GET {{EC.Spotify.HostAddress}}/Artists/{{EC.Spotify.ArtistId}}/albums?offset=20&limit=20&albumTypes=1,2
 Accept: application/json
 
 
@@ -389,4 +394,68 @@ Accept: application/json
 
 ### track
 GET {{EC.Spotify.HostAddress}}/Tracks/{{EC.Spotify.TrackId}}
+Accept: application/json
+
+
+
+### user
+#  UserTopType
+#    Artists = 1
+#    Tracks = 2
+
+#  UserTopTimeRange
+#    LongTerm = 0
+#    MediumTerm = 1
+#    ShortTerm = 2
+
+### user my albums
+GET {{EC.Spotify.HostAddress}}/User/albums
+Accept: application/json
+
+### user my albums page
+GET {{EC.Spotify.HostAddress}}/User/albums?offset=0&limit=20
+Accept: application/json
+
+### user my audiobooks
+GET {{EC.Spotify.HostAddress}}/User/audiobooks
+Accept: application/json
+
+### user my audiobooks page
+GET {{EC.Spotify.HostAddress}}/User/audiobooks?offset=0&limit=20
+Accept: application/json
+
+### user my episodes
+GET {{EC.Spotify.HostAddress}}/User/episodes
+Accept: application/json
+
+### user my episodes page
+GET {{EC.Spotify.HostAddress}}/User/episodes?offset=0&limit=20
+Accept: application/json
+
+### user my shows
+GET {{EC.Spotify.HostAddress}}/User/shows
+Accept: application/json
+
+### user my shows page
+GET {{EC.Spotify.HostAddress}}/User/shows?offset=0&limit=20
+Accept: application/json
+
+### user my tracks
+GET {{EC.Spotify.HostAddress}}/User/tracks
+Accept: application/json
+
+### user my tracks page
+GET {{EC.Spotify.HostAddress}}/User/tracks?offset=0&limit=20
+Accept: application/json
+
+### user top artists (medium term)
+GET {{EC.Spotify.HostAddress}}/User/top?userTopType=1&userTopTimeRange=1
+Accept: application/json
+
+### user top tracks (short term)
+GET {{EC.Spotify.HostAddress}}/User/top?userTopType=2&userTopTimeRange=2
+Accept: application/json
+
+### user top tracks page (long term)
+GET {{EC.Spotify.HostAddress}}/User/top?userTopType=2&userTopTimeRange=0&offset=0&limit=20
 Accept: application/json
