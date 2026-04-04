@@ -7,6 +7,8 @@ namespace EC.Spotify.Tests.Services;
 [TestClass]
 public sealed class T06_LibraryServiceTests
 {
+    public TestContext TestContext { get; set; }
+
     [TestMethod]
     [DataRow("7a3LWj5xSFhFRYmztS8wgK", ReferenceItemType.Track)]
     public async Task T001_LibraryAddAsync_ShouldReturnTrue(string? id, ReferenceItemType libraryType)
@@ -18,7 +20,7 @@ public sealed class T06_LibraryServiceTests
         var sut = Initializer.Resolve<ILibraryService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
-        var result = await sut.LibraryAddAsync(item);
+        var result = await sut.LibraryAddAsync(item, cancellationToken: TestContext.CancellationToken);
         Assert.IsTrue(result?.Data, result?.Error?.Message);
     }
     [TestMethod]
@@ -32,7 +34,7 @@ public sealed class T06_LibraryServiceTests
         var sut = Initializer.Resolve<ILibraryService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
-        var result = await sut.LibraryCheckAsync(item);
+        var result = await sut.LibraryCheckAsync(item, cancellationToken: TestContext.CancellationToken);
         Assert.IsTrue(result?.Data, result?.Error?.Message);
     }
     [TestMethod]
@@ -46,7 +48,7 @@ public sealed class T06_LibraryServiceTests
         var sut = Initializer.Resolve<ILibraryService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
-        var result = await sut.LibraryRemoveAsync(item);
+        var result = await sut.LibraryRemoveAsync(item, cancellationToken: TestContext.CancellationToken);
         Assert.IsTrue(result?.Data, result?.Error?.Message);
     }
 
@@ -62,7 +64,7 @@ public sealed class T06_LibraryServiceTests
         var sut = Initializer.Resolve<ILibraryService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
-        var result = await sut.LibraryAddAllAsync([item]);
+        var result = await sut.LibraryAddAllAsync([item], cancellationToken: TestContext.CancellationToken);
         Assert.IsTrue(result?.Data?.All(i => i == true), result?.Error?.Message);
     }
     [TestMethod]
@@ -76,7 +78,7 @@ public sealed class T06_LibraryServiceTests
         var sut = Initializer.Resolve<ILibraryService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
-        var result = await sut.LibraryCheckAllAsync([item]);
+        var result = await sut.LibraryCheckAllAsync([item], cancellationToken: TestContext.CancellationToken);
         Assert.IsTrue(result?.Data?.All(i => i == true), result?.Error?.Message);
     }
     [TestMethod]
@@ -90,7 +92,7 @@ public sealed class T06_LibraryServiceTests
         var sut = Initializer.Resolve<ILibraryService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
-        var result = await sut.LibraryRemoveAllAsync([item]);
+        var result = await sut.LibraryRemoveAllAsync([item], cancellationToken: TestContext.CancellationToken);
         Assert.IsTrue(result?.Data?.All(i => i == true), result?.Error?.Message);
     }
 }

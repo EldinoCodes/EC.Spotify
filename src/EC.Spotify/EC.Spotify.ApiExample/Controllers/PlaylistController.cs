@@ -11,14 +11,6 @@ public class PlaylistController(ISpotifyClient spotifyClient) : ControllerBase
 {
     private readonly ISpotifyClient _spotifyClient = spotifyClient;
 
-    [HttpGet("MyPlaylist")]
-    public async Task<IActionResult> MyPlaylistGetAsync(CancellationToken cancellationToken = default)
-    { 
-        var ret = new JsonResult(await _spotifyClient.Playlists.MyPlaylistGetAllAsync(cancellationToken));
-
-        return new JsonResult(ret);
-    }
-
     [HttpGet("{playlistId}")]
     public async Task<IActionResult> PlaylistGetAsync(string? playlistId, CancellationToken cancellationToken = default)
     {
@@ -81,6 +73,13 @@ public class PlaylistController(ISpotifyClient spotifyClient) : ControllerBase
         using var memoryStream = new MemoryStream();
         await image.CopyToAsync(memoryStream, cancellationToken);
         var ret = await _spotifyClient.Playlists.PlaylistImageAddAsync(playlistId, memoryStream.ToArray(), cancellationToken);
+
+        return new JsonResult(ret);
+    }
+    [HttpGet("{playlistId}/image")]
+    public async Task<IActionResult> PlaylistImageGetAllAsync(string? playlistId, CancellationToken cancellationToken = default)
+    {
+        var ret = await _spotifyClient.Playlists.PlaylistImageGetAllAsync(playlistId, cancellationToken);
 
         return new JsonResult(ret);
     }

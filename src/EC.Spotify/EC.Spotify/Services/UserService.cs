@@ -5,6 +5,7 @@ using EC.Spotify.Extensions;
 using EC.Spotify.Models;
 using EC.Spotify.Models.Albums;
 using EC.Spotify.Models.Audiobooks;
+using EC.Spotify.Models.Playlists;
 using EC.Spotify.Models.Shows;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -20,6 +21,7 @@ internal class UserService(ILogger<UserService> logger, IOptions<SpotifyOptions>
     private const string SpotifyMyAlbumsUri = "https://api.spotify.com/v1/me/albums";
     private const string SpotifyMyAudiobooksUri = "https://api.spotify.com/v1/me/audiobooks";
     private const string SpotifyMyEpisodesUri = "https://api.spotify.com/v1/me/episodes";
+    private const string SpotifyMyPlaylistUri = "https://api.spotify.com/v1/me/playlists";
     private const string SpotifyMyShowsUri = "https://api.spotify.com/v1/me/shows";
     private const string SpotifyMyTracksUri = "https://api.spotify.com/v1/me/tracks";
     private const string SpotifyMyTopItemsUri = "https://api.spotify.com/v1/me/top/{0}";
@@ -111,6 +113,34 @@ internal class UserService(ILogger<UserService> logger, IOptions<SpotifyOptions>
         {
             _logger.LogError(ex, "MyEpisodeGetAllAsync failed");
             return new SpotifyResult<SpotifyPageResult<Episode>> { Error = ex.ToSpotifyError() };
+        }
+    }
+
+    public async Task<SpotifyResult<SpotifyPageResult<Playlist>>> MyPlaylistGetAllAsync(int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var error = _options.ValidateScopes(["playlist-read-private"]);
+            if (error is not null) return new SpotifyResult<SpotifyPageResult<Playlist>>() { Error = error };
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("MyPlaylistGetAllAsync called");
+
+            var uri = SpotifyMyPlaylistUri.ToUri(new()
+            {
+                { "limit", $"{limit}"},
+                { "offset", $"{offset}"}
+            });
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("MyPlaylistGetAllAsync requesting URI: {Uri}", uri);
+
+            return await _spotifyProvider.ExecuteSpotifyResultAsync<SpotifyPageResult<Playlist>>("get", uri, cancellationToken: cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "MyPlaylistGetAllAsync failed");
+            return new SpotifyResult<SpotifyPageResult<Playlist>> { Error = ex.ToSpotifyError() };
         }
     }
 

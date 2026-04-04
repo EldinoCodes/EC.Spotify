@@ -27,7 +27,7 @@ public class Chapter : IPolymorphicItem
     [JsonPropertyName("languages")]
     public List<string>? Languages { get; set; }
     [JsonPropertyName("name")]
-    public string? name { get; set; }
+    public string? Name { get; set; }
     [JsonPropertyName("release_date")]
     public string? ReleaseDate { get; set; }
     [JsonPropertyName("release_date_precision")]

@@ -5,6 +5,8 @@ namespace EC.Spotify.Tests.Services;
 [TestClass]
 public sealed class T02_ArtistServiceTests
 {
+    public TestContext TestContext { get; set; }
+
     [TestMethod]
     [DataRow("0X380XXQSNBYuleKzav5UO")]
     public async Task T001_ArtistGetAsync_ShouldReturnArtist(string? id)
@@ -14,7 +16,7 @@ public sealed class T02_ArtistServiceTests
         var sut = Initializer.Resolve<IArtistService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
-        var result = await sut.ArtistGetAsync(id);
+        var result = await sut.ArtistGetAsync(id, cancellationToken: TestContext.CancellationToken);
         Assert.IsNotNull(result?.Data, result?.Error?.Message);
     }
 
@@ -27,7 +29,7 @@ public sealed class T02_ArtistServiceTests
         var sut = Initializer.Resolve<IArtistService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
-        var result = await sut.ArtistAlbumGetAllAsync(id);
+        var result = await sut.ArtistAlbumGetAllAsync(id, cancellationToken: TestContext.CancellationToken);
         Assert.IsNotNull(result?.Data, result?.Error?.Message);
     }
 }

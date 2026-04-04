@@ -7,8 +7,9 @@
 
 A comprehensive .NET client library for the Spotify Web API, providing a clean and intuitive interface for interacting with Spotify's music streaming platform.
 
-## LATEST NEWS - 2026.04.03
-The EC.Spotify library has been updated with some new functionality, methods simplified method calls and plan to release 2.0.0 hopefully 2026.4.05 provided testing of libraryservice works.  Plan to add new player method still supported by Spotify API.  If you are using this library and find any issues, please report them.  Thanks yall, much love.
+## LATEST NEWS - 2026.04.04
+### EC.Spotify 2.0.0 should release tomorrow!
+The EC.Spotify library is hopefully foundationally stable for the forseeable future.  Lots of changes have been made in relation to scopes, validations, method names, making sure properties are Pascal Case, etc.  I do have known issues with paged result link urls which i intend on handling over the next week or two.  If you are using this library and find any issues, please report them.  Thanks yall, much love.
 
 ## Overview
 
@@ -200,7 +201,7 @@ var token = await _spotifyClient.Authorization.AuthorizationTokenGetAsync();
 if (token != null)
 {
     Console.WriteLine($"Access Token: {token.AccessToken}");
-    Console.WriteLine($"Expires: {token.ExpiresAt}");
+    Console.WriteLine($"Expires In: {token.ExpiresIn}s");
 }
 
 // Remove authorization
@@ -252,10 +253,10 @@ Provides methods for retrieving artist data and their albums.
 
 **Available Methods:**
 - **`ArtistGetAsync(string? id, CancellationToken cancellationToken = default)`**  
-  Retrieves detailed artist information including name, genres, popularity, followers, and images.
+  Retrieves detailed artist information including name, images, and external URLs.
 
-- **`ArtistAlbumGetAllAsync(string? id, int? limit = 20, int? offset = 0, string? includeGroups = default, CancellationToken cancellationToken = default)`**  
-  Retrieves paginated albums for an artist with filtering support via `includeGroups` (e.g., "album", "single", "appears_on", "compilation").
+- **`ArtistAlbumGetAllAsync(string? id, int? limit = 10, int? offset = 0, AlbumType? albumTypes = default, CancellationToken cancellationToken = default)`**  
+  Retrieves paginated albums for an artist, optionally filtered by `albumTypes` (e.g., `AlbumType.Album`, `AlbumType.Single`).
 
 **Example:**
 ```csharp
@@ -265,17 +266,15 @@ if (artistResult.IsSuccess)
 {
     var artist = artistResult.Data;
     Console.WriteLine($"Artist: {artist.Name}");
-    Console.WriteLine($"Followers: {artist.Followers?.Total:N0}");
-    Console.WriteLine($"Popularity: {artist.Popularity}");
-    Console.WriteLine($"Genres: {string.Join(", ", artist.Genres)}");
+    Console.WriteLine($"Id: {artist.Id}");
 }
 
 // Get artist albums (only albums and singles)
 var albumsResult = await _spotifyClient.Artists.ArtistAlbumGetAllAsync(
-    "0TnOYISbd1XYRBk9myaseg", 
-    limit: 20, 
+    "0TnOYISbd1XYRBk9myaseg",
+    limit: 10,
     offset: 0,
-    includeGroups: "album,single"
+    albumTypes: AlbumType.Album | AlbumType.Single
 );
 ```
 
@@ -448,7 +447,8 @@ var devicesResult = await _spotifyClient.Player.DeviceGetAllAsync();
 var stateResult = await _spotifyClient.Player.StateGetAsync();
 if (stateResult.IsSuccess)
 {
-    Console.WriteLine($"Playing: {stateResult.Data.Item?.Name}");
+    if (stateResult.Data.Item is Track track)
+        Console.WriteLine($"Playing: {track.Name}");
     Console.WriteLine($"Device: {stateResult.Data.Device?.Name}");
 }
 
@@ -474,9 +474,6 @@ await _spotifyClient.Player.ShuffleAsync(PlayerShuffleMode.On);
 Provides methods for retrieving, managing, and modifying playlists and their contents.
 
 **Available Methods:**
-- **`MyPlaylistGetAllAsync(CancellationToken cancellationToken = default)`**  
-  Retrieves all playlists owned or followed by the current user.
-
 - **`PlaylistGetAsync(string? id, CancellationToken cancellationToken = default)`**  
   Retrieves detailed playlist information by playlist ID.
 
@@ -501,6 +498,9 @@ Provides methods for retrieving, managing, and modifying playlists and their con
 - **`PlaylistImageAddAsync(string? id, byte[]? imageData, CancellationToken cancellationToken = default)`**  
   Adds or replaces the cover image of a playlist. The image must be in JPEG format. Requires the `ugc-image-upload`, `playlist-modify-public`, and `playlist-modify-private` scopes.
 
+- **`PlaylistImageGetAllAsync(string? id, CancellationToken cancellationToken = default)`**  
+  Retrieves all images associated with the specified playlist.
+
 **`PlaylistDetail` Model:**
 
 | Property | Type | Description |
@@ -521,16 +521,6 @@ Provides methods for retrieving, managing, and modifying playlists and their con
 
 **Example:**
 ```csharp
-// Get all playlists for the current user
-var myPlaylistsResult = await _spotifyClient.Playlists.MyPlaylistGetAllAsync();
-if (myPlaylistsResult.IsSuccess)
-{
-    foreach (var playlist in myPlaylistsResult.Data.Items)
-    {
-        Console.WriteLine($"Playlist: {playlist.Name}");
-    }
-}
-
 // Get a specific playlist
 var playlistResult = await _spotifyClient.Playlists.PlaylistGetAsync("37i9dQZF1DXcBWIGoYBM5M");
 if (playlistResult.IsSuccess)
@@ -576,6 +566,9 @@ var removeAllResult = await _spotifyClient.Playlists.PlaylistItemRemoveAllAsync(
 // Update playlist cover image
 byte[] imageData = await File.ReadAllBytesAsync("cover.jpg");
 await _spotifyClient.Playlists.PlaylistImageAddAsync("37i9dQZF1DXcBWIGoYBM5M", imageData);
+
+// Get playlist images
+var imagesResult = await _spotifyClient.Playlists.PlaylistImageGetAllAsync("37i9dQZF1DXcBWIGoYBM5M");
 ```
 
 ### ISearchService
@@ -633,7 +626,7 @@ Provides methods for retrieving individual track data.
 
 **Available Methods:**
 - **`TrackGetAsync(string? id, CancellationToken cancellationToken = default)`**  
-  Retrieves detailed track information including name, artists, album, duration, and popularity.
+  Retrieves detailed track information including name, artists, album, and duration.
 
 **Example:**
 ```csharp
@@ -642,7 +635,7 @@ if (trackResult.IsSuccess)
 {
     var track = trackResult.Data;
     Console.WriteLine($"Track: {track.Name} by {track.Artists[0].Name}");
-    Console.WriteLine($"Duration: {track.DurationMilliseconds}ms, Popularity: {track.Popularity}");
+    Console.WriteLine($"Duration: {track.DurationMilliseconds}ms");
 }
 ```
 
@@ -660,13 +653,16 @@ Provides methods for retrieving items from the current user's Spotify library an
 - **`MyEpisodeGetAllAsync(int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)`**  
   Retrieves a paginated list of episodes saved in the current user's library. The `limit` value must be between 1 and 50. Requires the `user-library-read` and `user-read-playback-position` scopes.
 
-- **`MyShowGetAllAsync(int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)`**  
+- **`MyPlaylistGetAllAsync(int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)`**  
+  Retrieves a paginated list of playlists owned or followed by the current user. The `limit` value must be between 1 and 50. Requires the `playlist-read-private` scope.
+
+- **`MyShowGetAllAsync(int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)`**
   Retrieves a paginated list of shows saved in the current user's library. The `limit` value must be between 1 and 50. Requires the `user-library-read` and `user-read-playback-position` scopes.
 
 - **`MyTrackGetAllAsync(int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)`**  
   Retrieves a paginated list of tracks saved in the current user's library. The `limit` value must be between 1 and 50. Requires the `user-library-read` scope.
 
-- **`MyTopItemGetAllAsync(UserTopType userTopType = UserTopType.Artists, UserTopTimeRange userTopTimeRange = UserTopTimeRange.MediumTerm, int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)`**  
+- **`MyTopItemGetAllAsync(int? limit = 20, int offset = 0, UserTopType userTopType = UserTopType.Tracks, UserTopTimeRange userTopTimeRange = UserTopTimeRange.MediumTerm, CancellationToken cancellationToken = default)`**  
   Retrieves the current user's top artists or tracks based on calculated affinity over a given time range. The `limit` value must be between 1 and 50. Requires the `user-top-read` scope.
 
 **`UserTopType` Enum:**
@@ -717,6 +713,16 @@ if (episodesResult.IsSuccess)
     }
 }
 
+// Get saved playlists
+var playlistsResult = await _spotifyClient.User.MyPlaylistGetAllAsync(limit: 20);
+if (playlistsResult.IsSuccess)
+{
+    foreach (var playlist in playlistsResult.Data.Items)
+    {
+        Console.WriteLine($"Playlist: {playlist.Name}");
+    }
+}
+
 // Get saved shows
 var showsResult = await _spotifyClient.User.MyShowGetAllAsync(limit: 20);
 if (showsResult.IsSuccess)
@@ -739,27 +745,29 @@ if (tracksResult.IsSuccess)
 
 // Get top artists over the last 6 months
 var topArtistsResult = await _spotifyClient.User.MyTopItemGetAllAsync(
-    UserTopType.Artists,
-    UserTopTimeRange.MediumTerm,
-    limit: 20);
+    limit: 20,
+    userTopType: UserTopType.Artists,
+    userTopTimeRange: UserTopTimeRange.MediumTerm);
 if (topArtistsResult.IsSuccess)
 {
-    foreach (var artist in topArtistsResult.Data.Items)
+    foreach (var item in topArtistsResult.Data.Items ?? [])
     {
-        Console.WriteLine($"Top Artist: {artist.Name}");
+        if (item is Artist artist)
+            Console.WriteLine($"Top Artist: {artist.Name}");
     }
 }
 
 // Get top tracks over the last 4 weeks
 var topTracksResult = await _spotifyClient.User.MyTopItemGetAllAsync(
-    UserTopType.Tracks,
-    UserTopTimeRange.ShortTerm,
-    limit: 10);
+    limit: 10,
+    userTopType: UserTopType.Tracks,
+    userTopTimeRange: UserTopTimeRange.ShortTerm);
 if (topTracksResult.IsSuccess)
 {
-    foreach (var track in topTracksResult.Data.Items)
+    foreach (var item in topTracksResult.Data.Items ?? [])
     {
-        Console.WriteLine($"Top Track: {track.Name}");
+        if (item is Track track)
+            Console.WriteLine($"Top Track: {track.Name}");
     }
 }
 ```

@@ -30,6 +30,11 @@ GET {{EC.Spotify.HostAddress}}/Artists/{{EC.Spotify.ArtistId}}/albums
 Accept: application/json
 
 ### artist albums page
+GET {{EC.Spotify.HostAddress}}/Artists/{{EC.Spotify.ArtistId}}/albums?offset=20&limit=20&albumTypes=album,single
+Accept: application/json
+
+
+### artist albums page
 #  AlbumType
 #    Album = 1,
 #    Single =  2,
@@ -195,10 +200,6 @@ Accept: application/json
 #    Track = 5
 #    User = 6
 
-### playlist my playlists
-GET {{EC.Spotify.HostAddress}}/Playlist/myplaylist
-Accept: application/json
-
 ### playlist get
 GET {{EC.Spotify.HostAddress}}/Playlist/{{EC.Spotify.PlaylistId}}
 Accept: application/json
@@ -274,6 +275,9 @@ Content-Type: image/jpeg
 
 < ./playlist.jpg
 ------Boundary--
+
+### playlist image get
+GET {{EC.Spotify.HostAddress}}/Playlist/{{EC.Spotify.PlaylistId}}/image
 
 
 
@@ -430,6 +434,14 @@ Accept: application/json
 
 ### user my episodes page
 GET {{EC.Spotify.HostAddress}}/User/episodes?offset=0&limit=20
+Accept: application/json
+
+### user my playlists
+GET {{EC.Spotify.HostAddress}}/User/playlists
+Accept: application/json
+
+### user my playlists page
+GET {{EC.Spotify.HostAddress}}/User/playlists?offset=0&limit=20
 Accept: application/json
 
 ### user my shows

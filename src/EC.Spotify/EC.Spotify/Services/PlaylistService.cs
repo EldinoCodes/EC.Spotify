@@ -4,6 +4,7 @@ using EC.Spotify.Extensions;
 using EC.Spotify.Models;
 using EC.Spotify.Models.Library;
 using EC.Spotify.Models.Playlists;
+using EC.Spotify.Models.Shared;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Text;
@@ -17,31 +18,8 @@ internal class PlaylistService(ILogger<PlaylistService> logger, IOptions<Spotify
     private readonly ISpotifyProvider _spotifyProvider = spotifyProvider;
 
     private const string SpotifyPlaylistUri = "https://api.spotify.com/v1/playlists/{0}";
-    private const string SpotifyMyPlaylistUri = "https://api.spotify.com/v1/me/playlists";
     private const string SpotifyPlaylistItemsUri = "https://api.spotify.com/v1/playlists/{0}/items";
     private const string SpotifyPlaylistImagesUri = "https://api.spotify.com/v1/playlists/{0}/images";
-
-    public async Task<SpotifyResult<SpotifyPageResult<Playlist>>> MyPlaylistGetAllAsync(CancellationToken cancellationToken = default)
-    {
-        try
-        {
-            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
-                _logger.LogDebug("MyPlaylistGetAllAsync called");
-
-            var uri = SpotifyMyPlaylistUri;
-
-            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
-                _logger.LogDebug("MyPlaylistGetAllAsync requesting URI: {Uri}", uri);
-
-            return await _spotifyProvider.ExecuteSpotifyResultAsync<SpotifyPageResult<Playlist>> ("get", uri, cancellationToken: cancellationToken);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "MyPlaylistGetAllAsync failed");
-            return new SpotifyResult<SpotifyPageResult<Playlist>> { Error = ex.ToSpotifyError() };
-        }
-    }
-
 
     public async Task<SpotifyResult<Playlist>> PlaylistGetAsync(string? id, CancellationToken cancellationToken = default)
     {
@@ -278,6 +256,26 @@ internal class PlaylistService(ILogger<PlaylistService> logger, IOptions<Spotify
         {
             _logger.LogError(ex, "PlaylistImageAddAsync failed for id: {Id}", id);
             return new SpotifyResult<bool> { Error = ex.ToSpotifyError() };
+        }
+    }
+    public async Task<SpotifyResult<List<Image>>> PlaylistImageGetAllAsync(string? id, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("PlaylistImageGetAllAsync called with id: {Id}", id);
+
+            var uri = string.Format(SpotifyPlaylistImagesUri, id);
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("PlaylistImageGetAllAsync requesting URI: {Uri}", uri);
+
+            return await _spotifyProvider.ExecuteSpotifyResultAsync<List<Image>>("get", uri, cancellationToken: cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "PlaylistImageGetAllAsync failed for id: {Id}", id);
+            return new SpotifyResult<List<Image>> { Error = ex.ToSpotifyError() };
         }
     }
 }

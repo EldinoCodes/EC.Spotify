@@ -1,22 +1,12 @@
 ﻿using EC.Spotify.Models;
 using EC.Spotify.Models.Library;
 using EC.Spotify.Models.Playlists;
-using EC.Spotify.Models.Shows;
+using EC.Spotify.Models.Shared;
 
 namespace EC.Spotify.Abstractions.Services;
 
 public interface IPlaylistService
 {
-    /// <summary>
-    /// Retrieves all playlists owned or followed by the current user asynchronously.
-    /// </summary>
-    /// <remarks>The result may be empty if the user does not have any playlists. This method supports
-    /// cancellation via the provided token.</remarks>
-    /// <param name="cancellationToken">A cancellation token that can be used to cancel the asynchronous operation.</param>
-    /// <returns>A task that represents the asynchronous operation. The task result contains a SpotifyResult with a
-    /// SpotifyPageResult holding the user's playlists.</returns>
-    Task<SpotifyResult<SpotifyPageResult<Playlist>>> MyPlaylistGetAllAsync(CancellationToken cancellationToken = default);
-
     /// <summary>
     /// Retrieves the details of a Spotify playlist by its unique identifier asynchronously.
     /// </summary>
@@ -113,4 +103,12 @@ public interface IPlaylistService
     /// <returns>A task that represents the asynchronous operation. The task result contains a SpotifyResult indicating whether
     /// the image was successfully added or replaced.</returns>
     Task<SpotifyResult<bool>> PlaylistImageAddAsync(string? id, byte[]? imageData, CancellationToken cancellationToken = default);
+    /// <summary>
+    /// Retrieves all images associated with the specified playlist asynchronously.
+    /// </summary>
+    /// <param name="id">The Spotify ID of the playlist for which to retrieve images. Can be null to indicate no playlist.</param>
+    /// <param name="cancellationToken">A cancellation token that can be used to cancel the asynchronous operation.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains a SpotifyResult with a list of
+    /// images for the specified playlist. The list will be empty if the playlist has no images.</returns>
+    Task<SpotifyResult<List<Image>>> PlaylistImageGetAllAsync(string? id, CancellationToken cancellationToken = default);
 }

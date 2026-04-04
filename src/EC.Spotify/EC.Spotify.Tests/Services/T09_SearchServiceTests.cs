@@ -7,6 +7,8 @@ namespace EC.Spotify.Tests.Services;
 [TestClass]
 public sealed class T09_SearchServiceTests
 {
+    public TestContext TestContext { get; set; }
+
     [TestMethod]
     [DataRow("The Beatles", SearchType.Artist)]
     [DataRow("Abbey Road", SearchType.Album)]
@@ -27,7 +29,7 @@ public sealed class T09_SearchServiceTests
             Type = searchType
         };
 
-        var result = await sut.SearchAsync(searchQuery);
+        var result = await sut.SearchAsync(searchQuery, cancellationToken: TestContext.CancellationToken);
         Assert.IsNotNull(result?.Data, result?.Error?.Message);
     }
 }

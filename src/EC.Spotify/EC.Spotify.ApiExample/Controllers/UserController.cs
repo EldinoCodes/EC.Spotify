@@ -34,6 +34,15 @@ public class UserController(ISpotifyClient spotifyClient) : ControllerBase
         return new JsonResult(ret);
     }
 
+
+    [HttpGet("playlists")]
+    public async Task<IActionResult> MyPlaylistGetAsync(int? limit, int? offset, CancellationToken cancellationToken = default)
+    {
+        var ret = new JsonResult(await _spotifyClient.User.MyPlaylistGetAllAsync(limit, offset, cancellationToken));
+
+        return new JsonResult(ret);
+    }
+
     [HttpGet("shows")]
     public async Task<IActionResult> MyShowGetAllAsync(int? limit, int? offset, CancellationToken cancellationToken = default)
     {

@@ -6,13 +6,15 @@ namespace EC.Spotify.Tests.Services;
 [TestClass]
 public sealed class T07_PlayerServiceTests
 {
+    public TestContext TestContext { get; set; }
+
     [TestMethod]
     public async Task T001_QueueGetAsync_ShouldReturnQueue()
     {
         var sut = Initializer.Resolve<IPlayerService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
-        var result = await sut.QueueGetAsync();
+        var result = await sut.QueueGetAsync(cancellationToken: TestContext.CancellationToken);
         Assert.IsNotNull(result?.Data, result?.Error?.Message);
     }
 
@@ -25,7 +27,7 @@ public sealed class T07_PlayerServiceTests
         var sut = Initializer.Resolve<IPlayerService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
-        var result = await sut.QueueAddAsync(id);
+        var result = await sut.QueueAddAsync(id, cancellationToken: TestContext.CancellationToken);
         Assert.IsNotNull(result?.Data, result?.Error?.Message);
     }
 
@@ -35,7 +37,7 @@ public sealed class T07_PlayerServiceTests
         var sut = Initializer.Resolve<IPlayerService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
-        var result = await sut.DeviceGetAllAsync();
+        var result = await sut.DeviceGetAllAsync(cancellationToken: TestContext.CancellationToken);
         Assert.IsNotNull(result?.Data, result?.Error?.Message);
     }
 
@@ -48,7 +50,7 @@ public sealed class T07_PlayerServiceTests
         var sut = Initializer.Resolve<IPlayerService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
-        var result = await sut.TransferAsync(id);
+        var result = await sut.TransferAsync(id, cancellationToken: TestContext.CancellationToken);
         Assert.IsNotNull(result?.Data, result?.Error?.Message);
     }
 
@@ -58,7 +60,7 @@ public sealed class T07_PlayerServiceTests
         var sut = Initializer.Resolve<IPlayerService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
-        var result = await sut.PlayAsync(null, null);
+        var result = await sut.PlayAsync(null, null, cancellationToken: TestContext.CancellationToken);
         Assert.IsNotNull(result?.Data, result?.Error?.Message);
     }
 
@@ -68,7 +70,7 @@ public sealed class T07_PlayerServiceTests
         var sut = Initializer.Resolve<IPlayerService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
-        var result = await sut.PauseAsync(null);
+        var result = await sut.PauseAsync(null, cancellationToken: TestContext.CancellationToken);
         Assert.IsNotNull(result?.Data, result?.Error?.Message);
     }
 
@@ -78,7 +80,7 @@ public sealed class T07_PlayerServiceTests
         var sut = Initializer.Resolve<IPlayerService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
-        var result = await sut.NextAsync(null);
+        var result = await sut.NextAsync(null, cancellationToken: TestContext.CancellationToken);
         Assert.IsNotNull(result?.Data, result?.Error?.Message);
     }
 
@@ -88,7 +90,7 @@ public sealed class T07_PlayerServiceTests
         var sut = Initializer.Resolve<IPlayerService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
-        var result = await sut.PreviousAsync(null);
+        var result = await sut.PreviousAsync(null, cancellationToken: TestContext.CancellationToken);
         Assert.IsNotNull(result?.Data, result?.Error?.Message);
     }
 
@@ -98,7 +100,7 @@ public sealed class T07_PlayerServiceTests
         var sut = Initializer.Resolve<IPlayerService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
-        var result = await sut.SeekAsync(60000);
+        var result = await sut.SeekAsync(60000, cancellationToken: TestContext.CancellationToken);
         Assert.IsNotNull(result?.Data, result?.Error?.Message);
     }
 
@@ -109,7 +111,7 @@ public sealed class T07_PlayerServiceTests
         var sut = Initializer.Resolve<IPlayerService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
-        var result = await sut.RepeatAsync(playerRepeatMode);
+        var result = await sut.RepeatAsync(playerRepeatMode, cancellationToken: TestContext.CancellationToken);
         Assert.IsNotNull(result?.Data, result?.Error?.Message);
     }
 
@@ -120,7 +122,7 @@ public sealed class T07_PlayerServiceTests
         var sut = Initializer.Resolve<IPlayerService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
-        var result = await sut.ShuffleAsync(playerShuffleMode);
+        var result = await sut.ShuffleAsync(playerShuffleMode, cancellationToken: TestContext.CancellationToken);
         Assert.IsNotNull(result?.Data, result?.Error?.Message);
     }
 
@@ -132,7 +134,7 @@ public sealed class T07_PlayerServiceTests
         var sut = Initializer.Resolve<IPlayerService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
-        var result = await sut.VolumeAsync(volumePercent);
+        var result = await sut.VolumeAsync(volumePercent, cancellationToken: TestContext.CancellationToken);
         Assert.IsNotNull(result?.Data, result?.Error?.Message);
     }
 
@@ -142,7 +144,7 @@ public sealed class T07_PlayerServiceTests
         var sut = Initializer.Resolve<IPlayerService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
-        var result = await sut.StateGetAsync();
+        var result = await sut.StateGetAsync(cancellationToken: TestContext.CancellationToken);
         Assert.IsNotNull(result?.Data, result?.Error?.Message);
     }
 
@@ -152,7 +154,7 @@ public sealed class T07_PlayerServiceTests
         var sut = Initializer.Resolve<IPlayerService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
-        var result = await sut.CurrentlyPlayingGetAsync();
+        var result = await sut.CurrentlyPlayingGetAsync(cancellationToken: TestContext.CancellationToken);
         Assert.IsNotNull(result?.Data, result?.Error?.Message);
     }
 }

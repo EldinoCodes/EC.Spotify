@@ -65,7 +65,9 @@ internal class ArtistService(ILogger<ArtistService> logger, IOptions<SpotifyOpti
             if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
                 _logger.LogDebug("ArtistAlbumGetAllAsync requesting URI: {Uri}", uri);
 
-            return await _spotifyProvider.ExecuteSpotifyResultAsync<SpotifyPageResult<Album>>("get", uri, cancellationToken: cancellationToken);
+            var ret = await _spotifyProvider.ExecuteSpotifyResultAsync<SpotifyPageResult<Album>>("get", uri, cancellationToken: cancellationToken);
+
+            return ret;
         }
         catch (Exception ex)
         {

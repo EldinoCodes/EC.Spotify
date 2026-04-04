@@ -5,6 +5,7 @@ namespace EC.Spotify.Tests.Services;
 [TestClass]
 public sealed class T00_AuthorizationServiceTests
 {
+    public TestContext TestContext { get; set; }
 
     [TestInitialize]
     [TestMethod]
@@ -23,9 +24,9 @@ public sealed class T00_AuthorizationServiceTests
         var sut = Initializer.Resolve<IAuthorizationService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
-        var code = await sut.AuthorizationCodeGetAsync();
-        var ret = await sut.AuthorizationCodeAddAsync("test_code");
-        _ = await sut.AuthorizationCodeAddAsync(code);
+        var code = await sut.AuthorizationCodeGetAsync(cancellationToken: TestContext.CancellationToken);
+        var ret = await sut.AuthorizationCodeAddAsync("test_code", cancellationToken: TestContext.CancellationToken);
+        _ = await sut.AuthorizationCodeAddAsync(code, cancellationToken: TestContext.CancellationToken);
 
         Assert.IsTrue(ret);
     }
@@ -38,11 +39,11 @@ public sealed class T00_AuthorizationServiceTests
 
         var newCode = "test_code";
 
-        var existingCode = await sut.AuthorizationCodeGetAsync();
+        var existingCode = await sut.AuthorizationCodeGetAsync(cancellationToken: TestContext.CancellationToken);
         if (string.IsNullOrEmpty(existingCode))
-            await sut.AuthorizationCodeAddAsync(newCode);
+            await sut.AuthorizationCodeAddAsync(newCode, cancellationToken: TestContext.CancellationToken);
 
-        var ret = await sut.AuthorizationCodeGetAsync();
+        var ret = await sut.AuthorizationCodeGetAsync(cancellationToken: TestContext.CancellationToken);
         Assert.IsNotNull(ret);
     }
 
@@ -52,9 +53,9 @@ public sealed class T00_AuthorizationServiceTests
         var sut = Initializer.Resolve<IAuthorizationService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
-        var code = await sut.AuthorizationCodeGetAsync();
-        var ret = await sut.AuthorizationCodeRemoveAsync();
-        var res = await sut.AuthorizationCodeAddAsync(code);
+        var code = await sut.AuthorizationCodeGetAsync(cancellationToken: TestContext.CancellationToken);
+        var ret = await sut.AuthorizationCodeRemoveAsync(cancellationToken: TestContext.CancellationToken);
+        var res = await sut.AuthorizationCodeAddAsync(code, cancellationToken: TestContext.CancellationToken);
 
         Assert.IsTrue(ret);
 
@@ -69,11 +70,11 @@ public sealed class T00_AuthorizationServiceTests
 
         var newCode = "test_code";
 
-        var existingCode = await sut.AuthorizationCodeGetAsync();
+        var existingCode = await sut.AuthorizationCodeGetAsync(cancellationToken: TestContext.CancellationToken);
         if (string.IsNullOrEmpty(existingCode))
-            await sut.AuthorizationCodeAddAsync(newCode);
-        
-        var ret = await sut.AuthorizationTokenGetAsync();
+            await sut.AuthorizationCodeAddAsync(newCode, cancellationToken: TestContext.CancellationToken);
+
+        var ret = await sut.AuthorizationTokenGetAsync(cancellationToken: TestContext.CancellationToken);
 
         Assert.IsNotNull(ret);
     }

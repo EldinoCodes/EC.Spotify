@@ -6,13 +6,15 @@ namespace EC.Spotify.Tests.Services;
 [TestClass]
 public sealed class T12_UserServiceTests
 {
+    public TestContext TestContext { get; set; }
+
     [TestMethod]
     public async Task T001_MyAlbumGetAllAsync_ShouldReturnAlbums()
     {
         var sut = Initializer.Resolve<IUserService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
-        var result = await sut.MyAlbumGetAllAsync();
+        var result = await sut.MyAlbumGetAllAsync(cancellationToken: TestContext.CancellationToken);
         Assert.IsNotNull(result?.Data, result?.Error?.Message);
     }
 
@@ -22,7 +24,7 @@ public sealed class T12_UserServiceTests
         var sut = Initializer.Resolve<IUserService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
-        var result = await sut.MyAudiobookGetAllAsync();
+        var result = await sut.MyAudiobookGetAllAsync(cancellationToken: TestContext.CancellationToken);
         Assert.IsNotNull(result?.Data, result?.Error?.Message);
     }
 
@@ -32,7 +34,7 @@ public sealed class T12_UserServiceTests
         var sut = Initializer.Resolve<IUserService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
-        var result = await sut.MyEpisodeGetAllAsync();
+        var result = await sut.MyEpisodeGetAllAsync(cancellationToken: TestContext.CancellationToken);
         Assert.IsNotNull(result?.Data, result?.Error?.Message);
     }
 
@@ -42,7 +44,7 @@ public sealed class T12_UserServiceTests
         var sut = Initializer.Resolve<IUserService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
-        var result = await sut.MyShowGetAllAsync();
+        var result = await sut.MyShowGetAllAsync(cancellationToken: TestContext.CancellationToken);
         Assert.IsNotNull(result?.Data, result?.Error?.Message);
     }
 
@@ -52,7 +54,7 @@ public sealed class T12_UserServiceTests
         var sut = Initializer.Resolve<IUserService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
-        var result = await sut.MyTrackGetAllAsync();
+        var result = await sut.MyTrackGetAllAsync(cancellationToken: TestContext.CancellationToken);
         Assert.IsNotNull(result?.Data, result?.Error?.Message);
     }
 
@@ -66,7 +68,7 @@ public sealed class T12_UserServiceTests
         var sut = Initializer.Resolve<IUserService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
-        var result = await sut.MyTopItemGetAllAsync(userTopType: userTopType, userTopTimeRange: userTopTimeRange);
+        var result = await sut.MyTopItemGetAllAsync(userTopType: userTopType, userTopTimeRange: userTopTimeRange, cancellationToken: TestContext.CancellationToken);
         Assert.IsNotNull(result?.Data, result?.Error?.Message);
     }
 }
