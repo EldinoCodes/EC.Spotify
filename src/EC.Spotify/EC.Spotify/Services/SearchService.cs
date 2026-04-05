@@ -1,9 +1,9 @@
-﻿using EC.Spotify.Abstractions.Providers;
+﻿using EC.Spotify.Abstractions.Models;
+using EC.Spotify.Abstractions.Providers;
 using EC.Spotify.Abstractions.Services;
 using EC.Spotify.Enums;
 using EC.Spotify.Extensions;
 using EC.Spotify.Models;
-using EC.Spotify.Models.Searches;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -17,24 +17,19 @@ internal class SearchService(ILogger<SearchService> logger, IOptions<SpotifyOpti
 
     private const string SpotifySearchUri = "https://api.spotify.com/v1/search";
 
-    public async Task<SpotifyResult<SpotifyPolymorphicPageResult>> SearchAsync(SearchQuery? searchQuery, CancellationToken cancellationToken = default)
+    public async Task<SpotifyResult<SpotifyPageResult<IPolymorphicItem>>> SearchAsync(string? query, SearchType? searchType = default, int? limit = 5, int? offset = 0, CancellationToken cancellationToken = default)
     {
-        var ret = new SpotifyResult<SpotifyPolymorphicPageResult>();
         try
         {
             if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
-                _logger.LogDebug("SearchAsync called with query: {Query}, type: {Type}, limit: {Limit}, offset: {Offset}",
-                    searchQuery?.Query, searchQuery?.Type, searchQuery?.Limit, searchQuery?.Offset);
-
-            var limit = searchQuery?.Limit;
-            var offset = searchQuery?.Offset;
+                _logger.LogDebug("SearchAsync called with query: {Query}, type: {Type}, limit: {Limit}, offset: {Offset}", query, searchType, limit, offset);
 
             var q = new List<string>();
-            if (!string.IsNullOrEmpty(searchQuery?.Query)) q.Add(searchQuery.Query);
+            if (!string.IsNullOrEmpty(query)) q.Add(query);
             var searchQueryType = typeof(SearchType);
             var searchTypes = string.Join(",", Enum.GetValues(searchQueryType)
                 .Cast<SearchType>()
-                .Where(t => searchQuery?.Type.HasFlag(t) ?? false)
+                .Where(t => searchType?.HasFlag(t) ?? false)
                 .Select(t => Enum.GetName(searchQueryType, t)?.ToLower())
             );
 
@@ -51,7 +46,7 @@ internal class SearchService(ILogger<SearchService> logger, IOptions<SpotifyOpti
             if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
                 _logger.LogDebug("SearchAsync requesting URI: {Uri}", uri);
 
-            return await _spotifyProvider.ExecuteSpotifyResultAsync<SpotifyPolymorphicPageResult>("get", uri, null, [
+            var res = await _spotifyProvider.ExecuteSpotifyResultAsync<SpotifyPageResult<IPolymorphicItem>>("get", uri, null, [
                 "albums",
                 "artists",
                 "audiobooks",
@@ -60,13 +55,19 @@ internal class SearchService(ILogger<SearchService> logger, IOptions<SpotifyOpti
                 "shows",
                 "tracks"
             ], cancellationToken: cancellationToken);
+
+            res.Data?.Next = res.Data.Next?.Replace("type", "searchType");
+            res.Data?.Previous = res.Data.Previous?.Replace("type", "searchType");
+
+            return res;
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             _logger.LogError(ex, "Error occurred while searching Spotify");
-
-            ret.Error = ex.ToSpotifyError();
+            return new SpotifyResult<SpotifyPageResult<IPolymorphicItem>>()
+            {
+                Error = ex.ToSpotifyError()
+            };
         }
-        return ret;
     }
 }

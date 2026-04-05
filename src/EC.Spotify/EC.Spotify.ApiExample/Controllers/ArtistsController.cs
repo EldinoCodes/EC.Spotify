@@ -18,9 +18,9 @@ public class ArtistsController(ISpotifyClient spotifyClient) : ControllerBase
         return new JsonResult(ret);
     }
     [HttpGet("{artistId}/albums")]
-    public async Task<IActionResult> ArtistAlbumGetAllAsync(string? artistId, int? limit, int? offset, AlbumType? albumTypes = default, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> ArtistAlbumGetAllAsync(string? artistId, AlbumType? albumTypes, int? limit, int? offset, CancellationToken cancellationToken = default)
     {
-        var ret = await _spotifyClient.Artists.ArtistAlbumGetAllAsync(artistId, limit, offset, albumTypes, cancellationToken);
+        var ret = await _spotifyClient.Artists.ArtistAlbumGetAllAsync(artistId, albumTypes, limit, offset, cancellationToken);
 
         return new JsonResult(ret);
     }

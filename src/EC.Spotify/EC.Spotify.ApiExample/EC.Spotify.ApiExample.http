@@ -138,7 +138,7 @@ GET {{EC.Spotify.HostAddress}}/Player/state
 Accept: application/json
 
 ### player currently playing
-GET {{EC.Spotify.HostAddress}}/Player/currently-playing1
+GET {{EC.Spotify.HostAddress}}/Player/currently-playing
 Accept: application/json
 
 ### player queue get
@@ -170,7 +170,7 @@ POST {{EC.Spotify.HostAddress}}/Player/seek?positionMilliseconds=60000
 Accept: application/json
 
 ### player volume
-POST {{EC.Spotify.HostAddress}}/Player/volume?volume=100
+POST {{EC.Spotify.HostAddress}}/Player/volume?volume=40
 Accept: application/json
 
 ### player repeat
@@ -185,7 +185,7 @@ Accept: application/json
 #  playerShuffleMode
 #    Off = 0
 #    On = 1
-POST {{EC.Spotify.HostAddress}}/Player/shuffle?playerShuffleMode=1
+POST {{EC.Spotify.HostAddress}}/Player/shuffle?playerShuffleMode=0
 Accept: application/json
 
 
@@ -293,97 +293,44 @@ GET {{EC.Spotify.HostAddress}}/Playlist/{{EC.Spotify.PlaylistId}}/image
 #BITWISE: 1 + 2 = 3 (Album OR Artist)
 
 ### Album = 1
-POST {{EC.Spotify.HostAddress}}/Search
-Content-Type: application/json
+GET {{EC.Spotify.HostAddress}}/Search?query=The%20Downward%20Spiral&searchTypes=1
 Accept: application/json
-
-{
-  "query": "The Downward Spiral",
-  "type": 1
-}
 
 ### Artist = 2
-POST {{EC.Spotify.HostAddress}}/Search
-Content-Type: application/json
+GET {{EC.Spotify.HostAddress}}/Search?query=Nine%20Inch%20Nails&searchTypes=2
 Accept: application/json
-
-{
-  "query": "Nine Inch Nails",
-  "type": 2
-}
 
 ### Artist = 2 page
-POST {{EC.Spotify.HostAddress}}/Search
-Content-Type: application/json
+GET {{EC.Spotify.HostAddress}}/Search?query=Nine%20Inch%20Nails&searchTypes=2&offset=0&limit=10
 Accept: application/json
-
-{
-  "query": "Nine Inch Nails",
-  "type": 2,
-  "offset": 0,
-  "limit": 10
-}
 
 ### Playlist = 4
-POST {{EC.Spotify.HostAddress}}/Search
-Content-Type: application/json
+GET {{EC.Spotify.HostAddress}}/Search?query=Track%2010&searchTypes=4
 Accept: application/json
-
-{
-  "query": "Track 10",
-  "type": 4
-}
 
 ### Track = 8
-POST {{EC.Spotify.HostAddress}}/Search
-Content-Type: application/json
+GET {{EC.Spotify.HostAddress}}/Search?query=Reptile&searchTypes=8
 Accept: application/json
-
-{
-  "query": "Reptile",
-  "type": 8
-}
 
 ### Show = 16
-POST {{EC.Spotify.HostAddress}}/Search
-Content-Type: application/json
+GET {{EC.Spotify.HostAddress}}/Search?query=Joe%20Rogan%20Experience&searchTypes=16
 Accept: application/json
-
-{
-  "query": "Joe Rogan Experience",
-  "type": 16
-}
 
 ### Episode = 32
-POST {{EC.Spotify.HostAddress}}/Search
-Content-Type: application/json
+GET {{EC.Spotify.HostAddress}}/Search?query=Back&searchTypes=32
 Accept: application/json
-
-{
-  "query": "Back",
-  "type": 32
-}
 
 ### Audiobook = 64
-POST {{EC.Spotify.HostAddress}}/Search
-Content-Type: application/json
+GET {{EC.Spotify.HostAddress}}/Search?query=Stephen%20King%20name:It&searchTypes=64
 Accept: application/json
-
-{
-  "query": "Stephen King name:It",
-  "type": 64
-}
 
 ### Bitwise search = 8 + 2
-POST {{EC.Spotify.HostAddress}}/Search
-Content-Type: application/json
+GET {{EC.Spotify.HostAddress}}/Search?query=Bohemian%20Rhapsody&searchTypes=10
 Accept: application/json
 
-{
-  "query": "Bohemian Rhapsody",
-  "type": 10
-}
-
+### Bitwise search = 8 + 2 page
+GET {{EC.Spotify.HostAddress}}/Search?query=Bohemian%20Rhapsody&searchTypes=10&offset=20&limit=20
+Accept: application/json
 
 
 ### shows

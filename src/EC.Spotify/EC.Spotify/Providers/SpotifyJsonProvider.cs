@@ -17,7 +17,6 @@ internal class SpotifyJsonProvider(ILogger<SpotifyJsonProvider> logger) : ISpoti
     private static readonly string[] jsonElementEnd = ["}", "]"];
     private static readonly JsonValueKind[] jsonValueKinds = [JsonValueKind.Array, JsonValueKind.Object];
 
-    // i could hardcode these, but this way it will be more flexible and reusable for other polymorphic types in the future
     private static readonly string? _polymorphicPropertyName = Attribute
         .GetCustomAttributes(typeof(IPolymorphicItem), typeof(JsonPolymorphicAttribute))
         .Cast<JsonPolymorphicAttribute>()
@@ -29,12 +28,21 @@ internal class SpotifyJsonProvider(ILogger<SpotifyJsonProvider> logger) : ISpoti
         if (obj is null) return default;
         if (obj is string ret) return ret;
 
-        return JsonSerializer.Serialize(obj, _jssOptions);
+        string? json = default;
+        try
+        {
+            json = JsonSerializer.Serialize(obj, _jssOptions);
+        }
+        catch (Exception ex)
+        {
+            if (_logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug(ex, "Failed to serialize object. Type: {type}", typeof(T).Name);
+        }
+        return json;
     }
-    public T? Deserialize<T>(string? jsonString, string? jsonPath = default)
+    public T? Deserialize<T>(string? json)
     {
         T? ret = default;
-        var json = ProcessSpotifyJson(jsonString, jsonPath);
         if (string.IsNullOrEmpty(json)) return ret;
 
         var type = typeof(T?);
@@ -47,12 +55,12 @@ internal class SpotifyJsonProvider(ILogger<SpotifyJsonProvider> logger) : ISpoti
         catch (Exception ex)
         {
             if(_logger.IsEnabled(LogLevel.Debug))
-                _logger.LogDebug(ex, "Failed to deserialize JSON. JSON: {Json}, JSON Path: {JsonPath}", json, jsonPath);
+                _logger.LogDebug(ex, "Failed to deserialize JSON. JSON: {Json}", json);
         }
         return ret;
     }
 
-    private static string? ProcessSpotifyJson(string? json, string? jsonPath = default)
+    public string? ProcessSpotifyJson(string? json, string? jsonPath = default)
     {
         if (json is null) return default;
 

@@ -38,7 +38,7 @@ internal class ArtistService(ILogger<ArtistService> logger, IOptions<SpotifyOpti
             return new SpotifyResult<Artist> { Error = ex.ToSpotifyError() };
         }
     }
-    public async Task<SpotifyResult<SpotifyPageResult<Album>>> ArtistAlbumGetAllAsync(string? id, int? limit = 5, int? offset = 0, AlbumType? albumTypes = default, CancellationToken cancellationToken = default)
+    public async Task<SpotifyResult<SpotifyPageResult<Album>>> ArtistAlbumGetAllAsync(string? id, AlbumType? albumTypes = default, int? limit = 5, int? offset = 0, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -66,6 +66,9 @@ internal class ArtistService(ILogger<ArtistService> logger, IOptions<SpotifyOpti
                 _logger.LogDebug("ArtistAlbumGetAllAsync requesting URI: {Uri}", uri);
 
             var ret = await _spotifyProvider.ExecuteSpotifyResultAsync<SpotifyPageResult<Album>>("get", uri, cancellationToken: cancellationToken);
+
+            ret.Data?.Next = ret.Data?.Next?.Replace("include_groups", "albumTypes");
+            ret.Data?.Previous = ret.Data?.Previous?.Replace("include_groups", "albumTypes");
 
             return ret;
         }

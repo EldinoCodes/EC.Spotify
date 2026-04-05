@@ -60,9 +60,9 @@ public class UserController(ISpotifyClient spotifyClient) : ControllerBase
     }
 
     [HttpGet("top")]
-    public async Task<IActionResult> MyTopItemGetAllAsync(int? limit, int offset, UserTopType userTopType, UserTopTimeRange userTopTimeRange, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> MyTopItemGetAllAsync(UserTopType userTopType, UserTopTimeRange userTopTimeRange, int? limit, int offset, CancellationToken cancellationToken = default)
     {
-        var ret = await _spotifyClient.User.MyTopItemGetAllAsync(limit, offset, userTopType, userTopTimeRange, cancellationToken);
+        var ret = await _spotifyClient.User.MyTopItemGetAllAsync(userTopType, userTopTimeRange, limit, offset, cancellationToken);
 
         return new JsonResult(ret);
     }

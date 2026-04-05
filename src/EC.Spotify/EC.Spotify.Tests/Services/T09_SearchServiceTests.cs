@@ -1,6 +1,5 @@
 ﻿using EC.Spotify.Abstractions.Services;
 using EC.Spotify.Enums;
-using EC.Spotify.Models.Searches;
 
 namespace EC.Spotify.Tests.Services;
 
@@ -23,13 +22,7 @@ public sealed class T09_SearchServiceTests
         var sut = Initializer.Resolve<ISearchService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
-        var searchQuery = new SearchQuery
-        {
-            Query = query,
-            Type = searchType
-        };
-
-        var result = await sut.SearchAsync(searchQuery, cancellationToken: TestContext.CancellationToken);
+        var result = await sut.SearchAsync(query, searchType, cancellationToken: TestContext.CancellationToken);
         Assert.IsNotNull(result?.Data, result?.Error?.Message);
     }
 }

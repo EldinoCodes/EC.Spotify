@@ -17,35 +17,28 @@ internal class SpotifyProvider(ILogger<SpotifyProvider> logger, ISpotifyHttpProv
     {
         try
         {
-            ArgumentNullException.ThrowIfNull(method, nameof(method));
-            ArgumentNullException.ThrowIfNull(uri, nameof(uri));
+            var responseContent = await ExecuteSpotifyRequestAsync(method, uri, httpContent, cancellationToken);            
+            var errorJson = _spotifyJsonProvider.ProcessSpotifyJson(responseContent, "error");
 
-            var authToken = await _authorizationService.AuthorizationTokenGetAsync(cancellationToken) ?? throw new InvalidOperationException("Authorization token is null.");
+            if (!string.IsNullOrEmpty(errorJson))
+                return new SpotifyResult<T>
+                {
+                    Data = default,
+                    Error = _spotifyJsonProvider.Deserialize<SpotifyError>(errorJson)
+                };
 
-            void headers(HttpRequestHeaders h)
-            {
-                if (string.IsNullOrEmpty(authToken?.TokenType) || string.IsNullOrEmpty(authToken?.AccessToken)) return;
-                h.Authorization = new AuthenticationHeaderValue(authToken.TokenType, authToken.AccessToken);
-            }
-
-            var responseContent = await _spotifyHttpProvider.ExecuteAsync(method, uri, httpContent, headers, cancellationToken);
-            var error = _spotifyJsonProvider.Deserialize<SpotifyError>(responseContent, "error");
-
-            var data = default(T);
-            if (error is null)
-            {
+            var json = default(string?);
+            if (jsonPaths?.Count > 0)
                 foreach (var jsonPath in jsonPaths ?? [])
                 {
-                    if (data is not null) break;
-                    data = _spotifyJsonProvider.Deserialize<T>(responseContent, jsonPath);
+                    json = _spotifyJsonProvider.ProcessSpotifyJson(responseContent, jsonPath);
+                    if (!string.IsNullOrEmpty(json)) break;
                 }
-                data ??= _spotifyJsonProvider.Deserialize<T>(responseContent);
-            }
 
             return new SpotifyResult<T>
             {
-                Data = data,
-                Error = error
+                Data = _spotifyJsonProvider.Deserialize<T>(json ?? _spotifyJsonProvider.ProcessSpotifyJson(responseContent)),
+                Error = default
             };
         }
         catch (Exception ex)
@@ -61,5 +54,25 @@ internal class SpotifyProvider(ILogger<SpotifyProvider> logger, ISpotifyHttpProv
                 }
             };
         }
+    }
+
+    public async Task<string?> ExecuteSpotifyRequestAsync(string? method, string? uri, HttpContent? httpContent = default, CancellationToken cancellationToken = default)
+    {
+        string? response = default;
+
+        ArgumentNullException.ThrowIfNull(method, nameof(method));
+        ArgumentNullException.ThrowIfNull(uri, nameof(uri));
+
+        var authToken = await _authorizationService.AuthorizationTokenGetAsync(cancellationToken) ?? throw new InvalidOperationException("Authorization token is null.");
+
+        void headers(HttpRequestHeaders h)
+        {
+            if (string.IsNullOrEmpty(authToken?.TokenType) || string.IsNullOrEmpty(authToken?.AccessToken)) return;
+            h.Authorization = new AuthenticationHeaderValue(authToken.TokenType, authToken.AccessToken);
+        }
+
+        response = await _spotifyHttpProvider.ExecuteAsync(method, uri, httpContent, headers, cancellationToken);
+
+        return response;
     }
 }

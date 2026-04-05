@@ -15,8 +15,8 @@ namespace EC.Spotify.Tests.Mocks.Providers;
 internal class MockSpotifyJsonProvider(ILogger<SpotifyJsonProvider> logger, IConfiguration configuration) : SpotifyJsonProvider(logger), ISpotifyJsonProvider
 {
     private IConfiguration _configuration = configuration;
-    public new T? Deserialize<T>(string? jsonString, string? jsonPath = default) 
+    public new T? Deserialize<T>(string? jsonString) 
         => _configuration.GetValue<bool>("FullEnd2EndTest") 
-            ? base.Deserialize<T>(jsonString, jsonPath)
-            : DummyProvider.DummyObject<T?>();
+            ? base.Deserialize<T>(jsonString)
+            : DummyProvider.DummyObject<T?>() ?? base.Deserialize<T>(jsonString);
 }

@@ -18,5 +18,5 @@ public class SpotifyClient(IServiceProvider serviceProvider) : ISpotifyClient
     public ISearchService Search { get; } = serviceProvider.GetRequiredService<ISearchService>();
     public IShowService Shows { get; } = serviceProvider.GetRequiredService<IShowService>();
     public ITrackService Tracks { get; } = serviceProvider.GetRequiredService<ITrackService>();
-    public IUserService User { get; } = serviceProvider.GetRequiredService<IUserService>();
+    public IUserService User { get; } = serviceProvider.GetRequiredService<IUserService>();   
 }

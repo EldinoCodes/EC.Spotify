@@ -1,3 +1,4 @@
+using EC.Spotify.Abstractions.Models;
 using EC.Spotify.Enums;
 using EC.Spotify.Models;
 using EC.Spotify.Models.Albums;
@@ -98,7 +99,7 @@ public interface IUserService
     /// <see cref="UserTopTimeRange.MediumTerm"/>.</param>
     /// <param name="cancellationToken">A cancellation token that can be used to cancel the asynchronous operation.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains a <see
-    /// cref="SpotifyResult{T}"/> with a <see cref="SpotifyPolymorphicPageResult"/> holding the user's top
+    /// cref="SpotifyResult{T}"/> with a <see cref="SpotifyPageResult{T}"/> holding the user's top
     /// items.</returns>
-    Task<SpotifyResult<SpotifyPolymorphicPageResult>> MyTopItemGetAllAsync(int? limit = 20, int offset = 0, UserTopType userTopType = UserTopType.Tracks, UserTopTimeRange userTopTimeRange = UserTopTimeRange.MediumTerm, CancellationToken cancellationToken = default);
+    Task<SpotifyResult<SpotifyPageResult<IPolymorphicItem>>> MyTopItemGetAllAsync(UserTopType userTopType = UserTopType.Tracks, UserTopTimeRange userTopTimeRange = UserTopTimeRange.MediumTerm, int? limit = 20, int offset = 0, CancellationToken cancellationToken = default);
 }

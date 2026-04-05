@@ -1,4 +1,5 @@
-﻿using EC.Spotify.Abstractions.Providers;
+﻿using EC.Spotify.Abstractions.Models;
+using EC.Spotify.Abstractions.Providers;
 using EC.Spotify.Abstractions.Services;
 using EC.Spotify.Enums;
 using EC.Spotify.Extensions;
@@ -204,12 +205,12 @@ internal class UserService(ILogger<UserService> logger, IOptions<SpotifyOptions>
         }
     }
 
-    public async Task<SpotifyResult<SpotifyPolymorphicPageResult>> MyTopItemGetAllAsync(int? limit = 20, int offset = 0, UserTopType userTopType = UserTopType.Tracks, UserTopTimeRange userTopTimeRange = UserTopTimeRange.MediumTerm, CancellationToken cancellationToken = default)
+    public async Task<SpotifyResult<SpotifyPageResult<IPolymorphicItem>>> MyTopItemGetAllAsync(UserTopType userTopType = UserTopType.Tracks, UserTopTimeRange userTopTimeRange = UserTopTimeRange.MediumTerm, int? limit = 20, int offset = 0, CancellationToken cancellationToken = default)
     {
         try
         {
             var error = _options.ValidateScopes(["user-top-read"]);
-            if (error is not null) return new SpotifyResult<SpotifyPolymorphicPageResult>() { Error = error };
+            if (error is not null) return new SpotifyResult<SpotifyPageResult<IPolymorphicItem>> () { Error = error };
 
             if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
                 _logger.LogDebug("MyTopItemGetAllAsync called with limit: {Limit}, offset: {Offset}, userTopType: {UserTopType}, userTopTimeRange: {UserTopTimeRange}", limit, offset, userTopType, userTopTimeRange);
@@ -222,12 +223,19 @@ internal class UserService(ILogger<UserService> logger, IOptions<SpotifyOptions>
             });
             if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
                 _logger.LogDebug("MyTopItemGetAllAsync requesting URI: {Uri}", uri);
-            return await _spotifyProvider.ExecuteSpotifyResultAsync<SpotifyPolymorphicPageResult>("get", uri, cancellationToken: cancellationToken);
+
+            
+            var res = await _spotifyProvider.ExecuteSpotifyResultAsync<SpotifyPageResult<IPolymorphicItem>> ("get", uri, cancellationToken: cancellationToken);
+
+            res.Data?.Next = res.Data?.Next?.Replace("time_range", "userTopTimeRange");
+            res.Data?.Previous = res.Data?.Previous?.Replace("time_range", "userTopTimeRange");
+
+            return res;
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "MyTopItemGetAllAsync failed");
-            return new SpotifyResult<SpotifyPolymorphicPageResult> { Error = ex.ToSpotifyError() };
+            return new SpotifyResult<SpotifyPageResult<IPolymorphicItem>> { Error = ex.ToSpotifyError() };
         }
     }
 }

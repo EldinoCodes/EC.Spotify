@@ -7,9 +7,9 @@
 
 A comprehensive .NET client library for the Spotify Web API, providing a clean and intuitive interface for interacting with Spotify's music streaming platform.
 
-## LATEST NEWS - 2026.04.04
-### EC.Spotify 2.0.0 should release tomorrow!
-The EC.Spotify library is hopefully foundationally stable for the forseeable future.  Lots of changes have been made in relation to scopes, validations, method names, making sure properties are Pascal Case, etc.  I do have known issues with paged result link urls which i intend on handling over the next week or two.  If you are using this library and find any issues, please report them.  Thanks yall, much love.
+## LATEST NEWS - 2026.04.05
+### Version 1.1.0 Released
+The EC.Spotify library is now 1.1.0. I decided the pending changes were not Major version worthy and user count is still low so instead of jumping to 2.0.0 I stuck with 1.1.0.  I have also decided that I dont want to force users to use my objects for deserialization, the following updates to this release will expose direct methods that will return straight JSON payloads from Spotify and really just assist in managing the auth token obtained.  Please let me know if you have any issues or suggestions for improvement.  I have a lot of ideas for new features and improvements but I want to make sure the core library is solid and meets user needs before adding more features.  Thanks for using EC.Spotify!
 
 ## Overview
 
@@ -576,26 +576,43 @@ var imagesResult = await _spotifyClient.Playlists.PlaylistImageGetAllAsync("37i9
 Performs search queries across Spotify's catalog, supporting multiple content types.
 
 **Available Methods:**
-- **`SearchAsync(SearchQuery? searchQuery, CancellationToken cancellationToken = default)`**  
-  Performs a search using specified search Query, Type, Limit and Offset.
-<p style="background-color: #856404; border-radius: .5rem; padding:.5rem;"><span style="font-weight:bold;">Note 1:&nbsp;</span>The <span style='font-weight:bold;'>'Type'</span> property is a bitwise enum. Combine multiple search types using the <code>|</code> operator, e.g. <code>SearchType.Track | SearchType.Artist</code>.</p>
+- **`SearchAsync(string? query, SearchType? searchType = default, int? limit = 5, int? offset = 0, CancellationToken cancellationToken = default)`**  
+  Performs a search using the specified query string and search type. The `searchType` parameter is a bitwise enum that can be combined using the `|` operator to search multiple content types simultaneously (e.g., `SearchType.Track | SearchType.Artist`). The `limit` parameter controls the maximum number of results to return (default: 5), and `offset` allows for pagination (default: 0).
 
+<p style="background-color: #856404; border-radius: .5rem; padding:.5rem;"><span style="font-weight:bold;">Note:&nbsp;</span>The <span style='font-weight:bold;'>'searchType'</span> parameter is a bitwise enum. Combine multiple search types using the <code>|</code> operator, e.g. <code>SearchType.Track | SearchType.Artist</code>.</p>
 
 **Example:**
 ```csharp
-var searchQuery = new SearchQuery
-{
-    Query = "Bohemian Rhapsody",
-    Type = SearchType.Track | SearchType.Artist,
-    Limit = 10
-};
+// Search for tracks and artists matching "Bohemian Rhapsody"
+var searchResult = await _spotifyClient.Search.SearchAsync(
+    query: "Bohemian Rhapsody",
+    searchType: SearchType.Track | SearchType.Artist,
+    limit: 10,
+    offset: 0
+);
 
-var searchResult = await _spotifyClient.Search.SearchAsync(searchQuery);
 if (searchResult.IsSuccess)
 {
     var tracks = searchResult.Data.Items?.Where(i => i.GetType() == typeof(Track))?.ToList() ?? [];
     var artists = searchResult.Data.Items?.Where(i => i.GetType() == typeof(Artist))?.ToList() ?? [];
+    
+    Console.WriteLine($"Found {tracks.Count} tracks and {artists.Count} artists");
 }
+
+// Search for albums only
+var albumSearch = await _spotifyClient.Search.SearchAsync(
+    query: "Abbey Road",
+    searchType: SearchType.Album,
+    limit: 5
+);
+
+// Search multiple types with pagination
+var multiSearch = await _spotifyClient.Search.SearchAsync(
+    query: "The Beatles",
+    searchType: SearchType.Album | SearchType.Track | SearchType.Artist,
+    limit: 20,
+    offset: 0
+);
 ```
 
 ### IShowService

@@ -31,7 +31,7 @@ public class SpotifyPageResult<T>
             return _next;
         }
         set {
-            _next = Uri.TryCreate(value, new UriCreationOptions(), out var uri) ? uri.Query: null;
+            _next = Uri.TryCreate(value, new UriCreationOptions(), out var uri) ? uri.Query: value;
         }
     }
     /// <summary>
@@ -54,7 +54,7 @@ public class SpotifyPageResult<T>
         }
         set
         {
-            _prev = Uri.TryCreate(value, new UriCreationOptions(), out var uri) ? uri.Query : null;
+            _prev = Uri.TryCreate(value, new UriCreationOptions(), out var uri) ? uri.Query : value;
         }
     }
     /// <summary>
