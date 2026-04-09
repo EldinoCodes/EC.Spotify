@@ -23,4 +23,20 @@ public class AudiobooksController(ISpotifyClient spotifyClient) : ControllerBase
 
         return new JsonResult(ret);
     }
+
+    [HttpGet("{audiobookId}/raw")]
+    public async Task<IActionResult> AudiobookGetRawAsync(string? audiobookId, CancellationToken cancellationToken = default)
+    {
+        var ret = await _spotifyClient.Audiobooks.AudiobookGetRawAsync(audiobookId, cancellationToken);
+
+        return new JsonResult(ret);
+    }
+
+    [HttpGet("{audiobookId}/chapters/raw")]
+    public async Task<IActionResult> AudiobookChapterGetAllRawAsync(string? audiobookId, int? limit, int? offset, CancellationToken cancellationToken = default)
+    {
+        var ret = await _spotifyClient.Audiobooks.AudiobookChapterGetAllRawAsync(audiobookId, limit, offset, cancellationToken);
+
+        return new JsonResult(ret);
+    }
 }

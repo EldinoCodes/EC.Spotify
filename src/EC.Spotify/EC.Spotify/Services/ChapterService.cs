@@ -36,4 +36,25 @@ internal class ChapterService(ILogger<ChapterService> logger, IOptions<SpotifyOp
             return new SpotifyResult<Chapter> { Error = ex.ToSpotifyError() };
         }
     }
+
+    public async Task<string?> ChapterGetRawAsync(string? chapterId, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("ChapterGetRawAsync called with chapterId: {ChapterId}", chapterId);
+
+            var uri = string.Format(SpotifyChapterUri, chapterId);
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("ChapterGetRawAsync requesting URI: {Uri}", uri);
+
+            return await _spotifyProvider.ExecuteSpotifyRequestAsync("get", uri, cancellationToken: cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "ChapterGetRawAsync failed for chapterId: {ChapterId}", chapterId);
+            throw;
+        }
+    }
 }

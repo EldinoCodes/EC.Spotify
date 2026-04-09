@@ -16,4 +16,13 @@ public interface IChapterService
     /// cref="SpotifyResult{Chapter}"/> with the chapter details if found; otherwise, the result may indicate an error
     /// or a not found status.</returns>
     Task<SpotifyResult<Chapter>> ChapterGetAsync(string? id, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieves raw chapter JSON from Spotify asynchronously by chapter identifier.
+    /// </summary>
+    /// <param name="id">The Spotify ID of the chapter to retrieve. Can be null or empty to indicate an invalid request.</param>
+    /// <param name="cancellationToken">A cancellation token that can be used to cancel the operation.</param>
+    /// <returns>A task representing the asynchronous operation. The task result contains the raw JSON string
+    /// response, or null if no content was returned.</returns>
+    Task<string?> ChapterGetRawAsync(string? id, CancellationToken cancellationToken = default);
 }

@@ -17,4 +17,12 @@ public class SearchController(ISpotifyClient spotifyClient) : ControllerBase
 
         return new JsonResult(ret);
     }
+
+    [HttpGet("raw")]
+    public async Task<IActionResult> SearchRawAsync(string? query, SearchType? searchTypes = default, int? limit = default, int? offset = default, CancellationToken cancellationToken = default)
+    {
+        var ret = await _spotifyClient.Search.SearchRawAsync(query, searchTypes, limit, offset, cancellationToken);
+
+        return new JsonResult(ret);
+    }
 }

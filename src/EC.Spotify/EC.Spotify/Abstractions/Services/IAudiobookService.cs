@@ -28,4 +28,24 @@ public interface IAudiobookService
     /// <returns>A task that represents the asynchronous operation. The task result contains a SpotifyResult with a
     /// SpotifyPageResult of Chapter objects for the specified audiobook.</returns>
     Task<SpotifyResult<SpotifyPageResult<Chapter>>> AudiobookChapterGetAllAsync(string? id, int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieves raw audiobook JSON from Spotify asynchronously by audiobook identifier.
+    /// </summary>
+    /// <param name="id">The Spotify ID of the audiobook to retrieve. Can be null to indicate no audiobook is specified.</param>
+    /// <param name="cancellationToken">A cancellation token that can be used to cancel the operation.</param>
+    /// <returns>A task representing the asynchronous operation. The task result contains the raw JSON string
+    /// response, or null if no content was returned.</returns>
+    Task<string?> AudiobookGetRawAsync(string? id, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieves raw paginated chapter JSON for the specified audiobook from Spotify asynchronously.
+    /// </summary>
+    /// <param name="id">The Spotify ID of the audiobook for which chapters are to be retrieved. Can be null to indicate no audiobook.</param>
+    /// <param name="limit">The maximum number of chapters to return. The default is 20.</param>
+    /// <param name="offset">The index of the first chapter to return. Used for pagination. The default is 0.</param>
+    /// <param name="cancellationToken">A cancellation token that can be used to cancel the operation.</param>
+    /// <returns>A task representing the asynchronous operation. The task result contains the raw JSON string
+    /// response, or null if no content was returned.</returns>
+    Task<string?> AudiobookChapterGetAllRawAsync(string? id, int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default);
 }

@@ -28,4 +28,22 @@ public interface IAlbumService
     /// SpotifyPageResult of Track objects for the specified album. The result may be empty if the album has no tracks
     /// or the album ID is invalid.</returns>
     Task<SpotifyResult<SpotifyPageResult<Track>>> AlbumTrackGetAllAsync(string? id, int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default);
+    /// <summary>
+    /// Retrieves raw album JSON from Spotify asynchronously by album identifier.
+    /// </summary>
+    /// <param name="id">The Spotify album identifier. If null or empty, the request will not be sent.</param>
+    /// <param name="cancellationToken">A cancellation token that can be used to cancel the operation.</param>
+    /// <returns>A task representing the asynchronous operation. The task result contains the raw JSON string
+    /// response, or null if no content was returned.</returns>
+    Task<string?> AlbumGetRawAsync(string? id, CancellationToken cancellationToken = default);
+    /// <summary>
+    /// Retrieves raw paginated track JSON for the specified album from Spotify asynchronously.
+    /// </summary>
+    /// <param name="id">The Spotify album identifier. If null, no tracks will be returned.</param>
+    /// <param name="limit">The maximum number of tracks to return. Must be a positive integer. The default is 20.</param>
+    /// <param name="offset">The index of the first track to return. Used for pagination. The default is 0.</param>
+    /// <param name="cancellationToken">A cancellation token that can be used to cancel the operation.</param>
+    /// <returns>A task representing the asynchronous operation. The task result contains the raw JSON string
+    /// response, or null if no content was returned.</returns>
+    Task<string?> AlbumTrackGetAllRawAsync(string? id, int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default);
 }

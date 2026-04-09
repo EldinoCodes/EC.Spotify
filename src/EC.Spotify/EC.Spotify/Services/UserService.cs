@@ -238,4 +238,195 @@ internal class UserService(ILogger<UserService> logger, IOptions<SpotifyOptions>
             return new SpotifyResult<SpotifyPageResult<IPolymorphicItem>> { Error = ex.ToSpotifyError() };
         }
     }
+
+    public async Task<string?> MyAlbumGetAllRawAsync(int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var error = _options.ValidateScopes(["user-library-read"]);
+            if (error is not null) throw new InvalidOperationException(error.Message);
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("MyAlbumGetAllRawAsync called with limit: {Limit}, offset: {Offset}", limit, offset);
+
+            var uri = SpotifyMyAlbumsUri.ToUri(new()
+            {
+                { "limit", $"{limit}"},
+                { "offset", $"{offset}"}
+            });
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("MyAlbumGetAllRawAsync requesting URI: {Uri}", uri);
+
+            return await _spotifyProvider.ExecuteSpotifyRequestAsync("get", uri, cancellationToken: cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "MyAlbumGetAllRawAsync failed");
+            throw;
+        }
+    }
+    public async Task<string?> MyAudiobookGetAllRawAsync(int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var error = _options.ValidateScopes(["user-library-read"]);
+            if (error is not null) throw new InvalidOperationException(error.Message);
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("MyAudiobookGetAllRawAsync called with limit: {Limit}, offset: {Offset}", limit, offset);
+
+            var uri = SpotifyMyAudiobooksUri.ToUri(new()
+            {
+                { "limit", $"{limit}"},
+                { "offset", $"{offset}"}
+            });
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("MyAudiobookGetAllRawAsync requesting URI: {Uri}", uri);
+
+            return await _spotifyProvider.ExecuteSpotifyRequestAsync("get", uri, cancellationToken: cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "MyAudiobookGetAllRawAsync failed");
+            throw;
+        }
+    }
+    public async Task<string?> MyEpisodeGetAllRawAsync(int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var error = _options.ValidateScopes(["user-library-read", "user-read-playback-position"]);
+            if (error is not null) throw new InvalidOperationException(error.Message);
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("MyEpisodeGetAllRawAsync called with limit: {Limit}, offset: {Offset}", limit, offset);
+
+            var uri = SpotifyMyEpisodesUri.ToUri(new()
+            {
+                { "limit", $"{limit}"},
+                { "offset", $"{offset}"}
+            });
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("MyEpisodeGetAllRawAsync requesting URI: {Uri}", uri);
+
+            return await _spotifyProvider.ExecuteSpotifyRequestAsync("get", uri, cancellationToken: cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "MyEpisodeGetAllRawAsync failed");
+            throw;
+        }
+    }
+    public async Task<string?> MyPlaylistGetAllRawAsync(int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var error = _options.ValidateScopes(["playlist-read-private"]);
+            if (error is not null) throw new InvalidOperationException(error.Message);
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("MyPlaylistGetAllRawAsync called with limit: {Limit}, offset: {Offset}", limit, offset);
+
+            var uri = SpotifyMyPlaylistUri.ToUri(new()
+            {
+                { "limit", $"{limit}"},
+                { "offset", $"{offset}"}
+            });
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("MyPlaylistGetAllRawAsync requesting URI: {Uri}", uri);
+
+            return await _spotifyProvider.ExecuteSpotifyRequestAsync("get", uri, cancellationToken: cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "MyPlaylistGetAllRawAsync failed");
+            throw;
+        }
+    }
+    public async Task<string?> MyShowGetAllRawAsync(int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var error = _options.ValidateScopes(["user-library-read", "user-read-playback-position"]);
+            if (error is not null) throw new InvalidOperationException(error.Message);
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("MyShowGetAllRawAsync called with limit: {Limit}, offset: {Offset}", limit, offset);
+
+            var uri = SpotifyMyShowsUri.ToUri(new()
+            {
+                { "limit", $"{limit}"},
+                { "offset", $"{offset}"}
+            });
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("MyShowGetAllRawAsync requesting URI: {Uri}", uri);
+
+            return await _spotifyProvider.ExecuteSpotifyRequestAsync("get", uri, cancellationToken: cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "MyShowGetAllRawAsync failed");
+            throw;
+        }
+    }
+    public async Task<string?> MyTrackGetAllRawAsync(int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var error = _options.ValidateScopes(["user-library-read"]);
+            if (error is not null) throw new InvalidOperationException(error.Message);
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("MyTrackGetAllRawAsync called with limit: {Limit}, offset: {Offset}", limit, offset);
+
+            var uri = SpotifyMyTracksUri.ToUri(new()
+            {
+                { "limit", $"{limit}"},
+                { "offset", $"{offset}"}
+            });
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("MyTrackGetAllRawAsync requesting URI: {Uri}", uri);
+
+            return await _spotifyProvider.ExecuteSpotifyRequestAsync("get", uri, cancellationToken: cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "MyTrackGetAllRawAsync failed");
+            throw;
+        }
+    }
+    public async Task<string?> MyTopItemGetAllRawAsync(UserTopType userTopType = UserTopType.Tracks, UserTopTimeRange userTopTimeRange = UserTopTimeRange.MediumTerm, int? limit = 20, int offset = 0, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var error = _options.ValidateScopes(["user-top-read"]);
+            if (error is not null) throw new InvalidOperationException(error.Message);
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("MyTopItemGetAllRawAsync called with limit: {Limit}, offset: {Offset}, userTopType: {UserTopType}, userTopTimeRange: {UserTopTimeRange}", limit, offset, userTopType, userTopTimeRange);
+
+            var uri = string.Format(SpotifyMyTopItemsUri, userTopType.ToString().ToLower()).ToUri(new()
+            {
+                { "limit", $"{limit}"},
+                { "offset", $"{offset}"},
+                { "time_range", $"{userTopTimeRange.ToString().Replace("Term", "_term").ToLower()}"}
+            });
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("MyTopItemGetAllRawAsync requesting URI: {Uri}", uri);
+
+            return await _spotifyProvider.ExecuteSpotifyRequestAsync("get", uri, cancellationToken: cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "MyTopItemGetAllRawAsync failed");
+            throw;
+        }
+    }
 }

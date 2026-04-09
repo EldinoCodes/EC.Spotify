@@ -16,4 +16,12 @@ public class ChaptersController(ISpotifyClient spotifyClient) : ControllerBase
 
         return new JsonResult(ret);
     }
+
+    [HttpGet("{chapterId}/raw")]
+    public async Task<IActionResult> ChapterGetRawAsync(string? chapterId, CancellationToken cancellationToken = default)
+    {
+        var ret = await _spotifyClient.Chapters.ChapterGetRawAsync(chapterId, cancellationToken);
+
+        return new JsonResult(ret);
+    }
 }

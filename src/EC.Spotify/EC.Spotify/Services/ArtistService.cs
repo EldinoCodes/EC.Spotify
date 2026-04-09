@@ -78,4 +78,60 @@ internal class ArtistService(ILogger<ArtistService> logger, IOptions<SpotifyOpti
             return new SpotifyResult<SpotifyPageResult<Album>> { Error = ex.ToSpotifyError() };
         }
     }
+
+    public async Task<string?> ArtistGetRawAsync(string? id, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("ArtistGetRawAsync called with id: {Id}", id);
+
+            var uri = string.Format(SpotifyArtistUri, id);
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("ArtistGetRawAsync requesting URI: {Uri}", uri);
+
+            return await _spotifyProvider.ExecuteSpotifyRequestAsync("get", uri, cancellationToken: cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "ArtistGetRawAsync failed for id: {Id}", id);
+            throw;
+        }
+    }
+    public async Task<string?> ArtistAlbumGetAllRawAsync(string? id, AlbumType? albumTypes = default, int? limit = 5, int? offset = 0, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var albumType = typeof(AlbumType);
+            var includeTypes = string.Join(",", Enum.GetValues(albumType)
+                .Cast<AlbumType>()
+                .Where(t => albumTypes?.HasFlag(t) ?? false)
+                .Select(t => Enum.GetName(albumType, t)?.ToLower())
+            );
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("ArtistAlbumGetAllRawAsync called with id: {Id}, limit: {Limit}, offset: {Offset}, includeGroups: {IncludeGroups}", id, limit, offset, includeTypes);
+
+            var queryParams = new Dictionary<string, string?>()
+            {
+                { "limit", $"{limit}"},
+                { "offset", $"{offset}"}
+            };
+            if (!string.IsNullOrEmpty(includeTypes))
+                queryParams.Add("include_groups", includeTypes);
+
+            var uri = string.Format(SpotifyArtistAlbumsUri, id).ToUri(queryParams);
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("ArtistAlbumGetAllRawAsync requesting URI: {Uri}", uri);
+
+            return await _spotifyProvider.ExecuteSpotifyRequestAsync("get", uri, cancellationToken: cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "ArtistAlbumGetAllRawAsync failed for id: {Id}", id);
+            throw;
+        }
+    }
 }

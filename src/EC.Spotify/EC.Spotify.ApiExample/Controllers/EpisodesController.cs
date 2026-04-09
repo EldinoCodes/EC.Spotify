@@ -16,4 +16,12 @@ public class EpisodesController(ISpotifyClient spotifyClient) : ControllerBase
 
         return new JsonResult(ret);
     }
+
+    [HttpGet("{episodeId}/raw")]
+    public async Task<IActionResult> EpisodeGetRawAsync(string? episodeId, CancellationToken cancellationToken = default)
+    {
+        var ret = await _spotifyClient.Episodes.EpisodeGetRawAsync(episodeId, cancellationToken);
+
+        return new JsonResult(ret);
+    }
 }

@@ -37,7 +37,6 @@ internal class AlbumService(ILogger<AlbumService> logger, IOptions<SpotifyOption
             return new SpotifyResult<Album> { Error = ex.ToSpotifyError() };
         }
     }
-
     public async Task<SpotifyResult<SpotifyPageResult<Track>>> AlbumTrackGetAllAsync(string? id, int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)
     {
         try
@@ -60,6 +59,53 @@ internal class AlbumService(ILogger<AlbumService> logger, IOptions<SpotifyOption
         {
             _logger.LogError(ex, "AlbumTrackGetAllAsync failed for id: {Id}", id);
             return new SpotifyResult<SpotifyPageResult<Track>> { Error = ex.ToSpotifyError() };
+        }
+    }
+
+    public async Task<string?> AlbumGetRawAsync(string? id, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("AlbumGetRawAsync called with id: {Id}", id);
+
+            var uri = string.Format(AlbumUri, id);
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("AlbumGetAsync requesting URI: {Uri}", uri);
+
+            return await _spotifyProvider.ExecuteSpotifyRequestAsync("get", uri, cancellationToken: cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "AlbumGetAsync failed for id: {Id}", id);
+
+            throw;
+        }
+    }
+    public async Task<string?> AlbumTrackGetAllRawAsync(string? id, int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("AlbumTrackGetAllRawAsync called with id: {Id}, limit: {Limit}, offset: {Offset}", id, limit, offset);
+
+            var uri = string.Format(AlbumTrackUri, id).ToUri(new()
+            {
+                { "limit", $"{limit}"},
+                { "offset", $"{offset}"}
+            });
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("AlbumTrackGetAllRawAsync requesting URI: {Uri}", uri);
+
+            return await _spotifyProvider.ExecuteSpotifyRequestAsync("get", uri, cancellationToken: cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "AlbumTrackGetAllRawAsync failed for id: {Id}", id);
+
+            throw;
         }
     }
 }

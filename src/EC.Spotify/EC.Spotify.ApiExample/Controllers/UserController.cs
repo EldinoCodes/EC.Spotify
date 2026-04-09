@@ -66,4 +66,60 @@ public class UserController(ISpotifyClient spotifyClient) : ControllerBase
 
         return new JsonResult(ret);
     }
+
+    [HttpGet("albums/raw")]
+    public async Task<IActionResult> MyAlbumGetAllRawAsync(int? limit, int? offset, CancellationToken cancellationToken = default)
+    {
+        var ret = await _spotifyClient.User.MyAlbumGetAllRawAsync(limit, offset, cancellationToken);
+
+        return new JsonResult(ret);
+    }
+
+    [HttpGet("audiobooks/raw")]
+    public async Task<IActionResult> MyAudiobookGetAllRawAsync(int? limit, int? offset, CancellationToken cancellationToken = default)
+    {
+        var ret = await _spotifyClient.User.MyAudiobookGetAllRawAsync(limit, offset, cancellationToken);
+
+        return new JsonResult(ret);
+    }
+
+    [HttpGet("episodes/raw")]
+    public async Task<IActionResult> MyEpisodeGetAllRawAsync(int? limit, int? offset, CancellationToken cancellationToken = default)
+    {
+        var ret = await _spotifyClient.User.MyEpisodeGetAllRawAsync(limit, offset, cancellationToken);
+
+        return new JsonResult(ret);
+    }
+
+    [HttpGet("playlists/raw")]
+    public async Task<IActionResult> MyPlaylistGetAllRawAsync(int? limit, int? offset, CancellationToken cancellationToken = default)
+    {
+        var ret = await _spotifyClient.User.MyPlaylistGetAllRawAsync(limit, offset, cancellationToken);
+
+        return new JsonResult(ret);
+    }
+
+    [HttpGet("shows/raw")]
+    public async Task<IActionResult> MyShowGetAllRawAsync(int? limit, int? offset, CancellationToken cancellationToken = default)
+    {
+        var ret = await _spotifyClient.User.MyShowGetAllRawAsync(limit, offset, cancellationToken);
+
+        return new JsonResult(ret);
+    }
+
+    [HttpGet("tracks/raw")]
+    public async Task<IActionResult> MyTrackGetAllRawAsync(int? limit, int? offset, CancellationToken cancellationToken = default)
+    {
+        var ret = await _spotifyClient.User.MyTrackGetAllRawAsync(limit, offset, cancellationToken);
+
+        return new JsonResult(ret);
+    }
+
+    [HttpGet("top/raw")]
+    public async Task<IActionResult> MyTopItemGetAllRawAsync(UserTopType userTopType, UserTopTimeRange userTopTimeRange, int? limit, int offset, CancellationToken cancellationToken = default)
+    {
+        var ret = await _spotifyClient.User.MyTopItemGetAllRawAsync(userTopType, userTopTimeRange, limit, offset, cancellationToken);
+
+        return new JsonResult(ret);
+    }
 }

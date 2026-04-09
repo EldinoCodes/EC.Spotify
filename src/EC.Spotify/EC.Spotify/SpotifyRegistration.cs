@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("EC.Spotify.Tests")]
+[assembly: InternalsVisibleTo("EC.Spotify.UnitTests")]
 
 namespace EC.Spotify;
 

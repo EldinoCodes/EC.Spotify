@@ -102,4 +102,83 @@ public interface IUserService
     /// cref="SpotifyResult{T}"/> with a <see cref="SpotifyPageResult{T}"/> holding the user's top
     /// items.</returns>
     Task<SpotifyResult<SpotifyPageResult<IPolymorphicItem>>> MyTopItemGetAllAsync(UserTopType userTopType = UserTopType.Tracks, UserTopTimeRange userTopTimeRange = UserTopTimeRange.MediumTerm, int? limit = 20, int offset = 0, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieves raw paginated saved album JSON from the current user's Spotify library asynchronously.
+    /// </summary>
+    /// <remarks>Requires the <c>user-library-read</c> scope.</remarks>
+    /// <param name="limit">The maximum number of albums to return. Must be between 1 and 50. The default is 20.</param>
+    /// <param name="offset">The zero-based index of the first album to return. The default is 0.</param>
+    /// <param name="cancellationToken">A cancellation token that can be used to cancel the asynchronous operation.</param>
+    /// <returns>A task representing the asynchronous operation. The task result contains the raw JSON string
+    /// response, or null if no content was returned.</returns>
+    Task<string?> MyAlbumGetAllRawAsync(int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieves raw paginated saved audiobook JSON from the current user's Spotify library asynchronously.
+    /// </summary>
+    /// <remarks>Requires the <c>user-library-read</c> scope.</remarks>
+    /// <param name="limit">The maximum number of audiobooks to return. Must be between 1 and 50. The default is 20.</param>
+    /// <param name="offset">The zero-based index of the first audiobook to return. The default is 0.</param>
+    /// <param name="cancellationToken">A cancellation token that can be used to cancel the asynchronous operation.</param>
+    /// <returns>A task representing the asynchronous operation. The task result contains the raw JSON string
+    /// response, or null if no content was returned.</returns>
+    Task<string?> MyAudiobookGetAllRawAsync(int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieves raw paginated saved episode JSON from the current user's Spotify library asynchronously.
+    /// </summary>
+    /// <remarks>Requires the <c>user-library-read</c> and <c>user-read-playback-position</c> scopes.</remarks>
+    /// <param name="limit">The maximum number of episodes to return. Must be between 1 and 50. The default is 20.</param>
+    /// <param name="offset">The zero-based index of the first episode to return. The default is 0.</param>
+    /// <param name="cancellationToken">A cancellation token that can be used to cancel the asynchronous operation.</param>
+    /// <returns>A task representing the asynchronous operation. The task result contains the raw JSON string
+    /// response, or null if no content was returned.</returns>
+    Task<string?> MyEpisodeGetAllRawAsync(int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieves raw paginated playlist JSON for the current user's playlists from Spotify asynchronously.
+    /// </summary>
+    /// <remarks>Requires the <c>playlist-read-private</c> scope.</remarks>
+    /// <param name="limit">The maximum number of playlists to return. Must be between 1 and 50. The default is 20.</param>
+    /// <param name="offset">The zero-based index of the first playlist to return. The default is 0.</param>
+    /// <param name="cancellationToken">A cancellation token that can be used to cancel the asynchronous operation.</param>
+    /// <returns>A task representing the asynchronous operation. The task result contains the raw JSON string
+    /// response, or null if no content was returned.</returns>
+    Task<string?> MyPlaylistGetAllRawAsync(int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieves raw paginated saved show JSON from the current user's Spotify library asynchronously.
+    /// </summary>
+    /// <remarks>Requires the <c>user-library-read</c> and <c>user-read-playback-position</c> scopes.</remarks>
+    /// <param name="limit">The maximum number of shows to return. Must be between 1 and 50. The default is 20.</param>
+    /// <param name="offset">The zero-based index of the first show to return. The default is 0.</param>
+    /// <param name="cancellationToken">A cancellation token that can be used to cancel the asynchronous operation.</param>
+    /// <returns>A task representing the asynchronous operation. The task result contains the raw JSON string
+    /// response, or null if no content was returned.</returns>
+    Task<string?> MyShowGetAllRawAsync(int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieves raw paginated saved track JSON from the current user's Spotify library asynchronously.
+    /// </summary>
+    /// <remarks>Requires the <c>user-library-read</c> scope.</remarks>
+    /// <param name="limit">The maximum number of tracks to return. Must be between 1 and 50. The default is 20.</param>
+    /// <param name="offset">The zero-based index of the first track to return. The default is 0.</param>
+    /// <param name="cancellationToken">A cancellation token that can be used to cancel the asynchronous operation.</param>
+    /// <returns>A task representing the asynchronous operation. The task result contains the raw JSON string
+    /// response, or null if no content was returned.</returns>
+    Task<string?> MyTrackGetAllRawAsync(int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieves raw paginated top item JSON for the current user from Spotify asynchronously.
+    /// </summary>
+    /// <remarks>Requires the <c>user-top-read</c> scope.</remarks>
+    /// <param name="userTopType">The type of top items to retrieve (artists or tracks). The default is <see cref="UserTopType.Tracks"/>.</param>
+    /// <param name="userTopTimeRange">The time range over which affinity is computed. The default is <see cref="UserTopTimeRange.MediumTerm"/>.</param>
+    /// <param name="limit">The maximum number of items to return. The default is 20.</param>
+    /// <param name="offset">The zero-based index of the first item to return. The default is 0.</param>
+    /// <param name="cancellationToken">A cancellation token that can be used to cancel the asynchronous operation.</param>
+    /// <returns>A task representing the asynchronous operation. The task result contains the raw JSON string
+    /// response, or null if no content was returned.</returns>
+    Task<string?> MyTopItemGetAllRawAsync(UserTopType userTopType = UserTopType.Tracks, UserTopTimeRange userTopTimeRange = UserTopTimeRange.MediumTerm, int? limit = 20, int offset = 0, CancellationToken cancellationToken = default);
 }

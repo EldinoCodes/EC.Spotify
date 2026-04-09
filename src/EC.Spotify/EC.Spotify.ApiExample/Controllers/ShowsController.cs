@@ -23,4 +23,20 @@ public class ShowsController(ISpotifyClient spotifyClient) : ControllerBase
 
         return new JsonResult(ret);
     }
+
+    [HttpGet("{showId}/raw")]
+    public async Task<IActionResult> ShowGetRawAsync(string? showId, CancellationToken cancellationToken = default)
+    {
+        var ret = await _spotifyClient.Shows.ShowGetRawAsync(showId, cancellationToken);
+
+        return new JsonResult(ret);
+    }
+
+    [HttpGet("{showId}/episodes/raw")]
+    public async Task<IActionResult> ShowEpisodeGetAllRawAsync(string? showId, int? limit, int? offset, CancellationToken cancellationToken = default)
+    {
+        var ret = await _spotifyClient.Shows.ShowEpisodeGetAllRawAsync(showId, limit, offset, cancellationToken);
+
+        return new JsonResult(ret);
+    }
 }

@@ -18,4 +18,16 @@ public interface ISearchService
     /// page of search results matching the query and search type. The result may be empty if no items match the search
     /// criteria.</returns>
     Task<SpotifyResult<SpotifyPageResult<IPolymorphicItem>>> SearchAsync(string? query, SearchType? searchType = default, int? limit = 5, int? offset = 0, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Performs a raw asynchronous search against the Spotify catalog, returning the JSON response directly.
+    /// </summary>
+    /// <param name="query">The search query string to use. Can be null or empty to return no results.</param>
+    /// <param name="searchType">The type of item to search for. If null, a default search type may be used.</param>
+    /// <param name="limit">The maximum number of items to return. The default is 5.</param>
+    /// <param name="offset">The index of the first item to return. The default is 0.</param>
+    /// <param name="cancellationToken">A cancellation token that can be used to cancel the asynchronous operation.</param>
+    /// <returns>A task representing the asynchronous operation. The task result contains the raw JSON string
+    /// response, or null if no content was returned.</returns>
+    Task<string?> SearchRawAsync(string? query, SearchType? searchType = default, int? limit = 5, int? offset = 0, CancellationToken cancellationToken = default);
 }

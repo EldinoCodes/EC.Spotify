@@ -70,4 +70,42 @@ internal class SearchService(ILogger<SearchService> logger, IOptions<SpotifyOpti
             };
         }
     }
+
+    public async Task<string?> SearchRawAsync(string? query, SearchType? searchType = default, int? limit = 5, int? offset = 0, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("SearchRawAsync called with query: {Query}, type: {Type}, limit: {Limit}, offset: {Offset}", query, searchType, limit, offset);
+
+            var q = new List<string>();
+            if (!string.IsNullOrEmpty(query)) q.Add(query);
+            var searchQueryType = typeof(SearchType);
+            var searchTypes = string.Join(",", Enum.GetValues(searchQueryType)
+                .Cast<SearchType>()
+                .Where(t => searchType?.HasFlag(t) ?? false)
+                .Select(t => Enum.GetName(searchQueryType, t)?.ToLower())
+            );
+
+            var queryParams = new Dictionary<string, string?>()
+            {
+                { "q", string.Join(" ", q) },
+                { "type", searchTypes },
+                { "limit", $"{limit}"},
+                { "offset", $"{offset}"}
+            };
+
+            var uri = SpotifySearchUri.ToUri(queryParams);
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("SearchRawAsync requesting URI: {Uri}", uri);
+
+            return await _spotifyProvider.ExecuteSpotifyRequestAsync("get", uri, cancellationToken: cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "SearchRawAsync failed");
+            throw;
+        }
+    }
 }

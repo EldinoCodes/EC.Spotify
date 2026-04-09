@@ -418,3 +418,169 @@ Accept: application/json
 ### user top tracks page (long term)
 GET {{EC.Spotify.HostAddress}}/User/top?userTopType=2&userTopTimeRange=0&offset=0&limit=20
 Accept: application/json
+
+
+
+### raw endpoints
+
+### album raw
+GET {{EC.Spotify.HostAddress}}/Albums/{{EC.Spotify.AlbumId}}/raw
+Accept: application/json
+
+### album tracks raw
+GET {{EC.Spotify.HostAddress}}/Albums/{{EC.Spotify.AlbumId}}/tracks/raw
+Accept: application/json
+
+### album tracks raw page
+GET {{EC.Spotify.HostAddress}}/Albums/{{EC.Spotify.AlbumId}}/tracks/raw?offset=0&limit=20
+Accept: application/json
+
+
+
+### artist raw
+GET {{EC.Spotify.HostAddress}}/Artists/{{EC.Spotify.ArtistId}}/raw
+Accept: application/json
+
+### artist albums raw
+GET {{EC.Spotify.HostAddress}}/Artists/{{EC.Spotify.ArtistId}}/albums/raw
+Accept: application/json
+
+### artist albums raw page
+GET {{EC.Spotify.HostAddress}}/Artists/{{EC.Spotify.ArtistId}}/albums/raw?offset=0&limit=20&albumTypes=1,2
+Accept: application/json
+
+
+
+### audiobook raw
+GET {{EC.Spotify.HostAddress}}/Audiobooks/{{EC.Spotify.AudiobookId}}/raw
+Accept: application/json
+
+### audiobook chapters raw
+GET {{EC.Spotify.HostAddress}}/Audiobooks/{{EC.Spotify.AudiobookId}}/chapters/raw
+Accept: application/json
+
+### audiobook chapters raw page
+GET {{EC.Spotify.HostAddress}}/Audiobooks/{{EC.Spotify.AudiobookId}}/chapters/raw?offset=0&limit=20
+Accept: application/json
+
+
+
+### chapter raw
+GET {{EC.Spotify.HostAddress}}/Chapters/{{EC.Spotify.ChapterId}}/raw
+Accept: application/json
+
+
+
+### episode raw
+GET {{EC.Spotify.HostAddress}}/Episodes/{{EC.Spotify.EpisodeId}}/raw
+Accept: application/json
+
+
+
+### playlist raw
+GET {{EC.Spotify.HostAddress}}/Playlist/{{EC.Spotify.PlaylistId}}/raw
+Accept: application/json
+
+### playlist items raw
+GET {{EC.Spotify.HostAddress}}/Playlist/{{EC.Spotify.PlaylistId}}/items/raw
+Accept: application/json
+
+### playlist items raw page
+GET {{EC.Spotify.HostAddress}}/Playlist/{{EC.Spotify.PlaylistId}}/items/raw?offset=0&limit=20
+Accept: application/json
+
+### playlist image raw
+GET {{EC.Spotify.HostAddress}}/Playlist/{{EC.Spotify.PlaylistId}}/image/raw
+Accept: application/json
+
+
+
+### search raw
+GET {{EC.Spotify.HostAddress}}/Search/raw?query=Nine%20Inch%20Nails&searchTypes=2
+Accept: application/json
+
+### search raw page
+GET {{EC.Spotify.HostAddress}}/Search/raw?query=Nine%20Inch%20Nails&searchTypes=2&offset=0&limit=10
+Accept: application/json
+
+
+
+### show raw
+GET {{EC.Spotify.HostAddress}}/Shows/{{EC.Spotify.ShowId}}/raw
+Accept: application/json
+
+### show episodes raw
+GET {{EC.Spotify.HostAddress}}/Shows/{{EC.Spotify.ShowId}}/episodes/raw
+Accept: application/json
+
+### show episodes raw page
+GET {{EC.Spotify.HostAddress}}/Shows/{{EC.Spotify.ShowId}}/episodes/raw?offset=0&limit=20
+Accept: application/json
+
+
+
+### track raw
+GET {{EC.Spotify.HostAddress}}/Tracks/{{EC.Spotify.TrackId}}/raw
+Accept: application/json
+
+
+
+### user my albums raw
+GET {{EC.Spotify.HostAddress}}/User/albums/raw
+Accept: application/json
+
+### user my albums raw page
+GET {{EC.Spotify.HostAddress}}/User/albums/raw?offset=0&limit=20
+Accept: application/json
+
+### user my audiobooks raw
+GET {{EC.Spotify.HostAddress}}/User/audiobooks/raw
+Accept: application/json
+
+### user my audiobooks raw page
+GET {{EC.Spotify.HostAddress}}/User/audiobooks/raw?offset=0&limit=20
+Accept: application/json
+
+### user my episodes raw
+GET {{EC.Spotify.HostAddress}}/User/episodes/raw
+Accept: application/json
+
+### user my episodes raw page
+GET {{EC.Spotify.HostAddress}}/User/episodes/raw?offset=0&limit=20
+Accept: application/json
+
+### user my playlists raw
+GET {{EC.Spotify.HostAddress}}/User/playlists/raw
+Accept: application/json
+
+### user my playlists raw page
+GET {{EC.Spotify.HostAddress}}/User/playlists/raw?offset=0&limit=20
+Accept: application/json
+
+### user my shows raw
+GET {{EC.Spotify.HostAddress}}/User/shows/raw
+Accept: application/json
+
+### user my shows raw page
+GET {{EC.Spotify.HostAddress}}/User/shows/raw?offset=0&limit=20
+Accept: application/json
+
+### user my tracks raw
+GET {{EC.Spotify.HostAddress}}/User/tracks/raw
+Accept: application/json
+
+### user my tracks raw page
+GET {{EC.Spotify.HostAddress}}/User/tracks/raw?offset=0&limit=20
+Accept: application/json
+
+### user top artists raw (medium term)
+GET {{EC.Spotify.HostAddress}}/User/top/raw?userTopType=1&userTopTimeRange=1
+Accept: application/json
+
+### user top tracks raw (short term)
+GET {{EC.Spotify.HostAddress}}/User/top/raw?userTopType=2&userTopTimeRange=2
+Accept: application/json
+
+### user top tracks raw page (long term)
+GET {{EC.Spotify.HostAddress}}/User/top/raw?userTopType=2&userTopTimeRange=0&offset=0&limit=20
+Accept: application/json

@@ -39,4 +39,28 @@ internal class EpisodeService(ILogger<EpisodeService> logger, IOptions<SpotifyOp
             return new SpotifyResult<Episode> { Error = ex.ToSpotifyError() };
         }
     }
+
+    public async Task<string?> EpisodeGetRawAsync(string? id, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var error = _options.ValidateScopes(["user-read-playback-position"]);
+            if (error is not null) throw new InvalidOperationException(error.Message);
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("EpisodeGetRawAsync called with id: {Id}", id);
+
+            var uri = string.Format(SpotifyEpisodeUri, id);
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("EpisodeGetRawAsync requesting URI: {Uri}", uri);
+
+            return await _spotifyProvider.ExecuteSpotifyRequestAsync("get", uri, cancellationToken: cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "EpisodeGetRawAsync failed for id: {Id}", id);
+            throw;
+        }
+    }
 }

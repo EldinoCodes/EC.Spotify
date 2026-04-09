@@ -24,4 +24,20 @@ public class ArtistsController(ISpotifyClient spotifyClient) : ControllerBase
 
         return new JsonResult(ret);
     }
+
+    [HttpGet("{artistId}/raw")]
+    public async Task<IActionResult> ArtistGetRawAsync(string? artistId, CancellationToken cancellationToken = default)
+    {
+        var ret = await _spotifyClient.Artists.ArtistGetRawAsync(artistId, cancellationToken);
+
+        return new JsonResult(ret);
+    }
+
+    [HttpGet("{artistId}/albums/raw")]
+    public async Task<IActionResult> ArtistAlbumGetAllRawAsync(string? artistId, AlbumType? albumTypes, int? limit, int? offset, CancellationToken cancellationToken = default)
+    {
+        var ret = await _spotifyClient.Artists.ArtistAlbumGetAllRawAsync(artistId, albumTypes, limit, offset, cancellationToken);
+
+        return new JsonResult(ret);
+    }
 }

@@ -7,9 +7,9 @@
 
 A comprehensive .NET client library for the Spotify Web API, providing a clean and intuitive interface for interacting with Spotify's music streaming platform.
 
-## LATEST NEWS - 2026.04.05
-### Version 1.1.0 Released
-The EC.Spotify library is now 1.1.0. I decided the pending changes were not Major version worthy and user count is still low so instead of jumping to 2.0.0 I stuck with 1.1.0.  I have also decided that I dont want to force users to use my objects for deserialization, the following updates to this release will expose direct methods that will return straight JSON payloads from Spotify and really just assist in managing the auth token obtained.  Please let me know if you have any issues or suggestions for improvement.  I have a lot of ideas for new features and improvements but I want to make sure the core library is solid and meets user needs before adding more features.  Thanks for using EC.Spotify!
+## LATEST NEWS - 2026.04.09
+### Version 1.1.1 - In Progress
+Updated EC.Spotify to expose Raw methods (returning direct json results) with the intention that developers can handle the raw JSON responses themselves.  Added AI Generated Unit Tests to try to further validate methods.  Intend to try to refactor for stability and simplicity before next release.  Thanks for using EC.Spotify!
 
 ## Overview
 
@@ -220,6 +220,12 @@ Provides methods for retrieving album data from Spotify.
 - **`AlbumTrackGetAllAsync(string? id, int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)`**  
   Retrieves paginated tracks for a specific album with support for limit and offset parameters.
 
+- **`AlbumGetRawAsync(string? id, CancellationToken cancellationToken = default)`**  
+  Retrieves the raw JSON response for an album by album ID.
+
+- **`AlbumTrackGetAllRawAsync(string? id, int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)`**  
+  Retrieves the raw JSON response for a paginated list of tracks for a specific album.
+
 **Example:**
 ```csharp
 // Get album details
@@ -255,8 +261,14 @@ Provides methods for retrieving artist data and their albums.
 - **`ArtistGetAsync(string? id, CancellationToken cancellationToken = default)`**  
   Retrieves detailed artist information including name, images, and external URLs.
 
-- **`ArtistAlbumGetAllAsync(string? id, int? limit = 10, int? offset = 0, AlbumType? albumTypes = default, CancellationToken cancellationToken = default)`**  
+- **`ArtistAlbumGetAllAsync(string? id, AlbumType? albumTypes = default, int? limit = 5, int? offset = 0, CancellationToken cancellationToken = default)`**  
   Retrieves paginated albums for an artist, optionally filtered by `albumTypes` (e.g., `AlbumType.Album`, `AlbumType.Single`).
+
+- **`ArtistGetRawAsync(string? id, CancellationToken cancellationToken = default)`**  
+  Retrieves the raw JSON response for an artist by artist ID.
+
+- **`ArtistAlbumGetAllRawAsync(string? id, AlbumType? albumTypes = default, int? limit = 5, int? offset = 0, CancellationToken cancellationToken = default)`**  
+  Retrieves the raw JSON response for a paginated list of albums for a specific artist.
 
 **Example:**
 ```csharp
@@ -272,9 +284,9 @@ if (artistResult.IsSuccess)
 // Get artist albums (only albums and singles)
 var albumsResult = await _spotifyClient.Artists.ArtistAlbumGetAllAsync(
     "0TnOYISbd1XYRBk9myaseg",
+    albumTypes: AlbumType.Album | AlbumType.Single,
     limit: 10,
-    offset: 0,
-    albumTypes: AlbumType.Album | AlbumType.Single
+    offset: 0
 );
 ```
 
@@ -288,6 +300,12 @@ Provides methods for retrieving audiobook data and chapters.
 
 - **`AudiobookChapterGetAllAsync(string? id, int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)`**  
   Retrieves paginated chapters for a specific audiobook.
+
+- **`AudiobookGetRawAsync(string? id, CancellationToken cancellationToken = default)`**  
+  Retrieves the raw JSON response for an audiobook by audiobook ID.
+
+- **`AudiobookChapterGetAllRawAsync(string? id, int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)`**  
+  Retrieves the raw JSON response for a paginated list of chapters for a specific audiobook.
 
 **Example:**
 ```csharp
@@ -316,6 +334,9 @@ Provides methods for retrieving individual audiobook chapter data.
 - **`ChapterGetAsync(string? id, CancellationToken cancellationToken = default)`**  
   Retrieves detailed chapter information including name, description, duration, and chapter number.
 
+- **`ChapterGetRawAsync(string? id, CancellationToken cancellationToken = default)`**  
+  Retrieves the raw JSON response for a chapter by chapter ID.
+
 **Example:**
 ```csharp
 var chapterResult = await _spotifyClient.Chapters.ChapterGetAsync("0D5wENdkdwbqlrHoaJ9g29");
@@ -336,6 +357,9 @@ Provides methods for retrieving podcast episode data.
 **Available Methods:**
 - **`EpisodeGetAsync(string? id, CancellationToken cancellationToken = default)`**  
   Retrieves detailed episode information including name, description, duration, release date, and show information. Requires the `user-read-playback-position` scope.
+
+- **`EpisodeGetRawAsync(string? id, CancellationToken cancellationToken = default)`**  
+  Retrieves the raw JSON response for an episode by episode ID. Requires the `user-read-playback-position` scope.
 
 **Example:**
 ```csharp
@@ -501,6 +525,15 @@ Provides methods for retrieving, managing, and modifying playlists and their con
 - **`PlaylistImageGetAllAsync(string? id, CancellationToken cancellationToken = default)`**  
   Retrieves all images associated with the specified playlist.
 
+- **`PlaylistGetRawAsync(string? id, CancellationToken cancellationToken = default)`**  
+  Retrieves the raw JSON response for a playlist by playlist ID.
+
+- **`PlaylistItemGetAllRawAsync(string? id, int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)`**  
+  Retrieves the raw JSON response for a paginated list of items in a playlist. Requires the `playlist-read-private` scope.
+
+- **`PlaylistImageGetAllRawAsync(string? id, CancellationToken cancellationToken = default)`**  
+  Retrieves the raw JSON response for all images associated with a playlist.
+
 **`PlaylistDetail` Model:**
 
 | Property | Type | Description |
@@ -579,7 +612,10 @@ Performs search queries across Spotify's catalog, supporting multiple content ty
 - **`SearchAsync(string? query, SearchType? searchType = default, int? limit = 5, int? offset = 0, CancellationToken cancellationToken = default)`**  
   Performs a search using the specified query string and search type. The `searchType` parameter is a bitwise enum that can be combined using the `|` operator to search multiple content types simultaneously (e.g., `SearchType.Track | SearchType.Artist`). The `limit` parameter controls the maximum number of results to return (default: 5), and `offset` allows for pagination (default: 0).
 
-<p style="background-color: #856404; border-radius: .5rem; padding:.5rem;"><span style="font-weight:bold;">Note:&nbsp;</span>The <span style='font-weight:bold;'>'searchType'</span> parameter is a bitwise enum. Combine multiple search types using the <code>|</code> operator, e.g. <code>SearchType.Track | SearchType.Artist</code>.</p>
+- **`SearchRawAsync(string? query, SearchType? searchType = default, int? limit = 5, int? offset = 0, CancellationToken cancellationToken = default)`**  
+  Performs a search against the Spotify catalog and returns the raw JSON response.
+
+<p style=
 
 **Example:**
 ```csharp
@@ -626,6 +662,12 @@ Provides methods for retrieving podcast show data and episodes.
 - **`ShowEpisodeGetAllAsync(string? id, int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)`**  
   Retrieves paginated episodes for a specific show. Requires the `user-read-playback-position` scope.
 
+- **`ShowGetRawAsync(string? id, CancellationToken cancellationToken = default)`**  
+  Retrieves the raw JSON response for a show by show ID. Requires the `user-read-playback-position` scope.
+
+- **`ShowEpisodeGetAllRawAsync(string? id, int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)`**  
+  Retrieves the raw JSON response for a paginated list of episodes for a specific show. Requires the `user-read-playback-position` scope.
+
 **Example:**
 ```csharp
 var showResult = await _spotifyClient.Shows.ShowGetAsync("38bS44xjbVVZ3No3ByF1dJ");
@@ -644,6 +686,9 @@ Provides methods for retrieving individual track data.
 **Available Methods:**
 - **`TrackGetAsync(string? id, CancellationToken cancellationToken = default)`**  
   Retrieves detailed track information including name, artists, album, and duration.
+
+- **`TrackGetRawAsync(string? id, CancellationToken cancellationToken = default)`**  
+  Retrieves the raw JSON response for a track by track ID.
 
 **Example:**
 ```csharp
@@ -679,8 +724,29 @@ Provides methods for retrieving items from the current user's Spotify library an
 - **`MyTrackGetAllAsync(int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)`**  
   Retrieves a paginated list of tracks saved in the current user's library. The `limit` value must be between 1 and 50. Requires the `user-library-read` scope.
 
-- **`MyTopItemGetAllAsync(int? limit = 20, int offset = 0, UserTopType userTopType = UserTopType.Tracks, UserTopTimeRange userTopTimeRange = UserTopTimeRange.MediumTerm, CancellationToken cancellationToken = default)`**  
+- **`MyTopItemGetAllAsync(UserTopType userTopType = UserTopType.Tracks, UserTopTimeRange userTopTimeRange = UserTopTimeRange.MediumTerm, int? limit = 20, int offset = 0, CancellationToken cancellationToken = default)`**  
   Retrieves the current user's top artists or tracks based on calculated affinity over a given time range. The `limit` value must be between 1 and 50. Requires the `user-top-read` scope.
+
+- **`MyAlbumGetAllRawAsync(int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)`**  
+  Retrieves the raw JSON response for a paginated list of albums saved in the current user's library. Requires the `user-library-read` scope.
+
+- **`MyAudiobookGetAllRawAsync(int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)`**  
+  Retrieves the raw JSON response for a paginated list of audiobooks saved in the current user's library. Requires the `user-library-read` scope.
+
+- **`MyEpisodeGetAllRawAsync(int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)`**  
+  Retrieves the raw JSON response for a paginated list of episodes saved in the current user's library. Requires the `user-library-read` and `user-read-playback-position` scopes.
+
+- **`MyPlaylistGetAllRawAsync(int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)`**  
+  Retrieves the raw JSON response for a paginated list of the current user's playlists. Requires the `playlist-read-private` scope.
+
+- **`MyShowGetAllRawAsync(int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)`**  
+  Retrieves the raw JSON response for a paginated list of shows saved in the current user's library. Requires the `user-library-read` and `user-read-playback-position` scopes.
+
+- **`MyTrackGetAllRawAsync(int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)`**  
+  Retrieves the raw JSON response for a paginated list of tracks saved in the current user's library. Requires the `user-library-read` scope.
+
+- **`MyTopItemGetAllRawAsync(UserTopType userTopType = UserTopType.Tracks, UserTopTimeRange userTopTimeRange = UserTopTimeRange.MediumTerm, int? limit = 20, int offset = 0, CancellationToken cancellationToken = default)`**  
+  Retrieves the raw JSON response for the current user's top artists or tracks. Requires the `user-top-read` scope.
 
 **`UserTopType` Enum:**
 

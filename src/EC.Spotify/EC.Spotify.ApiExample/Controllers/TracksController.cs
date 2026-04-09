@@ -16,4 +16,12 @@ public class TracksController(ISpotifyClient spotifyClient) : ControllerBase
 
         return new JsonResult(ret);
     }
+
+    [HttpGet("{trackId}/raw")]
+    public async Task<IActionResult> TrackGetRawAsync(string? trackId, CancellationToken cancellationToken = default)
+    {
+        var ret = await _spotifyClient.Tracks.TrackGetRawAsync(trackId, cancellationToken);
+
+        return new JsonResult(ret);
+    }
 }

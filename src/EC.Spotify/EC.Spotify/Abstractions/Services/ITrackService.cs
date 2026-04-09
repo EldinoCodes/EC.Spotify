@@ -14,4 +14,13 @@ public interface ITrackService
     /// <returns>A task that represents the asynchronous operation. The task result contains a <see cref="SpotifyResult{Track}"/>
     /// with the track details if found; otherwise, the result indicates failure or not found.</returns>
     Task<SpotifyResult<Track>> TrackGetAsync(string? id, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieves raw track JSON from Spotify asynchronously by track identifier.
+    /// </summary>
+    /// <param name="id">The Spotify track identifier. Can be null or empty to indicate an invalid request.</param>
+    /// <param name="cancellationToken">A cancellation token that can be used to cancel the operation.</param>
+    /// <returns>A task representing the asynchronous operation. The task result contains the raw JSON string
+    /// response, or null if no content was returned.</returns>
+    Task<string?> TrackGetRawAsync(string? id, CancellationToken cancellationToken = default);
 }

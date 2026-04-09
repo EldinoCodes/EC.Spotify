@@ -36,4 +36,25 @@ internal class TrackService(ILogger<TrackService> logger, IOptions<SpotifyOption
             return new SpotifyResult<Track> { Error = ex.ToSpotifyError() };
         }
     }
+
+    public async Task<string?> TrackGetRawAsync(string? id, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("TrackGetRawAsync called with id: {Id}", id);
+
+            var uri = string.Format(SpotifyTrackUri, id);
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("TrackGetRawAsync requesting URI: {Uri}", uri);
+
+            return await _spotifyProvider.ExecuteSpotifyRequestAsync("get", uri, cancellationToken: cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "TrackGetRawAsync failed for id: {Id}", id);
+            throw;
+        }
+    }
 }

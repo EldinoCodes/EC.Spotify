@@ -83,4 +83,28 @@ public class PlaylistController(ISpotifyClient spotifyClient) : ControllerBase
 
         return new JsonResult(ret);
     }
+
+    [HttpGet("{playlistId}/raw")]
+    public async Task<IActionResult> PlaylistGetRawAsync(string? playlistId, CancellationToken cancellationToken = default)
+    {
+        var ret = await _spotifyClient.Playlists.PlaylistGetRawAsync(playlistId, cancellationToken);
+
+        return new JsonResult(ret);
+    }
+
+    [HttpGet("{playlistId}/items/raw")]
+    public async Task<IActionResult> PlaylistItemGetAllRawAsync(string? playlistId, int? limit, int? offset, CancellationToken cancellationToken = default)
+    {
+        var ret = await _spotifyClient.Playlists.PlaylistItemGetAllRawAsync(playlistId, limit, offset, cancellationToken);
+
+        return new JsonResult(ret);
+    }
+
+    [HttpGet("{playlistId}/image/raw")]
+    public async Task<IActionResult> PlaylistImageGetAllRawAsync(string? playlistId, CancellationToken cancellationToken = default)
+    {
+        var ret = await _spotifyClient.Playlists.PlaylistImageGetAllRawAsync(playlistId, cancellationToken);
+
+        return new JsonResult(ret);
+    }
 }
