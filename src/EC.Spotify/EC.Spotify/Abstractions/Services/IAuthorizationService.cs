@@ -4,6 +4,7 @@ namespace EC.Spotify.Abstractions.Services;
 
 public interface IAuthorizationService
 {
+    [Obsolete("Use ValidateAsync instead.")]
     /// <summary>
     /// Validates the current authentication state and determines whether user authorization is required.
     /// </summary>
@@ -11,6 +12,13 @@ public interface IAuthorizationService
     /// <returns>A URL as a string that directs the user to authorize the application if authorization is required; otherwise,
     /// <see langword="null"/> if the user is already authorized.</returns>
     Task<string?> Validate(CancellationToken cancellationToken = default);
+    /// <summary>
+    /// Validates the current authentication state and determines whether user authorization is required.
+    /// </summary>
+    /// <param name="cancellationToken">A cancellation token that can be used to cancel the validation operation.</param>
+    /// <returns>A URL as a string that directs the user to authorize the application if authorization is required; otherwise,
+    /// <see langword="null"/> if the user is already authorized.</returns>
+    Task<string?> ValidateAsync(CancellationToken cancellationToken = default);
     /// <summary>
     /// Generates the URL to initiate the OAuth 2.0 authorization code flow.
     /// </summary>

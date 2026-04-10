@@ -28,6 +28,9 @@ internal class AuthorizationService(ILogger<AuthorizationService> logger, IOptio
 
 
     public async Task<string?> Validate(CancellationToken cancellationToken = default)
+        => await ValidateAsync(cancellationToken);
+
+    public async Task<string?> ValidateAsync(CancellationToken cancellationToken = default)
     {
         try
         {

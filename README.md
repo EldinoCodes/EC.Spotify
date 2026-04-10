@@ -150,7 +150,7 @@ public class MusicController : ControllerBase
 Manages Spotify OAuth 2.0 authorization flow and token management. This service is critical for authenticating users and maintaining access tokens.
 
 **Available Methods:**
-- **`Validate(CancellationToken cancellationToken = default)`**  
+- **`ValidateAsync(CancellationToken cancellationToken = default)`**  
   Validates the current authentication state and returns an authorization URL if user authorization is required.
 
 - **`AuthorizationCodeUrl()`**  
