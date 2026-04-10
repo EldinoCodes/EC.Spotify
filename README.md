@@ -174,7 +174,7 @@ Manages Spotify OAuth 2.0 authorization flow and token management. This service 
 **Example:**
 ```csharp
 // Check if authorization is needed
-var authUrl = await _spotifyClient.Authorization.Validate();
+var authUrl = await _spotifyClient.Authorization.ValidateAsync(cancellationToken);
 if (authUrl != null)
 {
     // Redirect user to Spotify authorization page
