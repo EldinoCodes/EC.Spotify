@@ -1,5 +1,5 @@
 # Table of Contents
-- [[GettingStarted]]
+- [[Getting Started|GettingStarted]]
 # Services
 - [[Albums]]
 - [[Artists]]
