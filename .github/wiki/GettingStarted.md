@@ -113,17 +113,17 @@ Common scopes used across EC.Spotify services:
 
 EC.Spotify uses the **OAuth 2.0 Authorization Code Flow**. This requires redirecting the user to Spotify to grant consent, then receiving an authorization code back via a callback URL. The library manages the code, token exchange, and token refresh automatically.
 
-The entry point for this entire flow is a single method: **`Validate`**.
+The entry point for this entire flow is a single method: **`ValidateAsync`**.
 
 ---
 
-### `Validate`
+### `ValidateAsync`
 
 ```csharp
-Task<string?> Validate(CancellationToken cancellationToken = default);
+Task<string?> ValidateAsync(CancellationToken cancellationToken = default);
 ```
 
-`Validate` is the recommended way to check and enforce authorization state before making any API calls. Call it at the start of a request — or from a dedicated authorization endpoint — and branch on its return value.
+`ValidateAsync` is the recommended way to check and enforce authorization state before making any API calls. Call it at the start of a request — or from a dedicated authorization endpoint — and branch on its return value.
 
 **Return values:**
 
@@ -132,7 +132,7 @@ Task<string?> Validate(CancellationToken cancellationToken = default);
 | `string` (a URL) | Authorization is required. Redirect the user to this URL. |
 | `null` | The user is fully authorized. API calls can proceed. |
 
-**What `Validate` does internally:**
+**What `ValidateAsync` does internally:**
 
 1. Generates a Spotify authorization URL (with a CSRF `state` parameter stored in cache).
 2. Checks whether an authorization code is already stored. If not, returns the authorization URL.
@@ -145,9 +145,9 @@ Token refresh is handled automatically. You do not need to manage token expiry m
 
 ```csharp
 [HttpGet("validate")]
-public async Task<IActionResult> Validate(CancellationToken cancellationToken = default)
+public async Task<IActionResult> ValidateAsync(CancellationToken cancellationToken = default)
 {
-    var authUrl = await _spotifyClient.Authorization.Validate(cancellationToken);
+    var authUrl = await _spotifyClient.Authorization.ValidateAsync(cancellationToken);
 
     // Not yet authorized — redirect the user to Spotify
     if (!string.IsNullOrEmpty(authUrl))
@@ -164,10 +164,10 @@ public async Task<IActionResult> Validate(CancellationToken cancellationToken = 
 
 #### Step 1 — User hits your validate endpoint
 
-Your application calls `Validate`. Since no authorization code exists yet, it returns the Spotify authorization URL. You redirect the user there.
+Your application calls `ValidateAsync`. Since no authorization code exists yet, it returns the Spotify authorization URL. You redirect the user there.
 
 ```csharp
-var authUrl = await _spotifyClient.Authorization.Validate(cancellationToken);
+var authUrl = await _spotifyClient.Authorization.ValidateAsync(cancellationToken);
 if (!string.IsNullOrEmpty(authUrl))
     return Redirect(authUrl);
 ```

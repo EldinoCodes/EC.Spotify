@@ -193,7 +193,7 @@ The following sequence illustrates the full OAuth 2.0 authorization code flow us
 
 ```
 1. GET /authorization/validate
-   → Calls Validate() → returns redirect URL → browser navigates to Spotify login
+   → Calls ValidateAsync() → returns redirect URL → browser navigates to Spotify login
 
 2. User logs in and grants access on Spotify's authorization server
 
@@ -202,7 +202,7 @@ The following sequence illustrates the full OAuth 2.0 authorization code flow us
    → Redirects back to /authorization/validate
 
 4. GET /authorization/validate (again)
-   → Validate() detects a valid token → returns null → responds with "Authorized"
+   → Calls ValidateAsync() detects a valid token → returns null → responds with "Authorized"
 
 5. GET /authorization/token
    → Calls AuthorizationTokenGetAsync() → returns the active AuthToken
