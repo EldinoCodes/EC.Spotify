@@ -127,7 +127,7 @@ public sealed class AuthorizationServiceTests
     [TestMethod]
     public async Task Validate_WhenNoCodePresent_ReturnsAuthorizationUrl()
     {
-        var url = await _sut.Validate();
+        var url = await _sut.ValidateAsync();
 
         Assert.IsNotNull(url);
         Assert.Contains("accounts.spotify.com", url);
@@ -138,7 +138,7 @@ public sealed class AuthorizationServiceTests
     {
         await _sut.AuthorizationCodeAddAsync("some-code");
 
-        var url = await _sut.Validate();
+        var url = await _sut.ValidateAsync();
 
         Assert.IsNotNull(url);
     }

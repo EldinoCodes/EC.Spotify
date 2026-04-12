@@ -89,9 +89,9 @@ public sealed class T00_AuthorizationServiceTests
     //    // Ensure we have a code and token before testing reset
     //    var existingCode = await sut.AuthorizationCodeGetAsync();
 
-    //    var before = await sut.Validate();
+    //    var before = await sut.ValidateAsync();
     //    _ = await sut.AuthorizationTokenReset();
-    //    var after = await sut.Validate();
+    //    var after = await sut.ValidateAsync();
 
     //    // Re-add the code to ensure token can be retrieved again
     //    _ = await sut.AuthorizationCodeAddAsync(existingCode);

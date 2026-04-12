@@ -200,10 +200,10 @@ public async Task<IActionResult> Callback(
 
 #### Step 4 — `Validate` confirms authorization
 
-On the second call to `Validate`, the authorization code is now stored. The library exchanges it for an access token and caches the token internally. `Validate` returns `null`, confirming the user is authorized.
+On the second call to `ValidateAsync`, the authorization code is now stored. The library exchanges it for an access token and caches the token internally. `Validate` returns `null`, confirming the user is authorized.
 
 ```csharp
-var authUrl = await _spotifyClient.Authorization.Validate(cancellationToken);
+var authUrl = await _spotifyClient.Authorization.ValidateAsync(cancellationToken);
 // authUrl is now null — the user is authorized
 return Ok("Authorized");
 ```
@@ -223,7 +223,7 @@ public class AuthorizationController(ISpotifyClient spotifyClient) : ControllerB
     [HttpGet("validate", Name = "authorizationValidate")]
     public async Task<IActionResult> Validate(CancellationToken cancellationToken = default)
     {
-        var authUrl = await spotifyClient.Authorization.Validate(cancellationToken);
+        var authUrl = await spotifyClient.Authorization.ValidateAsync(cancellationToken);
 
         return !string.IsNullOrEmpty(authUrl)
             ? Redirect(authUrl)
@@ -247,27 +247,27 @@ public class AuthorizationController(ISpotifyClient spotifyClient) : ControllerB
 ### Authorization Flow Diagram
 
 ```
-Your App                    EC.Spotify                  Spotify
-   |                            |                           |
-   |-- GET /validate ---------->|                           |
-   |                            |-- Validate() ------------>|
-   |                            |   (no code stored)        |
-   |<-- Redirect(authUrl) ------|                           |
-   |                            |                           |
+Your App                    EC.Spotify                     Spotify
+   |                            |                             |
+   |-- GET /validate ---------->|                             |
+   |                            |-- ValidateAsync() --------->|
+   |                            |   (no code stored)          |
+   |<-- Redirect(authUrl) ------|                             |
+   |                            |                             |
    |-- GET authUrl (browser) -------------------------------->|
-   |                            |                           |
-   |<-- Redirect to /response?code=...&state=... -----------|
-   |                            |                           |
-   |-- GET /response ---------->|                           |
-   |                            |-- AuthorizationCodeAddAsync|
-   |<-- Redirect /validate -----|   (code + state stored)   |
-   |                            |                           |
-   |-- GET /validate ---------->|                           |
-   |                            |-- Validate() ------------>|
-   |                            |   (code found)            |
-   |                            |-- Exchange code for token >|
-   |                            |<-- AccessToken + Refresh --|
-   |<-- 200 OK "Authorized" ----|                           |
+   |                            |                             |
+   |<-- Redirect to /response?code=...&state=... -------------|
+   |                            |                             |
+   |-- GET /response ---------->|                             |
+   |                            |-- AuthorizationCodeAddAsync |
+   |<-- Redirect /validate -----|   (code + state stored)     |
+   |                            |                             |
+   |-- GET /validate ---------->|                             |
+   |                            |-- ValidateAsync() --------->|
+   |                            |   (code found)              |
+   |                            |-- Exchange code for token ->|
+   |                            |<-- AccessToken + Refresh ---|
+   |<-- 200 OK "Authorized" ----|                             |
 ```
 
 ---

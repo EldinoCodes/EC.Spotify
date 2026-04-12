@@ -13,11 +13,11 @@ public sealed class Z00_AuthorizationServiceTests
         var sut = Initializer.Resolve<IAuthorizationService>();
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
-        var before = await sut.Validate(cancellationToken: TestContext.CancellationToken);
+        var before = await sut.ValidateAsync(cancellationToken: TestContext.CancellationToken);
 
         _ = await sut.AuthorizationTokenReset();
 
-        var after = await sut.Validate(cancellationToken: TestContext.CancellationToken);
+        var after = await sut.ValidateAsync(cancellationToken: TestContext.CancellationToken);
 
         Assert.AreNotEqual(before, after);
     }
