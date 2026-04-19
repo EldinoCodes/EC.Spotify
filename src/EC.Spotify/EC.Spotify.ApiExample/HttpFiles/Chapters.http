@@ -1,0 +1,12 @@
+@EC.Spotify.HostAddress = https://localhost:5001
+@EC.Spotify.ChapterId = 3OCSAZnatejMEd0Q5Ohlq7
+
+
+
+### chapter get
+GET {{EC.Spotify.HostAddress}}/Chapters/{{EC.Spotify.ChapterId}}
+Accept: application/json
+
+### chapter get raw
+GET {{EC.Spotify.HostAddress}}/Chapters/{{EC.Spotify.ChapterId}}/raw
+Accept: application/json

@@ -1,0 +1,12 @@
+@EC.Spotify.HostAddress = https://localhost:5001
+@EC.Spotify.TrackId = 4tjcBY787A2ZkRJpPIsGIS
+
+
+
+### track get
+GET {{EC.Spotify.HostAddress}}/Tracks/{{EC.Spotify.TrackId}}
+Accept: application/json
+
+### track get raw
+GET {{EC.Spotify.HostAddress}}/Tracks/{{EC.Spotify.TrackId}}/raw
+Accept: application/json

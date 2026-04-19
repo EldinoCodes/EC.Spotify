@@ -1,0 +1,60 @@
+@EC.Spotify.HostAddress = https://localhost:5001
+
+#  SearchType (flags enum - combine with bitwise OR)
+#    Album = 1
+#    Artist = 2
+#    Playlist = 4
+#    Track = 8
+#    Show = 16
+#    Episode = 32
+#    Audiobook = 64
+
+
+
+### search - Album
+GET {{EC.Spotify.HostAddress}}/Search?query=The%20Downward%20Spiral&searchTypes=1
+Accept: application/json
+
+### search - Artist
+GET {{EC.Spotify.HostAddress}}/Search?query=Nine%20Inch%20Nails&searchTypes=2
+Accept: application/json
+
+### search - Artist (paged)
+GET {{EC.Spotify.HostAddress}}/Search?query=Nine%20Inch%20Nails&searchTypes=2&offset=0&limit=10
+Accept: application/json
+
+### search - Playlist
+GET {{EC.Spotify.HostAddress}}/Search?query=Track%2010&searchTypes=4
+Accept: application/json
+
+### search - Track
+GET {{EC.Spotify.HostAddress}}/Search?query=Reptile&searchTypes=8
+Accept: application/json
+
+### search - Show
+GET {{EC.Spotify.HostAddress}}/Search?query=Joe%20Rogan%20Experience&searchTypes=16
+Accept: application/json
+
+### search - Episode
+GET {{EC.Spotify.HostAddress}}/Search?query=Back&searchTypes=32
+Accept: application/json
+
+### search - Audiobook
+GET {{EC.Spotify.HostAddress}}/Search?query=Stephen%20King%20name:It&searchTypes=64
+Accept: application/json
+
+### search - Artist + Track (bitwise: 2 + 8 = 10)
+GET {{EC.Spotify.HostAddress}}/Search?query=Bohemian%20Rhapsody&searchTypes=10
+Accept: application/json
+
+### search - Artist + Track (bitwise: 2 + 8 = 10, paged)
+GET {{EC.Spotify.HostAddress}}/Search?query=Bohemian%20Rhapsody&searchTypes=10&offset=0&limit=20
+Accept: application/json
+
+### search raw
+GET {{EC.Spotify.HostAddress}}/Search/raw?query=Nine%20Inch%20Nails&searchTypes=2
+Accept: application/json
+
+### search raw (paged)
+GET {{EC.Spotify.HostAddress}}/Search/raw?query=Nine%20Inch%20Nails&searchTypes=2&offset=0&limit=10
+Accept: application/json

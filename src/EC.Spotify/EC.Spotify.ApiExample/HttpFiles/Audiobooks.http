@@ -1,0 +1,28 @@
+@EC.Spotify.HostAddress = https://localhost:5001
+@EC.Spotify.AudiobookId = 587ehiVcGuXjxKMECQneQ6
+
+
+
+### audiobook get
+GET {{EC.Spotify.HostAddress}}/Audiobooks/{{EC.Spotify.AudiobookId}}
+Accept: application/json
+
+### audiobook chapters get all
+GET {{EC.Spotify.HostAddress}}/Audiobooks/{{EC.Spotify.AudiobookId}}/chapters
+Accept: application/json
+
+### audiobook chapters get all (paged)
+GET {{EC.Spotify.HostAddress}}/Audiobooks/{{EC.Spotify.AudiobookId}}/chapters?offset=0&limit=20
+Accept: application/json
+
+### audiobook get raw
+GET {{EC.Spotify.HostAddress}}/Audiobooks/{{EC.Spotify.AudiobookId}}/raw
+Accept: application/json
+
+### audiobook chapters get all raw
+GET {{EC.Spotify.HostAddress}}/Audiobooks/{{EC.Spotify.AudiobookId}}/chapters/raw
+Accept: application/json
+
+### audiobook chapters get all raw (paged)
+GET {{EC.Spotify.HostAddress}}/Audiobooks/{{EC.Spotify.AudiobookId}}/chapters/raw?offset=0&limit=20
+Accept: application/json

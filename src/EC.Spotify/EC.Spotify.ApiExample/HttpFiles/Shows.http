@@ -1,0 +1,28 @@
+@EC.Spotify.HostAddress = https://localhost:5001
+@EC.Spotify.ShowId = 2zBUqgc1ZmvqqEdP4g2jjA
+
+
+
+### show get
+GET {{EC.Spotify.HostAddress}}/Shows/{{EC.Spotify.ShowId}}
+Accept: application/json
+
+### show episodes get all
+GET {{EC.Spotify.HostAddress}}/Shows/{{EC.Spotify.ShowId}}/episodes
+Accept: application/json
+
+### show episodes get all (paged)
+GET {{EC.Spotify.HostAddress}}/Shows/{{EC.Spotify.ShowId}}/episodes?offset=0&limit=20
+Accept: application/json
+
+### show get raw
+GET {{EC.Spotify.HostAddress}}/Shows/{{EC.Spotify.ShowId}}/raw
+Accept: application/json
+
+### show episodes get all raw
+GET {{EC.Spotify.HostAddress}}/Shows/{{EC.Spotify.ShowId}}/episodes/raw
+Accept: application/json
+
+### show episodes get all raw (paged)
+GET {{EC.Spotify.HostAddress}}/Shows/{{EC.Spotify.ShowId}}/episodes/raw?offset=0&limit=20
+Accept: application/json

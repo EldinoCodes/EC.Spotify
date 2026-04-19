@@ -1,0 +1,50 @@
+@EC.Spotify.HostAddress = https://localhost:5001
+@EC.Spotify.ArtistId = 0X380XXQSNBYuleKzav5UO
+
+#  AlbumType (flags enum - combine with bitwise OR)
+#    Album = 1
+#    Single = 2
+#    AppearsOn = 4
+#    Compilation = 8
+
+
+
+### artist get
+GET {{EC.Spotify.HostAddress}}/Artists/{{EC.Spotify.ArtistId}}
+Accept: application/json
+
+### artist albums get all
+GET {{EC.Spotify.HostAddress}}/Artists/{{EC.Spotify.ArtistId}}/albums
+Accept: application/json
+
+### artist albums get all (paged)
+GET {{EC.Spotify.HostAddress}}/Artists/{{EC.Spotify.ArtistId}}/albums?offset=0&limit=20
+Accept: application/json
+
+### artist albums get all - Album + Single (paged)
+GET {{EC.Spotify.HostAddress}}/Artists/{{EC.Spotify.ArtistId}}/albums?offset=0&limit=20&albumTypes=album,single
+Accept: application/json
+
+### artist albums get all - Album + Single + AppearsOn (paged)
+GET {{EC.Spotify.HostAddress}}/Artists/{{EC.Spotify.ArtistId}}/albums?offset=0&limit=20&albumTypes=album,single,appearson
+Accept: application/json
+
+### artist albums get all - Album + Single by value (paged)
+GET {{EC.Spotify.HostAddress}}/Artists/{{EC.Spotify.ArtistId}}/albums?offset=0&limit=20&albumTypes=1,2
+Accept: application/json
+
+### artist get raw
+GET {{EC.Spotify.HostAddress}}/Artists/{{EC.Spotify.ArtistId}}/raw
+Accept: application/json
+
+### artist albums get all raw
+GET {{EC.Spotify.HostAddress}}/Artists/{{EC.Spotify.ArtistId}}/albums/raw
+Accept: application/json
+
+### artist albums get all raw (paged)
+GET {{EC.Spotify.HostAddress}}/Artists/{{EC.Spotify.ArtistId}}/albums/raw?offset=0&limit=20
+Accept: application/json
+
+### artist albums get all raw - Album + Single by value (paged)
+GET {{EC.Spotify.HostAddress}}/Artists/{{EC.Spotify.ArtistId}}/albums/raw?offset=0&limit=20&albumTypes=1,2
+Accept: application/json

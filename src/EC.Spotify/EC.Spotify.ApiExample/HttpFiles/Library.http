@@ -1,0 +1,56 @@
+@EC.Spotify.HostAddress = https://localhost:5001
+@EC.Spotify.TrackId = 4tjcBY787A2ZkRJpPIsGIS
+@EC.Spotify.AlbumId = 7a7arAXDE0BiaMgHLhdjGF
+
+#  ReferenceItemType
+#    Album = 0
+#    Audiobook = 1
+#    Episode = 2
+#    Playlist = 3
+#    Show = 4
+#    Track = 5
+#    User = 6
+
+
+
+### library check
+GET {{EC.Spotify.HostAddress}}/Library/check?id={{EC.Spotify.TrackId}}&type=track
+Accept: application/json
+
+### library check batch
+GET {{EC.Spotify.HostAddress}}/Library/check/batch
+Content-Type: application/json
+Accept: application/json
+
+[
+  { "id": "{{EC.Spotify.TrackId}}", "type": "track" },
+  { "id": "{{EC.Spotify.AlbumId}}", "type": "album" }
+]
+
+### library add
+POST {{EC.Spotify.HostAddress}}/Library?id={{EC.Spotify.TrackId}}&type=track
+Accept: application/json
+
+### library add batch
+POST {{EC.Spotify.HostAddress}}/Library/batch
+Content-Type: application/json
+Accept: application/json
+
+[
+  { "id": "{{EC.Spotify.TrackId}}", "type": "track" },
+  { "id": "{{EC.Spotify.AlbumId}}", "type": "album" }
+]
+
+### library remove
+DELETE {{EC.Spotify.HostAddress}}/Library?id={{EC.Spotify.TrackId}}&type=track
+Accept: application/json
+
+### library remove batch
+DELETE {{EC.Spotify.HostAddress}}/Library/batch
+Content-Type: application/json
+Accept: application/json
+
+[
+  { "id": "{{EC.Spotify.TrackId}}", "type": "track" },
+  { "id": "{{EC.Spotify.AlbumId}}", "type": "album" }
+]

@@ -1,0 +1,132 @@
+@EC.Spotify.HostAddress = https://localhost:5001
+
+#  UserTopType
+#    Artists = 1
+#    Tracks = 2
+
+#  UserTopTimeRange
+#    LongTerm = 0
+#    MediumTerm = 1
+#    ShortTerm = 2
+
+
+
+### user my albums get all
+GET {{EC.Spotify.HostAddress}}/User/albums
+Accept: application/json
+
+### user my albums get all (paged)
+GET {{EC.Spotify.HostAddress}}/User/albums?offset=0&limit=20
+Accept: application/json
+
+### user my albums get all raw
+GET {{EC.Spotify.HostAddress}}/User/albums/raw
+Accept: application/json
+
+### user my albums get all raw (paged)
+GET {{EC.Spotify.HostAddress}}/User/albums/raw?offset=0&limit=20
+Accept: application/json
+
+### user my audiobooks get all
+GET {{EC.Spotify.HostAddress}}/User/audiobooks
+Accept: application/json
+
+### user my audiobooks get all (paged)
+GET {{EC.Spotify.HostAddress}}/User/audiobooks?offset=0&limit=20
+Accept: application/json
+
+### user my audiobooks get all raw
+GET {{EC.Spotify.HostAddress}}/User/audiobooks/raw
+Accept: application/json
+
+### user my audiobooks get all raw (paged)
+GET {{EC.Spotify.HostAddress}}/User/audiobooks/raw?offset=0&limit=20
+Accept: application/json
+
+### user my episodes get all
+GET {{EC.Spotify.HostAddress}}/User/episodes
+Accept: application/json
+
+### user my episodes get all (paged)
+GET {{EC.Spotify.HostAddress}}/User/episodes?offset=0&limit=20
+Accept: application/json
+
+### user my episodes get all raw
+GET {{EC.Spotify.HostAddress}}/User/episodes/raw
+Accept: application/json
+
+### user my episodes get all raw (paged)
+GET {{EC.Spotify.HostAddress}}/User/episodes/raw?offset=0&limit=20
+Accept: application/json
+
+### user my playlists get all
+GET {{EC.Spotify.HostAddress}}/User/playlists
+Accept: application/json
+
+### user my playlists get all (paged)
+GET {{EC.Spotify.HostAddress}}/User/playlists?offset=0&limit=20
+Accept: application/json
+
+### user my playlists get all raw
+GET {{EC.Spotify.HostAddress}}/User/playlists/raw
+Accept: application/json
+
+### user my playlists get all raw (paged)
+GET {{EC.Spotify.HostAddress}}/User/playlists/raw?offset=0&limit=20
+Accept: application/json
+
+### user my shows get all
+GET {{EC.Spotify.HostAddress}}/User/shows
+Accept: application/json
+
+### user my shows get all (paged)
+GET {{EC.Spotify.HostAddress}}/User/shows?offset=0&limit=20
+Accept: application/json
+
+### user my shows get all raw
+GET {{EC.Spotify.HostAddress}}/User/shows/raw
+Accept: application/json
+
+### user my shows get all raw (paged)
+GET {{EC.Spotify.HostAddress}}/User/shows/raw?offset=0&limit=20
+Accept: application/json
+
+### user my tracks get all
+GET {{EC.Spotify.HostAddress}}/User/tracks
+Accept: application/json
+
+### user my tracks get all (paged)
+GET {{EC.Spotify.HostAddress}}/User/tracks?offset=0&limit=20
+Accept: application/json
+
+### user my tracks get all raw
+GET {{EC.Spotify.HostAddress}}/User/tracks/raw
+Accept: application/json
+
+### user my tracks get all raw (paged)
+GET {{EC.Spotify.HostAddress}}/User/tracks/raw?offset=0&limit=20
+Accept: application/json
+
+### user top items get all - Artists (medium term)
+GET {{EC.Spotify.HostAddress}}/User/top?userTopType=1&userTopTimeRange=1
+Accept: application/json
+
+### user top items get all - Tracks (short term)
+GET {{EC.Spotify.HostAddress}}/User/top?userTopType=2&userTopTimeRange=2
+Accept: application/json
+
+### user top items get all - Tracks (long term, paged)
+GET {{EC.Spotify.HostAddress}}/User/top?userTopType=2&userTopTimeRange=0&offset=0&limit=20
+Accept: application/json
+
+### user top items get all raw - Artists (medium term)
+GET {{EC.Spotify.HostAddress}}/User/top/raw?userTopType=1&userTopTimeRange=1
+Accept: application/json
+
+### user top items get all raw - Tracks (short term)
+GET {{EC.Spotify.HostAddress}}/User/top/raw?userTopType=2&userTopTimeRange=2
+Accept: application/json
+
+### user top items get all raw - Tracks (long term, paged)
+GET {{EC.Spotify.HostAddress}}/User/top/raw?userTopType=2&userTopTimeRange=0&offset=0&limit=20
+Accept: application/json

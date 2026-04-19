@@ -1,0 +1,81 @@
+@EC.Spotify.HostAddress = https://localhost:5001
+@EC.Spotify.TrackId = 4tjcBY787A2ZkRJpPIsGIS
+
+#  PlayerRepeatMode
+#    Off = 0
+#    Track = 1
+#    Context = 2
+
+#  PlayerShuffleMode
+#    Off = 0
+#    On = 1
+
+
+
+### player devices get all
+GET {{EC.Spotify.HostAddress}}/Player/devices
+Accept: application/json
+
+### player transfer device
+POST {{EC.Spotify.HostAddress}}/Player/transfer?deviceId=4aeeb14560726dd6f4a37bc6d5cf5e8be580e288&play=true
+Accept: application/json
+
+### player state get
+GET {{EC.Spotify.HostAddress}}/Player/state
+Accept: application/json
+
+### player currently playing get
+GET {{EC.Spotify.HostAddress}}/Player/currently-playing
+Accept: application/json
+
+### player queue get
+GET {{EC.Spotify.HostAddress}}/Player/queue
+Accept: application/json
+
+### player queue add
+POST {{EC.Spotify.HostAddress}}/Player/queue?trackUri=spotify:track:{{EC.Spotify.TrackId}}
+Accept: application/json
+
+### player play
+POST {{EC.Spotify.HostAddress}}/Player/play
+Accept: application/json
+
+### player pause
+POST {{EC.Spotify.HostAddress}}/Player/pause
+Accept: application/json
+
+### player next
+POST {{EC.Spotify.HostAddress}}/Player/next
+Accept: application/json
+
+### player previous
+POST {{EC.Spotify.HostAddress}}/Player/previous
+Accept: application/json
+
+### player seek
+POST {{EC.Spotify.HostAddress}}/Player/seek?positionMilliseconds=60000
+Accept: application/json
+
+### player volume
+POST {{EC.Spotify.HostAddress}}/Player/volume?volume=40
+Accept: application/json
+
+### player repeat - Off
+POST {{EC.Spotify.HostAddress}}/Player/repeat?playerRepeatMode=off
+Accept: application/json
+
+### player repeat - Track
+POST {{EC.Spotify.HostAddress}}/Player/repeat?playerRepeatMode=track
+Accept: application/json
+
+### player repeat - Context
+POST {{EC.Spotify.HostAddress}}/Player/repeat?playerRepeatMode=context
+Accept: application/json
+
+### player shuffle - Off
+POST {{EC.Spotify.HostAddress}}/Player/shuffle?playerShuffleMode=off
+Accept: application/json
+
+### player shuffle - On
+POST {{EC.Spotify.HostAddress}}/Player/shuffle?playerShuffleMode=on
+Accept: application/json

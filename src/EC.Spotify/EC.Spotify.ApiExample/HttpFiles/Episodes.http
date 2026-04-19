@@ -1,0 +1,12 @@
+@EC.Spotify.HostAddress = https://localhost:5001
+@EC.Spotify.EpisodeId = 3UcmY44Vwv4Ldh0Jd1HZ4m
+
+
+
+### episode get
+GET {{EC.Spotify.HostAddress}}/Episodes/{{EC.Spotify.EpisodeId}}
+Accept: application/json
+
+### episode get raw
+GET {{EC.Spotify.HostAddress}}/Episodes/{{EC.Spotify.EpisodeId}}/raw
+Accept: application/json

@@ -1,0 +1,111 @@
+@EC.Spotify.HostAddress = https://localhost:5001
+@EC.Spotify.PlaylistId = 5qJY3DO0w0BqLmelaV2Vwq
+@EC.Spotify.TrackId = 4tjcBY787A2ZkRJpPIsGIS
+@EC.Spotify.AlbumId = 7a7arAXDE0BiaMgHLhdjGF
+
+#  ReferenceItemType
+#    Album = 0
+#    Audiobook = 1
+#    Episode = 2
+#    Playlist = 3
+#    Show = 4
+#    Track = 5
+#    User = 6
+
+
+
+### playlist get
+GET {{EC.Spotify.HostAddress}}/Playlist/{{EC.Spotify.PlaylistId}}
+Accept: application/json
+
+### playlist items get all
+GET {{EC.Spotify.HostAddress}}/Playlist/{{EC.Spotify.PlaylistId}}/items
+Accept: application/json
+
+### playlist items get all (paged)
+GET {{EC.Spotify.HostAddress}}/Playlist/{{EC.Spotify.PlaylistId}}/items?offset=0&limit=20
+Accept: application/json
+
+### playlist detail update
+PUT {{EC.Spotify.HostAddress}}/Playlist/{{EC.Spotify.PlaylistId}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "My Updated Playlist",
+  "public": true,
+  "collaborative": false,
+  "description": "Updated playlist description"
+}
+
+### playlist item add
+POST {{EC.Spotify.HostAddress}}/Playlist/{{EC.Spotify.PlaylistId}}/items
+Content-Type: application/json
+Accept: application/json
+
+{ "id": "{{EC.Spotify.TrackId}}", "type": 5 }
+
+### playlist item add with position
+POST {{EC.Spotify.HostAddress}}/Playlist/{{EC.Spotify.PlaylistId}}/items?position=0
+Content-Type: application/json
+Accept: application/json
+
+{ "id": "{{EC.Spotify.TrackId}}", "type": 5 }
+
+### playlist item add batch
+POST {{EC.Spotify.HostAddress}}/Playlist/{{EC.Spotify.PlaylistId}}/items/batch
+Content-Type: application/json
+Accept: application/json
+
+[
+  { "id": "{{EC.Spotify.TrackId}}", "type": 5 },
+  { "id": "{{EC.Spotify.AlbumId}}", "type": 0 }
+]
+
+### playlist item remove
+DELETE {{EC.Spotify.HostAddress}}/Playlist/{{EC.Spotify.PlaylistId}}/items
+Content-Type: application/json
+Accept: application/json
+
+{ "id": "{{EC.Spotify.TrackId}}", "type": 5 }
+
+### playlist item remove batch
+DELETE {{EC.Spotify.HostAddress}}/Playlist/{{EC.Spotify.PlaylistId}}/items/batch
+Content-Type: application/json
+Accept: application/json
+
+[
+  { "id": "{{EC.Spotify.TrackId}}", "type": 5 },
+  { "id": "{{EC.Spotify.AlbumId}}", "type": 0 }
+]
+
+### playlist image add
+PUT {{EC.Spotify.HostAddress}}/Playlist/{{EC.Spotify.PlaylistId}}/image
+Content-Type: multipart/form-data; boundary=----Boundary
+
+------Boundary
+Content-Disposition: form-data; name="image"; filename="playlist.jpg"
+Content-Type: image/jpeg
+
+< ./playlist.jpg
+------Boundary--
+
+### playlist image get all
+GET {{EC.Spotify.HostAddress}}/Playlist/{{EC.Spotify.PlaylistId}}/image
+Accept: application/json
+
+### playlist get raw
+GET {{EC.Spotify.HostAddress}}/Playlist/{{EC.Spotify.PlaylistId}}/raw
+Accept: application/json
+
+### playlist items get all raw
+GET {{EC.Spotify.HostAddress}}/Playlist/{{EC.Spotify.PlaylistId}}/items/raw
+Accept: application/json
+
+### playlist items get all raw (paged)
+GET {{EC.Spotify.HostAddress}}/Playlist/{{EC.Spotify.PlaylistId}}/items/raw?offset=0&limit=20
+Accept: application/json
+
+### playlist image get all raw
+GET {{EC.Spotify.HostAddress}}/Playlist/{{EC.Spotify.PlaylistId}}/image/raw
+Accept: application/json

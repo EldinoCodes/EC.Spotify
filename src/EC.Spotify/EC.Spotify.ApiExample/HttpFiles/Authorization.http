@@ -1,0 +1,27 @@
+@EC.Spotify.HostAddress = https://localhost:5001
+
+
+
+### validate - redirects to Spotify login if not authorized
+GET {{EC.Spotify.HostAddress}}/Authorization/validate
+Accept: application/json
+
+### authorization code url - get the Spotify authorization code URL
+GET {{EC.Spotify.HostAddress}}/Authorization/code-url
+Accept: application/json
+
+### authorization code get
+GET {{EC.Spotify.HostAddress}}/Authorization/code
+Accept: application/json
+
+### authorization code remove
+DELETE {{EC.Spotify.HostAddress}}/Authorization/code
+Accept: application/json
+
+### authorization token get
+GET {{EC.Spotify.HostAddress}}/Authorization/token
+Accept: application/json
+
+### authorization token reset
+POST {{EC.Spotify.HostAddress}}/Authorization/token/reset
+Accept: application/json
