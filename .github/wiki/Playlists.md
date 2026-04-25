@@ -15,10 +15,10 @@ IPlaylistService playlists = spotifyClient.Playlists;
 | `PlaylistGetAsync` | — | `SpotifyResult<Playlist>` | Retrieves a playlist by ID |
 | `PlaylistItemGetAllAsync` | `playlist-read-private` | `SpotifyResult<PlaylistPageResult>` | Retrieves a paginated list of items from a playlist |
 | `PlaylistDetailUpdateAsync` | `playlist-modify-public`, `playlist-modify-private` | `SpotifyResult<bool>` | Updates a playlist's name, description, or visibility |
-| `PlaylistItemAddAsync` | `playlist-modify-public`, `playlist-modify-private` | `SpotifyResult<bool>` | Adds a single item to a playlist |
-| `PlaylistItemAddAllAsync` | `playlist-modify-public`, `playlist-modify-private` | `SpotifyResult<List<bool>>` | Adds multiple items to a playlist |
-| `PlaylistItemRemoveAsync` | `playlist-modify-public`, `playlist-modify-private` | `SpotifyResult<bool>` | Removes a single item from a playlist |
-| `PlaylistItemRemoveAllAsync` | `playlist-modify-public`, `playlist-modify-private` | `SpotifyResult<List<bool>>` | Removes multiple items from a playlist |
+| `PlaylistItemAddAsync` | `playlist-modify-public`, `playlist-modify-private` | `SpotifyResult<PlaylistSnapshot>` | Adds a single item to a playlist |
+| `PlaylistItemAddAllAsync` | `playlist-modify-public`, `playlist-modify-private` | `SpotifyResult<List<PlaylistSnapshot>>` | Adds multiple items to a playlist |
+| `PlaylistItemRemoveAsync` | `playlist-modify-public`, `playlist-modify-private` | `SpotifyResult<PlaylistSnapshot>` | Removes a single item from a playlist |
+| `PlaylistItemRemoveAllAsync` | `playlist-modify-public`, `playlist-modify-private` | `SpotifyResult<List<PlaylistSnapshot>>` | Removes multiple items from a playlist |
 | `PlaylistImageAddAsync` | `ugc-image-upload`, `playlist-modify-public`, `playlist-modify-private` | `SpotifyResult<bool>` | Adds or replaces the playlist cover image |
 | `PlaylistImageGetAllAsync` | — | `SpotifyResult<List<Image>>` | Retrieves all images for a playlist |
 | `PlaylistGetRawAsync` | — | `string?` | Retrieves raw playlist JSON by ID |
@@ -97,10 +97,10 @@ Console.WriteLine(result.Data ? "Updated" : "Failed");
 ### `PlaylistItemAddAsync`
 
 ```csharp
-Task<SpotifyResult<bool>> PlaylistItemAddAsync(string? id, ReferenceItem? libraryItem, int? position = null, CancellationToken cancellationToken = default);
+Task<SpotifyResult<PlaylistSnapshot>> PlaylistItemAddAsync(string? id, ReferenceItem? libraryItem, int? position = null, CancellationToken cancellationToken = default);
 ```
 
-Adds an item to a playlist asynchronously at the specified position. If `position` is null, the item is appended to the end. Requires `playlist-modify-public` and `playlist-modify-private` scopes.
+Adds an item to a playlist asynchronously at the specified position. If `position` is null, the item is appended to the end. Returns a `PlaylistSnapshot` reflecting the state of the playlist after the item is added. Requires `playlist-modify-public` and `playlist-modify-private` scopes.
 
 **Usage example:**
 
@@ -108,7 +108,8 @@ Adds an item to a playlist asynchronously at the specified position. If `positio
 var item = new ReferenceItem { Id = "1301WleyT98MSxVHPZCA6M", Type = ReferenceItemType.Track };
 var result = await spotifyClient.Playlists.PlaylistItemAddAsync("37i9dQZF1DXcBWIGoYBM5M", item, position: 0, cancellationToken);
 
-Console.WriteLine(result.Data ? "Added at position 0" : "Failed");
+if (result.IsSuccess)
+    Console.WriteLine($"Added at position 0. Snapshot: {result.Data?.SnapshotId}");
 ```
 
 ---
@@ -116,10 +117,10 @@ Console.WriteLine(result.Data ? "Added at position 0" : "Failed");
 ### `PlaylistItemAddAllAsync`
 
 ```csharp
-Task<SpotifyResult<List<bool>>> PlaylistItemAddAllAsync(string? id, List<ReferenceItem> libraryItems, int? position = null, CancellationToken cancellationToken = default);
+Task<SpotifyResult<List<PlaylistSnapshot>>> PlaylistItemAddAllAsync(string? id, List<ReferenceItem> libraryItems, int? position = null, CancellationToken cancellationToken = default);
 ```
 
-Adds all specified items to a playlist asynchronously. If `position` is null, items are appended to the end. Requires `playlist-modify-public` and `playlist-modify-private` scopes.
+Adds all specified items to a playlist asynchronously. If `position` is null, items are appended to the end. Returns a list of `PlaylistSnapshot` objects reflecting the state of the playlist after each batch is added. Requires `playlist-modify-public` and `playlist-modify-private` scopes.
 
 **Usage example:**
 
@@ -133,8 +134,8 @@ var items = new List<ReferenceItem>
 var result = await spotifyClient.Playlists.PlaylistItemAddAllAsync("37i9dQZF1DXcBWIGoYBM5M", items, cancellationToken: cancellationToken);
 
 if (result.IsSuccess)
-    for (int i = 0; i < result.Data!.Count; i++)
-        Console.WriteLine($"Item {i}: {(result.Data[i] ? "added" : "failed")}");
+    foreach (var snapshot in result.Data!)
+        Console.WriteLine($"Snapshot: {snapshot.SnapshotId}");
 ```
 
 ---
@@ -142,10 +143,10 @@ if (result.IsSuccess)
 ### `PlaylistItemRemoveAsync`
 
 ```csharp
-Task<SpotifyResult<bool>> PlaylistItemRemoveAsync(string? id, ReferenceItem? libraryItem, CancellationToken cancellationToken = default);
+Task<SpotifyResult<PlaylistSnapshot>> PlaylistItemRemoveAsync(string? id, ReferenceItem? libraryItem, CancellationToken cancellationToken = default);
 ```
 
-Removes an item from a playlist asynchronously. If `libraryItem` is null, no action is taken. Requires `playlist-modify-public` and `playlist-modify-private` scopes.
+Removes an item from a playlist asynchronously. Returns a `PlaylistSnapshot` reflecting the updated state of the playlist after the item is removed. Requires `playlist-modify-public` and `playlist-modify-private` scopes.
 
 **Usage example:**
 
@@ -153,7 +154,8 @@ Removes an item from a playlist asynchronously. If `libraryItem` is null, no act
 var item = new ReferenceItem { Id = "1301WleyT98MSxVHPZCA6M", Type = ReferenceItemType.Track };
 var result = await spotifyClient.Playlists.PlaylistItemRemoveAsync("37i9dQZF1DXcBWIGoYBM5M", item, cancellationToken);
 
-Console.WriteLine(result.Data ? "Removed" : "Failed");
+if (result.IsSuccess)
+    Console.WriteLine($"Removed. Snapshot: {result.Data?.SnapshotId}");
 ```
 
 ---
@@ -161,10 +163,10 @@ Console.WriteLine(result.Data ? "Removed" : "Failed");
 ### `PlaylistItemRemoveAllAsync`
 
 ```csharp
-Task<SpotifyResult<List<bool>>> PlaylistItemRemoveAllAsync(string? id, List<ReferenceItem> libraryItems, CancellationToken cancellationToken = default);
+Task<SpotifyResult<List<PlaylistSnapshot>>> PlaylistItemRemoveAllAsync(string? id, List<ReferenceItem> libraryItems, CancellationToken cancellationToken = default);
 ```
 
-Removes all specified items from the playlist asynchronously. Requires `playlist-modify-public` and `playlist-modify-private` scopes.
+Removes all specified items from the playlist asynchronously. Returns a list of `PlaylistSnapshot` objects reflecting the state of the playlist after each batch is removed. Requires `playlist-modify-public` and `playlist-modify-private` scopes.
 
 **Usage example:**
 
@@ -178,8 +180,8 @@ var items = new List<ReferenceItem>
 var result = await spotifyClient.Playlists.PlaylistItemRemoveAllAsync("37i9dQZF1DXcBWIGoYBM5M", items, cancellationToken);
 
 if (result.IsSuccess)
-    for (int i = 0; i < result.Data!.Count; i++)
-        Console.WriteLine($"Item {i}: {(result.Data[i] ? "removed" : "failed")}");
+    foreach (var snapshot in result.Data!)
+        Console.WriteLine($"Snapshot: {snapshot.SnapshotId}");
 ```
 
 ---

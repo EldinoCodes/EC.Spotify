@@ -39,57 +39,52 @@ public interface IPlaylistService
     Task<SpotifyResult<bool>> PlaylistDetailUpdateAsync(string? id, PlaylistDetail? playlistDetail, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Adds all specified items to a playlist asynchronously.
+    /// Adds all specified items to a playlist asynchronously at the given position.
     /// </summary>
-    /// <remarks>Requires the <c>playlist-modify-public</c> and <c>playlist-modify-private</c> scopes.</remarks>
-    /// <param name="id">The unique identifier of the playlist to which the items will be added. Can be null to indicate the current
-    /// user's default playlist.</param>
-    /// <param name="libraryItems">A list of reference items to add to the playlist. Each item represents a track or media to be added. Cannot be
-    /// null or empty.</param>
-    /// <param name="position">The zero-based position in the playlist at which to insert the new items. If null, items are added to the end of
-    /// the playlist.</param>
+    /// <remarks>If the playlist does not exist or the user does not have permission to modify it, the
+    /// operation may fail. The order of items in the libraryItems list is preserved in the playlist.</remarks>
+    /// <param name="id">The unique identifier of the playlist to which the items will be added. Can be null to indicate a default or
+    /// current playlist, if supported.</param>
+    /// <param name="libraryItems">The list of items to add to the playlist. Each item represents a reference to a track or other supported entity.
+    /// Cannot be null or empty.</param>
+    /// <param name="position">The zero-based index at which to insert the items in the playlist. If null, items are added to the end of the
+    /// playlist.</param>
     /// <param name="cancellationToken">A cancellation token that can be used to cancel the asynchronous operation.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains a SpotifyResult with a list of
-    /// boolean values indicating the success or failure of adding each item.</returns>
-    Task<SpotifyResult<List<bool>>> PlaylistItemAddAllAsync(string? id, List<ReferenceItem> libraryItems, int? position = null, CancellationToken cancellationToken = default);
+    /// PlaylistSnapshot objects representing the state of the playlist after the items are added.</returns>
+    Task<SpotifyResult<List<PlaylistSnapshot>>> PlaylistItemAddAllAsync(string? id, List<ReferenceItem> libraryItems, int? position = null, CancellationToken cancellationToken = default);
     /// <summary>
     /// Adds an item to a playlist asynchronously at the specified position.
     /// </summary>
-    /// <remarks>Requires the <c>playlist-modify-public</c> and <c>playlist-modify-private</c> scopes.</remarks>
-    /// <param name="id">The identifier of the playlist to which the item will be added. Can be null if the playlist is specified by
-    /// other means.</param>
-    /// <param name="libraryItem">The item to add to the playlist. Represents a reference to a track or other supported media. Cannot be null.</param>
-    /// <param name="position">The zero-based position at which to insert the item in the playlist. If null, the item is added to the end of
-    /// the playlist.</param>
-    /// <param name="cancellationToken">A cancellation token that can be used to cancel the asynchronous operation.</param>
-    /// <returns>A task that represents the asynchronous operation. The task result contains a SpotifyResult indicating whether
-    /// the item was successfully added.</returns>
-    Task<SpotifyResult<bool>> PlaylistItemAddAsync(string? id, ReferenceItem? libraryItem, int? position = null, CancellationToken cancellationToken = default);
+    /// <remarks>If the specified position is out of range, the item will be added to the end of the playlist.
+    /// The operation may fail if the playlist is collaborative and the user does not have permission to modify
+    /// it.</remarks>
+    /// <param name="id">The Spotify ID of the playlist to which the item will be added. Cannot be null or empty.</param>
+    /// <param name="libraryItem">The item to add to the playlist. Represents a track or episode reference. Cannot be null.</param>
+    /// <param name="position">The zero-based position at which to insert the item. If null, the item is added to the end of the playlist.</param>
+    /// <param name="cancellationToken">A cancellation token that can be used to cancel the operation.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains a SpotifyResult with a
+    /// PlaylistSnapshot indicating the state of the playlist after the item is added.</returns>
+    Task<SpotifyResult<PlaylistSnapshot>> PlaylistItemAddAsync(string? id, ReferenceItem? libraryItem, int? position = null, CancellationToken cancellationToken = default);
     
     /// <summary>
     /// Removes all specified items from the playlist with the given identifier asynchronously.
     /// </summary>
-    /// <remarks>Requires the <c>playlist-modify-public</c> and <c>playlist-modify-private</c> scopes.</remarks>
-    /// <param name="id">The unique identifier of the playlist from which items will be removed. Can be null to indicate the current
-    /// user's default playlist.</param>
-    /// <param name="libraryItems">A list of reference items representing the tracks or playlist items to remove. Cannot be null or empty.</param>
+    /// <param name="id">The unique identifier of the playlist from which items will be removed. Can be null to indicate no playlist.</param>
+    /// <param name="libraryItems">A list of reference items representing the tracks to remove from the playlist. Cannot be null or empty.</param>
     /// <param name="cancellationToken">A cancellation token that can be used to cancel the operation.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains a SpotifyResult with a list of
-    /// boolean values indicating whether each corresponding item was successfully removed.</returns>
-    Task<SpotifyResult<List<bool>>> PlaylistItemRemoveAllAsync(string? id, List<ReferenceItem> libraryItems, CancellationToken cancellationToken = default);
+    /// playlist snapshots reflecting the state of the playlist after the removals.</returns>
+    Task<SpotifyResult<List<PlaylistSnapshot>>> PlaylistItemRemoveAllAsync(string? id, List<ReferenceItem> libraryItems, CancellationToken cancellationToken = default);
     /// <summary>
-    /// Removes an item from a playlist asynchronously.
+    /// Removes a specified item from a playlist asynchronously and returns the resulting playlist snapshot.
     /// </summary>
-    /// <remarks>Requires the <c>playlist-modify-public</c> and <c>playlist-modify-private</c> scopes. The <paramref name="id"/> parameter identifies the playlist from which to remove an item,
-    /// and <paramref name="libraryItem"/> identifies the specific track or episode to remove. If <paramref
-    /// name="libraryItem"/> is <see langword="null"/>, no item will be removed.</remarks>
-    /// <param name="id">The unique identifier of the playlist from which the item will be removed. Can be null.</param>
-    /// <param name="libraryItem">A reference to the track or episode to remove from the playlist. Can be null, in which case no action is taken.</param>
+    /// <param name="id">The unique identifier of the playlist from which the item will be removed. Cannot be null or empty.</param>
+    /// <param name="libraryItem">The item to remove from the playlist. Must not be null and must reference a valid item in the playlist.</param>
     /// <param name="cancellationToken">A cancellation token that can be used to cancel the operation.</param>
-    /// <returns>A task that represents the asynchronous operation. The task result contains a <see
-    /// cref="SpotifyResult{Boolean}"/> indicating <see langword="true"/> if the item was successfully removed;
-    /// otherwise, <see langword="false"/>.</returns>
-    Task<SpotifyResult<bool>> PlaylistItemRemoveAsync(string? id, ReferenceItem? libraryItem, CancellationToken cancellationToken = default);
+    /// <returns>A task that represents the asynchronous operation. The task result contains a SpotifyResult with the updated
+    /// playlist snapshot after the item is removed.</returns>
+    Task<SpotifyResult<PlaylistSnapshot>> PlaylistItemRemoveAsync(string? id, ReferenceItem? libraryItem, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds or replaces the image for the specified playlist asynchronously.

@@ -8,9 +8,9 @@ A comprehensive .NET client library for the Spotify Web API, providing strongly-
 
 > **Full documentation is available in the [Wiki](https://github.com/EldinoCodes/EC.Spotify/wiki/GettingStarted).**
 
-## Latest News - 2026.04.17
-### Version 1.1.1 - In Progress
-I am testing EC.Spotify like crazy! I plan to release 1.1.1 this weekend.  If you are using this lib, let me know what your project is via DM.  I plan to show some further example project soon.  Thanks for using EC.Spotify!
+## Latest News - 2026.04.25
+### Version 1.1.1 - Deployment
+Had to rework IPlaylist and had some bad test track data causing testing errors.  Had some stuff come up so i am a week behind on my deployment.  If you have any feedback or issues, please let me know.  Thanks for using EC.Spotify!
 
 ## Installation
 

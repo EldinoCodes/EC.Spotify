@@ -54,7 +54,7 @@ public sealed class T08_PlaylistServiceTests
     }
 
     [TestMethod]
-    [DataRow("74Ofg2hLcn32RUvFJOxdlb", "7a3LWj5xSFhFRYmztS8wgK", ReferenceItemType.Track)]
+    [DataRow("74Ofg2hLcn32RUvFJOxdlb", "4tjcBY787A2ZkRJpPIsGIS", ReferenceItemType.Track)]
     public async Task T004_PlaylistItemAddAsync_ShouldReturnTrue(string? id, string? trackId, ReferenceItemType itemType)
     {
         ArgumentException.ThrowIfNullOrEmpty(id, nameof(id));
@@ -66,11 +66,11 @@ public sealed class T08_PlaylistServiceTests
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
         var result = await sut.PlaylistItemAddAsync(id, item, cancellationToken: TestContext.CancellationToken);
-        Assert.IsTrue(result?.Data, result?.Error?.Message);
+        Assert.IsNotNull(result?.Data, result?.Error?.Message);
     }
 
     [TestMethod]
-    [DataRow("74Ofg2hLcn32RUvFJOxdlb", "7a3LWj5xSFhFRYmztS8wgK", ReferenceItemType.Track)]
+    [DataRow("74Ofg2hLcn32RUvFJOxdlb", "4tjcBY787A2ZkRJpPIsGIS", ReferenceItemType.Track)]
     public async Task T005_PlaylistItemAddAllAsync_ShouldReturnTrue(string? id, string? trackId, ReferenceItemType itemType)
     {
         ArgumentException.ThrowIfNullOrEmpty(id, nameof(id));
@@ -82,11 +82,11 @@ public sealed class T08_PlaylistServiceTests
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
         var result = await sut.PlaylistItemAddAllAsync(id, [item], cancellationToken: TestContext.CancellationToken);
-        Assert.IsTrue(result?.Data?.All(i => i == true), result?.Error?.Message);
+        Assert.IsNotNull(result?.Data, result?.Error?.Message);
     }
 
     [TestMethod]
-    [DataRow("74Ofg2hLcn32RUvFJOxdlb", "7a3LWj5xSFhFRYmztS8wgK", ReferenceItemType.Track)]
+    [DataRow("74Ofg2hLcn32RUvFJOxdlb", "4tjcBY787A2ZkRJpPIsGIS", ReferenceItemType.Track)]
     public async Task T006_PlaylistItemRemoveAsync_ShouldReturnTrue(string? id, string? trackId, ReferenceItemType itemType)
     {
         ArgumentException.ThrowIfNullOrEmpty(id, nameof(id));
@@ -98,11 +98,11 @@ public sealed class T08_PlaylistServiceTests
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
         var result = await sut.PlaylistItemRemoveAsync(id, item, cancellationToken: TestContext.CancellationToken);
-        Assert.IsTrue(result?.Data, result?.Error?.Message);
+        Assert.IsNotNull(result?.Data, result?.Error?.Message);
     }
 
     [TestMethod]
-    [DataRow("74Ofg2hLcn32RUvFJOxdlb", "7a3LWj5xSFhFRYmztS8wgK", ReferenceItemType.Track)]
+    [DataRow("74Ofg2hLcn32RUvFJOxdlb", "4tjcBY787A2ZkRJpPIsGIS", ReferenceItemType.Track)]
     public async Task T007_PlaylistItemRemoveAllAsync_ShouldReturnTrue(string? id, string? trackId, ReferenceItemType itemType)
     {
         ArgumentException.ThrowIfNullOrEmpty(id, nameof(id));
@@ -114,7 +114,7 @@ public sealed class T08_PlaylistServiceTests
         ArgumentNullException.ThrowIfNull(sut, nameof(sut));
 
         var result = await sut.PlaylistItemRemoveAllAsync(id, [item], cancellationToken: TestContext.CancellationToken);
-        Assert.IsTrue(result?.Data?.All(i => i == true), result?.Error?.Message);
+        Assert.IsNotNull(result?.Data, result?.Error?.Message);
     }
 
     [TestMethod]

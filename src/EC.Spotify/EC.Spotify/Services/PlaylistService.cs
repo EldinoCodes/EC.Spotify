@@ -97,38 +97,38 @@ internal class PlaylistService(ILogger<PlaylistService> logger, IOptions<Spotify
     }    
         
 
-    public async Task<SpotifyResult<bool>> PlaylistItemAddAsync(string? id, ReferenceItem? libraryItem, int? position = default, CancellationToken cancellationToken = default)
+    public async Task<SpotifyResult<PlaylistSnapshot>> PlaylistItemAddAsync(string? id, ReferenceItem? libraryItem, int? position = default, CancellationToken cancellationToken = default)
     {
         try
         {
             if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
                 _logger.LogDebug("PlaylistItemAddAsync called with id: {Id}, item URI: {Uri}", id, libraryItem?.Uri);
 
-            var ret = new SpotifyResult<bool>();
+            var ret = new SpotifyResult<PlaylistSnapshot>();
 
             var res = await PlaylistItemAddAllAsync(id, libraryItem is not null ? [libraryItem] : [], position, cancellationToken: cancellationToken);
             if (res.IsSuccess == true)
-                ret.Data = res.Data?.FirstOrDefault() ?? false;
+                ret.Data = res.Data?.FirstOrDefault();
 
             return ret;
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "PlaylistItemAddAsync failed for id: {Id}", id);
-            return new SpotifyResult<bool> { Error = ex.ToSpotifyError() };
+            return new SpotifyResult<PlaylistSnapshot> { Error = ex.ToSpotifyError() };
         }
     }
-    public async Task<SpotifyResult<List<bool>>> PlaylistItemAddAllAsync(string? id, List<ReferenceItem> libraryItems, int? position = default, CancellationToken cancellationToken = default)
+    public async Task<SpotifyResult<List<PlaylistSnapshot>>> PlaylistItemAddAllAsync(string? id, List<ReferenceItem> libraryItems, int? position = default, CancellationToken cancellationToken = default)
     {
         try
         {
             var error = _options.ValidateScopes(["playlist-modify-public", "playlist-modify-private"]);
-            if (error is not null) return new SpotifyResult<List<bool>>() { Error = error };
+            if (error is not null) return new SpotifyResult<List<PlaylistSnapshot>>() { Error = error };
 
             if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
                 _logger.LogDebug("PlaylistItemAddAllAsync called with id: {Id}, {Count} items, position: {Position}", id, libraryItems.Count, position);
 
-            var ret = new SpotifyResult<List<bool>>();
+            var ret = new SpotifyResult<List<PlaylistSnapshot>>();
             var uri = string.Format(SpotifyPlaylistItemsUri, id);
 
             if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
@@ -144,7 +144,7 @@ internal class PlaylistService(ILogger<PlaylistService> logger, IOptions<Spotify
                     ? new StringContent(json, Encoding.UTF8, "application/json")
                     : null;
 
-                var result = await _spotifyProvider.ExecuteSpotifyResultAsync<List<bool>>("POST", uri, data, cancellationToken: cancellationToken);
+                var result = await _spotifyProvider.ExecuteSpotifyResultAsync<PlaylistSnapshot>("POST", uri, data, cancellationToken: cancellationToken);
                 if (!result.IsSuccess) { lastError = result.Error; continue; }
 
                 ret.Data ??= [];
@@ -160,42 +160,42 @@ internal class PlaylistService(ILogger<PlaylistService> logger, IOptions<Spotify
         catch (Exception ex)
         {
             _logger.LogError(ex, "PlaylistItemAddAllAsync failed for id: {Id}", id);
-            return new SpotifyResult<List<bool>> { Error = ex.ToSpotifyError() };
+            return new SpotifyResult<List<PlaylistSnapshot>> { Error = ex.ToSpotifyError() };
         }
     }
 
-    public async Task<SpotifyResult<bool>> PlaylistItemRemoveAsync(string? id, ReferenceItem? libraryItem, CancellationToken cancellationToken = default)
+    public async Task<SpotifyResult<PlaylistSnapshot>> PlaylistItemRemoveAsync(string? id, ReferenceItem? libraryItem, CancellationToken cancellationToken = default)
     {
         try
         {
             if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
                 _logger.LogDebug("PlaylistItemRemoveAsync called with id: {Id}, item URI: {Uri}", id, libraryItem?.Uri);
 
-            var ret = new SpotifyResult<bool>();
+            var ret = new SpotifyResult<PlaylistSnapshot>();
 
             var res = await PlaylistItemRemoveAllAsync(id, libraryItem is not null ? [libraryItem] : [], cancellationToken: cancellationToken);
             if (res.IsSuccess == true)
-                ret.Data = res.Data?.FirstOrDefault() ?? false;
+                ret.Data = res.Data?.FirstOrDefault();
 
             return ret;
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "PlaylistItemRemoveAsync failed for id: {Id}", id);
-            return new SpotifyResult<bool> { Error = ex.ToSpotifyError() };
+            return new SpotifyResult<PlaylistSnapshot> { Error = ex.ToSpotifyError() };
         }
     }
-    public async Task<SpotifyResult<List<bool>>> PlaylistItemRemoveAllAsync(string? id, List<ReferenceItem> libraryItems, CancellationToken cancellationToken = default)
+    public async Task<SpotifyResult<List<PlaylistSnapshot>>> PlaylistItemRemoveAllAsync(string? id, List<ReferenceItem> libraryItems, CancellationToken cancellationToken = default)
     {
         try
         {
             var error = _options.ValidateScopes(["playlist-modify-public", "playlist-modify-private"]);
-            if (error is not null) return new SpotifyResult<List<bool>>() { Error = error };
+            if (error is not null) return new SpotifyResult<List<PlaylistSnapshot>>() { Error = error };
 
             if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
                 _logger.LogDebug("PlaylistItemRemoveAllAsync called with id: {Id}, {Count} items", id, libraryItems.Count);
 
-            var ret = new SpotifyResult<List<bool>>();
+            var ret = new SpotifyResult<List<PlaylistSnapshot>>();
             var uri = string.Format(SpotifyPlaylistItemsUri, id);
 
             if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
@@ -211,13 +211,12 @@ internal class PlaylistService(ILogger<PlaylistService> logger, IOptions<Spotify
                     ? new StringContent(json, Encoding.UTF8, "application/json")
                     : null;
 
-                var result = await _spotifyProvider.ExecuteSpotifyResultAsync<List<bool>>("delete", uri, data, cancellationToken: cancellationToken);
+                var result = await _spotifyProvider.ExecuteSpotifyResultAsync<PlaylistSnapshot>("delete", uri, data, cancellationToken: cancellationToken);
                 if (!result.IsSuccess) { lastError = result.Error; continue; }
 
-                result.Data = [.. Enumerable.Range(0, batch.Length).Select(i => true)];
-
                 ret.Data ??= [];
-                ret.Data.AddRange(result.Data);
+                if (result.Data is not null)
+                    ret.Data.AddRange(result.Data);
             }
 
             if (ret.Data is null && lastError is not null)
@@ -228,7 +227,7 @@ internal class PlaylistService(ILogger<PlaylistService> logger, IOptions<Spotify
         catch (Exception ex)
         {
             _logger.LogError(ex, "PlaylistItemRemoveAllAsync failed for id: {Id}", id);
-            return new SpotifyResult<List<bool>> { Error = ex.ToSpotifyError() };
+            return new SpotifyResult<List<PlaylistSnapshot>> { Error = ex.ToSpotifyError() };
         }
     }
 
