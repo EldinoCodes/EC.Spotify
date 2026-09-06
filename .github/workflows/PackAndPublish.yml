@@ -11,13 +11,13 @@ jobs:
 
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Copy file within repo
         run: |
           ls
           cp LICENSE.txt src/EC.Spotify/EC.Spotify/LICENSE.txt
           cp README.md src/EC.Spotify/EC.Spotify/README.md
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 10.0.x
       - name: dotnet pack
