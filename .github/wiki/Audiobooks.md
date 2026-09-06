@@ -147,46 +147,7 @@ Console.WriteLine(json);
 
 ---
 
-### `AudiobooksGetAllRawAsync`
-
-```csharp
-Task<string?> AudiobooksGetAllRawAsync(string ids, CancellationToken cancellationToken = default);
-```
-
-Retrieves raw JSON for multiple audiobooks from Spotify asynchronously.
-
-- **Parameters:**
-  - `ids` — A comma-separated list of Spotify audiobook IDs.
-  - `cancellationToken` — Token to cancel the operation.
-- **Returns:** Raw JSON string, or `null` if no content was returned.
-
-**Usage example:**
-
-```csharp
-var json = await spotifyClient.Audiobooks.AudiobooksGetAllRawAsync(
-    "7iHfbu1YPACw6oZPAFJtqe,587ehiVcGuXjxKMECQneQ6",
-    cancellationToken);
-Console.WriteLine(json);
-```
-
----
-
----
-
-### `AudiobooksGetAllRawAsync`
-
-```csharp
-Task<string?> AudiobooksGetAllRawAsync(string ids, CancellationToken cancellationToken = default);
-```
-
-Retrieves raw JSON for multiple audiobooks from Spotify.
-
-- **Parameters:**
-  - `ids` — A comma-separated list of Spotify audiobook IDs.
-  - `cancellationToken` — Token to cancel the operation.
-- **Returns:** Raw JSON string, or `null` if no content was returned.
-
-**Usage example:**
+### `MyAudiobookSaveAsync`
 
 ```csharp
 var json = await spotifyClient.Audiobooks.AudiobooksGetAllRawAsync(

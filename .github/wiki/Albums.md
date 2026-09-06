@@ -122,29 +122,6 @@ Console.WriteLine(json);
 
 ---
 
-### `MyAlbumGetAllRawAsync`
-
-```csharp
-Task<string?> MyAlbumGetAllRawAsync(int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default);
-```
-
-Retrieves raw paginated album JSON for albums saved in the current user's library from Spotify asynchronously.
-
-- **Parameters:**
-  - `limit` — Maximum number of albums to return. Must be between 1 and 50. Default is `20`.
-  - `offset` — Zero-based index of the first album to return. Default is `0`.
-  - `cancellationToken` — Token to cancel the operation.
-- **Returns:** Raw JSON string, or `null` if no content was returned.
-
-**Usage example:**
-
-```csharp
-var json = await spotifyClient.Albums.MyAlbumGetAllRawAsync(limit: 20, offset: 0, cancellationToken: cancellationToken);
-Console.WriteLine(json);
-```
-
----
-
 ## Raw Methods
 
 The typed methods in this service have corresponding raw counterparts that return the unprocessed JSON response as `string?`. Raw methods share the same parameter signatures but provide direct access to the raw API response.
