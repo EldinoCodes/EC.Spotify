@@ -22,7 +22,7 @@ internal class ShowService(ILogger<ShowService> logger, IOptions<SpotifyOptions>
         try
         {
             var error = _options.ValidateScopes(["user-read-playback-position"]);
-            if (error is not null) return new SpotifyResult<Show>() { Error = error };
+            if (error is not null) return new SpotifyResult<Show> { Error = error };
 
             if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
                 _logger.LogDebug("ShowGetAsync called with id: {Id}", id);
@@ -40,34 +40,6 @@ internal class ShowService(ILogger<ShowService> logger, IOptions<SpotifyOptions>
             return new SpotifyResult<Show> { Error = ex.ToSpotifyError() };
         }
     }
-    public async Task<SpotifyResult<SpotifyPageResult<Episode>>> ShowEpisodeGetAllAsync(string? id, int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)
-    {
-        try
-        {
-            var error = _options.ValidateScopes(["user-read-playback-position"]);
-            if (error is not null) return new SpotifyResult<SpotifyPageResult<Episode>>() { Error = error };
-
-            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
-                _logger.LogDebug("ShowEpisodeGetAllAsync called with id: {Id}, limit: {Limit}, offset: {Offset}", id, limit, offset);
-
-            var uri = string.Format(SpotifyShowEpisodesUri, id).ToUri(new()
-            {
-                { "limit", $"{limit}"},
-                { "offset", $"{offset }"}
-            });
-
-            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
-                _logger.LogDebug("ShowEpisodeGetAllAsync requesting URI: {Uri}", uri);
-
-            return await _spotifyProvider.ExecuteSpotifyResultAsync<SpotifyPageResult<Episode>>("get", uri, cancellationToken: cancellationToken);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "ShowEpisodeGetAllAsync failed for id: {Id}", id);
-            return new SpotifyResult<SpotifyPageResult<Episode>> { Error = ex.ToSpotifyError() };
-        }
-    }
-
     public async Task<string?> ShowGetRawAsync(string? id, CancellationToken cancellationToken = default)
     {
         try
@@ -91,12 +63,43 @@ internal class ShowService(ILogger<ShowService> logger, IOptions<SpotifyOptions>
             throw;
         }
     }
+
+    public async Task<SpotifyResult<SpotifyPageResult<Episode>>> ShowEpisodeGetAllAsync(string? id, int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var error = _options.ValidateScopes(["user-read-playback-position"]);
+            if (error is not null) return new SpotifyResult<SpotifyPageResult<Episode>> { Error = error };
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("ShowEpisodeGetAllAsync called with id: {Id}, limit: {Limit}, offset: {Offset}", id, limit, offset);
+
+            var uri = string.Format(SpotifyShowEpisodesUri, id).ToUri(new()
+            {
+                { "limit", $"{limit}"},
+                { "offset", $"{offset }"}
+            });
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("ShowEpisodeGetAllAsync requesting URI: {Uri}", uri);
+
+            return await _spotifyProvider.ExecuteSpotifyResultAsync<SpotifyPageResult<Episode>>("get", uri, cancellationToken: cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "ShowEpisodeGetAllAsync failed for id: {Id}", id);
+            return new SpotifyResult<SpotifyPageResult<Episode>> { Error = ex.ToSpotifyError() };
+        }
+    }    
     public async Task<string?> ShowEpisodeGetAllRawAsync(string? id, int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)
     {
         try
         {
             var error = _options.ValidateScopes(["user-read-playback-position"]);
             if (error is not null) throw new InvalidOperationException(error.Message);
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("ShowEpisodeGetAllRawAsync called with id: {Id}, limit: {Limit}, offset: {Offset}", id, limit, offset);
 
             if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
                 _logger.LogDebug("ShowEpisodeGetAllRawAsync called with id: {Id}, limit: {Limit}, offset: {Offset}", id, limit, offset);

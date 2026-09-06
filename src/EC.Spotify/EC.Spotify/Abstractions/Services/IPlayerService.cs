@@ -7,34 +7,16 @@ namespace EC.Spotify.Abstractions.Services;
 public interface IPlayerService
 {
     /// <summary>
-    /// Retrieves the current playback queue for the user asynchronously.
+    /// Retrieves the current playback state for the user's Spotify account asynchronously.
     /// </summary>
-    /// <remarks>Requires the <c>user-read-playback-state</c> and <c>user-read-currently-playing</c> scopes.</remarks>
+    /// <remarks>Returns information about the user's current playback, including the active device, repeat
+    /// state, shuffle state, and the currently playing item. Requires the
+    /// <c>user-read-playback-state</c> scope.</remarks>
     /// <param name="cancellationToken">A cancellation token that can be used to cancel the operation.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains a <see
-    /// cref="SpotifyResult{PlayerQueue}"/> with the user's current playback queue.</returns>
-    Task<SpotifyResult<PlayerQueue>> QueueGetAsync(CancellationToken cancellationToken = default);
-    /// <summary>
-    /// Adds the specified track to the playback queue on the user's Spotify account asynchronously.
-    /// </summary>
-    /// <remarks>Requires the <c>user-modify-playback-state</c> scope. If the specified device is not active or available, the operation may fail. The method does
-    /// not start playback; it only queues the track for future playback.</remarks>
-    /// <param name="trackId">The Spotify track identifier to add to the queue. Cannot be null or empty.</param>
-    /// <param name="deviceId">The identifier of the target playback device. If null, the user's currently active device is used.</param>
-    /// <param name="cancellationToken">A token to monitor for cancellation requests. Allows the operation to be cancelled.</param>
-    /// <returns>A task that represents the asynchronous operation. The result contains a value indicating whether the track was
-    /// successfully added to the queue.</returns>
-    Task<SpotifyResult<bool>> QueueAddAsync(string? trackId, string? deviceId = null, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    /// Retrieves a list of all available devices associated with the user's Spotify account asynchronously.
-    /// </summary>
-    /// <remarks>Requires the <c>user-read-playback-state</c> scope.</remarks>
-    /// <param name="cancellationToken">A cancellation token that can be used to cancel the operation. Optional.</param>
-    /// <returns>A task that represents the asynchronous operation. The task result contains a <see
-    /// cref="SpotifyResult{List{Device}}"/> with the list of devices. The list will be empty if no devices are
-    /// available.</returns>
-    Task<SpotifyResult<List<Device>>> DeviceGetAllAsync(CancellationToken cancellationToken = default);
+    /// cref="SpotifyResult{PlayerState}"/> with the user's current playback state, or an error if the
+    /// request fails or the user has no active session.</returns>
+    Task<SpotifyResult<PlayerState>> StateGetAsync(CancellationToken cancellationToken = default);
     /// <summary>
     /// Transfers playback to the specified device asynchronously, optionally starting playback on the device.
     /// </summary>
@@ -49,24 +31,20 @@ public interface IPlayerService
     /// <returns>A task that represents the asynchronous operation. The task result contains a <see
     /// cref="SpotifyResult{Boolean}"/> indicating whether the transfer was successful.</returns>
     Task<SpotifyResult<bool>> TransferAsync(string? deviceId, bool play = false, CancellationToken cancellationToken = default);
-
     /// <summary>
-    /// Retrieves the current playback state for the user's Spotify account asynchronously.
+    /// Retrieves a list of all available devices associated with the user's Spotify account asynchronously.
     /// </summary>
-    /// <remarks>Returns information about the user's current playback, including the active device, repeat
-    /// state, shuffle state, and the currently playing item. Requires the
-    /// <c>user-read-playback-state</c> scope.</remarks>
-    /// <param name="cancellationToken">A cancellation token that can be used to cancel the operation.</param>
+    /// <remarks>Requires the <c>user-read-playback-state</c> scope.</remarks>
+    /// <param name="cancellationToken">A cancellation token that can be used to cancel the operation. Optional.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains a <see
-    /// cref="SpotifyResult{PlayerState}"/> with the user's current playback state, or an error if the
-    /// request fails or the user has no active session.</returns>
-    Task<SpotifyResult<PlayerState>> StateGetAsync(CancellationToken cancellationToken = default);
-
+    /// cref="SpotifyResult{List{Device}}"/> with the list of devices. The list will be empty if no devices are
+    /// available.</returns>
+    Task<SpotifyResult<List<Device>>> DeviceGetAllAsync(CancellationToken cancellationToken = default);
     /// <summary>
     /// Retrieves the item currently playing on the user's Spotify account asynchronously.
     /// </summary>
     /// <remarks>Returns the full playback state for the currently playing item, which may be a track,
-    /// episode, or other media type. Requires the <c>user-read-playback-state</c> scope. Returns an empty
+    /// episode, or other media type. Requires the <c>user-read-currently-playing</c> scope. Returns an empty
     /// result if nothing is currently playing.</remarks>
     /// <param name="cancellationToken">A cancellation token that can be used to cancel the operation.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains a <see
@@ -89,12 +67,12 @@ public interface IPlayerService
     /// <summary>
     /// Pauses playback on the user's Spotify account.
     /// </summary>
-    /// <remarks>Requires the <c>user-modify-playback-state</c> scope.</remarks>
-    /// <param name="deviceId">The identifier of the target device on which to pause playback. If null, the currently active device is used.</param>
+    /// <remarks>Requires the <c>user-modify-playback-state</c> scope. The pause always applies to the currently active device; <c>deviceId</c> is not supported by the Spotify API for this endpoint.</remarks>
+    /// <param name="deviceId">The identifier of the target Spotify device on which to pause playback. If null, the currently active device is used.</param>
     /// <param name="cancellationToken">A cancellation token that can be used to cancel the pause operation.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains a <see cref="SpotifyResult{bool}"/>
     /// indicating whether the pause request was successful.</returns>
-    Task<SpotifyResult<bool>> PauseAsync(string? deviceId = null, CancellationToken cancellationToken = default);
+    Task<SpotifyResult<bool>> PauseAsync(string? deviceId, CancellationToken cancellationToken = default);
     /// <summary>
     /// Skips to the next track in the user's currently active Spotify player.
     /// </summary>
@@ -127,7 +105,7 @@ public interface IPlayerService
     /// <param name="cancellationToken">A token to monitor for cancellation requests while performing the operation.</param>
     /// <returns>A task that represents the asynchronous operation. The result contains a value indicating whether the seek
     /// operation was successful.</returns>
-    Task<SpotifyResult<bool>> SeekAsync(int positionMs, string? deviceId = null, CancellationToken cancellationToken = default);
+    Task<SpotifyResult<bool>> SeekAsync(long positionMs, string? deviceId = null, CancellationToken cancellationToken = default);
     /// <summary>
     /// Sets the repeat mode for the current Spotify playback session asynchronously.
     /// </summary>
@@ -140,6 +118,17 @@ public interface IPlayerService
     /// cref="SpotifyResult{Boolean}"/> indicating whether the repeat mode was successfully set.</returns>
     Task<SpotifyResult<bool>> RepeatAsync(PlayerRepeatMode playerRepeatMode = PlayerRepeatMode.Off, string? deviceId = null, CancellationToken cancellationToken = default);
     /// <summary>
+    /// Sets the playback volume for the specified Spotify device asynchronously.
+    /// </summary>
+    /// <remarks>Requires the <c>user-modify-playback-state</c> scope. If the device is not active or does not support volume control, the operation may fail. This
+    /// method does not change playback state; it only adjusts the volume.</remarks>
+    /// <param name="volumePercent">The desired volume level as a percentage, ranging from 0 (muted) to 100 (maximum volume).</param>
+    /// <param name="deviceId">The unique identifier of the target device. If null, the currently active device is used.</param>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests while the operation is in progress.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains a SpotifyResult indicating whether
+    /// the volume was successfully set.</returns>
+    Task<SpotifyResult<bool>> VolumeAsync(int volumePercent, string? deviceId = null, CancellationToken cancellationToken = default);
+    /// <summary>
     /// Enables or disables shuffle mode for the user's playback on Spotify.
     /// </summary>
     /// <remarks>Requires the <c>user-modify-playback-state</c> scope. If no device is specified, the shuffle setting is applied to the user's currently active
@@ -151,15 +140,37 @@ public interface IPlayerService
     /// <returns>A <see cref="SpotifyResult{Boolean}"/> indicating whether the shuffle mode was successfully updated. The <see
     /// langword="true"/> value represents a successful operation; otherwise, <see langword="false"/>.</returns>
     Task<SpotifyResult<bool>> ShuffleAsync(PlayerShuffleMode playerShuffleMode = PlayerShuffleMode.Off, string? deviceId = null, CancellationToken cancellationToken = default);
+
     /// <summary>
-    /// Sets the playback volume for the specified Spotify device asynchronously.
+    /// Retrieves a list of the user's recently played tracks asynchronously.
     /// </summary>
-    /// <remarks>Requires the <c>user-modify-playback-state</c> scope. If the device is not active or does not support volume control, the operation may fail. This
-    /// method does not change playback state; it only adjusts the volume.</remarks>
-    /// <param name="volumePercent">The desired volume level as a percentage, ranging from 0 (muted) to 100 (maximum volume).</param>
-    /// <param name="deviceId">The unique identifier of the target device. If null, the currently active device is used.</param>
-    /// <param name="cancellationToken">A token to monitor for cancellation requests while the operation is in progress.</param>
-    /// <returns>A task that represents the asynchronous operation. The task result contains a SpotifyResult indicating whether
-    /// the volume was successfully set.</returns>
-    Task<SpotifyResult<bool>> VolumeAsync(int volumePercent, string? deviceId = null, CancellationToken cancellationToken = default);
+    /// <remarks>Requires the <c>user-read-recently-played</c> scope. The results are paginated and limited to 50 items per request.
+    /// This method returns the most recently played tracks or episodes from the user's listening history.</remarks>
+    /// <param name="limit">The maximum number of items to return. Must be between 1 and 50. The default is 20.</param>
+    /// <param name="after">A timestamp in RFC3339 format (e.g., "2022-01-01T00:00:00Z") specifying the point in time after which to return results.
+    /// Used for pagination to retrieve older items.</param>
+    /// <param name="cancellationToken">A cancellation token that can be used to cancel the operation.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains a <see
+    /// cref="SpotifyResult{SpotifyPageResult{RecentlyPlayedItem}}"/> with the user's recently played tracks.</returns>
+    Task<SpotifyResult<SpotifyPageResult<RecentlyPlayedItem>>> RecentlyPlayedGetAllAsync(int? limit = 20, string? after = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieves the current playback queue for the user asynchronously.
+    /// </summary>
+    /// <remarks>Requires the <c>user-read-playback-state</c> and <c>user-read-currently-playing</c> scopes.</remarks>
+    /// <param name="cancellationToken">A cancellation token that can be used to cancel the operation.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains a <see
+    /// cref="SpotifyResult{PlayerQueue}"/> with the user's current playback queue.</returns>
+    Task<SpotifyResult<PlayerQueue>> QueueGetAsync(CancellationToken cancellationToken = default);
+    /// <summary>
+    /// Adds the specified track to the playback queue on the user's Spotify account asynchronously.
+    /// </summary>
+    /// <remarks>Requires the <c>user-modify-playback-state</c> scope. If the specified device is not active or available, the operation may fail. The method does
+    /// not start playback; it only queues the track for future playback.</remarks>
+    /// <param name="trackId">The Spotify track identifier to add to the queue. Cannot be null or empty.</param>
+    /// <param name="deviceId">The identifier of the target playback device. If null, the user's currently active device is used.</param>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests. Allows the operation to be cancelled.</param>
+    /// <returns>A task that represents the asynchronous operation. The result contains a value indicating whether the track was
+    /// successfully added to the queue.</returns>
+    Task<SpotifyResult<bool>> QueueAddAsync(string? trackId, string? deviceId = null, CancellationToken cancellationToken = default);
 }

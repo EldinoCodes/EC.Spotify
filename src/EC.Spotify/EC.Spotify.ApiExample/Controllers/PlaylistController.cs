@@ -107,4 +107,12 @@ public class PlaylistController(ISpotifyClient spotifyClient) : ControllerBase
 
         return new JsonResult(ret);
     }
+
+    // Create playlist
+    [HttpPost("create")]
+    public async Task<IActionResult> PlaylistCreateAsync([FromBody] PlaylistCreate playlistCreate, CancellationToken cancellationToken = default)
+    {
+        var ret = await _spotifyClient.Playlists.PlaylistCreateAsync(playlistCreate, cancellationToken);
+        return new JsonResult(ret);
+    }
 }

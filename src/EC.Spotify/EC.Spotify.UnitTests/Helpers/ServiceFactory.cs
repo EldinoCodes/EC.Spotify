@@ -20,19 +20,19 @@ internal static class ServiceFactory
         => Options.Create(DefaultOptions(scopes));
 
     internal static AlbumService CreateAlbumService(MockSpotifyProvider provider, List<string>? scopes = null)
-        => new(NullLogger<AlbumService>.Instance, OptionsFor(scopes), provider);
+        => new(NullLogger<AlbumService>.Instance, OptionsFor(scopes), CreateUserService(provider, scopes), provider);
 
     internal static ArtistService CreateArtistService(MockSpotifyProvider provider, List<string>? scopes = null)
-        => new(NullLogger<ArtistService>.Instance, OptionsFor(scopes), provider);
+        => new(NullLogger<ArtistService>.Instance, OptionsFor(scopes), CreateUserService(provider, scopes), provider);
 
     internal static AudiobookService CreateAudiobookService(MockSpotifyProvider provider, List<string>? scopes = null)
-        => new(NullLogger<AudiobookService>.Instance, OptionsFor(scopes), provider);
+        => new(NullLogger<AudiobookService>.Instance, OptionsFor(scopes), CreateUserService(provider, scopes), provider);
 
     internal static ChapterService CreateChapterService(MockSpotifyProvider provider, List<string>? scopes = null)
         => new(NullLogger<ChapterService>.Instance, OptionsFor(scopes), provider);
 
     internal static EpisodeService CreateEpisodeService(MockSpotifyProvider provider, List<string>? scopes = null)
-        => new(NullLogger<EpisodeService>.Instance, OptionsFor(scopes), provider);
+        => new(NullLogger<EpisodeService>.Instance, OptionsFor(scopes), CreateUserService(provider, scopes), provider);
 
     internal static LibraryService CreateLibraryService(MockSpotifyProvider provider, List<string>? scopes = null)
         => new(NullLogger<LibraryService>.Instance, OptionsFor(scopes), provider);

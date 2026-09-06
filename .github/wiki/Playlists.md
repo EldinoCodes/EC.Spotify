@@ -20,10 +20,6 @@ IPlaylistService playlists = spotifyClient.Playlists;
 | `PlaylistItemRemoveAsync` | `playlist-modify-public`, `playlist-modify-private` | `SpotifyResult<PlaylistSnapshot>` | Removes a single item from a playlist |
 | `PlaylistItemRemoveAllAsync` | `playlist-modify-public`, `playlist-modify-private` | `SpotifyResult<List<PlaylistSnapshot>>` | Removes multiple items from a playlist |
 | `PlaylistImageAddAsync` | `ugc-image-upload`, `playlist-modify-public`, `playlist-modify-private` | `SpotifyResult<bool>` | Adds or replaces the playlist cover image |
-| `PlaylistImageGetAllAsync` | — | `SpotifyResult<List<Image>>` | Retrieves all images for a playlist |
-| `PlaylistGetRawAsync` | — | `string?` | Retrieves raw playlist JSON by ID |
-| `PlaylistItemGetAllRawAsync` | `playlist-read-private` | `string?` | Retrieves raw paginated playlist item JSON |
-| `PlaylistImageGetAllRawAsync` | — | `string?` | Retrieves raw playlist image JSON |
 
 ---
 
@@ -267,9 +263,109 @@ Task<string?> PlaylistImageGetAllRawAsync(string? id, CancellationToken cancella
 
 Retrieves raw playlist image JSON from Spotify asynchronously by playlist identifier.
 
+- **Parameters:**
+  - `id` — The Spotify playlist identifier.
+  - `cancellationToken` — Token to cancel the operation.
+- **Returns:** Raw JSON string, or `null` if no content was returned.
+
 **Usage example:**
 
 ```csharp
 var json = await spotifyClient.Playlists.PlaylistImageGetAllRawAsync("37i9dQZF1DXcBWIGoYBM5M", cancellationToken);
 Console.WriteLine(json);
 ```
+
+---
+
+## Raw Methods
+
+The typed methods in this service have corresponding raw counterparts that return the unprocessed JSON response as `string?`. Raw methods share the same parameter signatures but provide direct access to the raw API response.
+
+### Available Raw Methods
+
+| Raw Method | Typed Equivalent |
+|------------|------------------|
+| `PlaylistGetRawAsync` | `PlaylistGetAsync` |
+| `PlaylistImageGetAllRawAsync` | `PlaylistImageGetAllAsync` |
+| `PlaylistItemGetAllRawAsync` | `PlaylistItemGetAllAsync` |
+
+**Usage example:**
+
+```csharp
+// Get raw JSON response for a playlist
+var json = await spotifyClient.Playlists.PlaylistGetRawAsync(
+    "37i9dQZF1DXcBWIGoYBM5M", 
+    cancellationToken);
+
+Console.WriteLine(json);
+```
+
+---
+
+### `PlaylistGetRawAsync`
+
+```csharp
+Task<string?> PlaylistGetRawAsync(string? id, CancellationToken cancellationToken = default);
+```
+
+Retrieves raw playlist JSON from Spotify asynchronously by playlist identifier.
+
+- **Parameters:**
+  - `id` — The Spotify playlist identifier.
+  - `cancellationToken` — Token to cancel the operation.
+- **Returns:** Raw JSON string, or `null` if no content was returned.
+
+**Usage example:**
+
+```csharp
+var json = await spotifyClient.Playlists.PlaylistGetRawAsync("37i9dQZF1DXcBWIGoYBM5M", cancellationToken);
+Console.WriteLine(json);
+```
+
+---
+
+### `PlaylistItemGetAllRawAsync`
+
+```csharp
+Task<string?> PlaylistItemGetAllRawAsync(string? id, int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default);
+```
+
+Retrieves raw paginated playlist item JSON from Spotify asynchronously. Requires the `playlist-read-private` scope.
+
+- **Parameters:**
+  - `id` — The Spotify playlist identifier.
+  - `limit` — Maximum number of items to return. Default is `20`.
+  - `offset` — Index of the first item to return. Default is `0`.
+  - `cancellationToken` — Token to cancel the operation.
+- **Returns:** Raw JSON string, or `null` if no content was returned.
+
+**Usage example:**
+
+```csharp
+var json = await spotifyClient.Playlists.PlaylistItemGetAllRawAsync("37i9dQZF1DXcBWIGoYBM5M", limit: 5, cancellationToken: cancellationToken);
+Console.WriteLine(json);
+```
+
+---
+
+### `PlaylistImageGetAllRawAsync`
+
+```csharp
+Task<string?> PlaylistImageGetAllRawAsync(string? id, CancellationToken cancellationToken = default);
+```
+
+Retrieves raw playlist image JSON from Spotify asynchronously by playlist identifier.
+
+- **Parameters:**
+  - `id` — The Spotify playlist identifier.
+  - `cancellationToken` — Token to cancel the operation.
+- **Returns:** Raw JSON string, or `null` if no content was returned.
+
+**Usage example:**
+
+```csharp
+var json = await spotifyClient.Playlists.PlaylistImageGetAllRawAsync("37i9dQZF1DXcBWIGoYBM5M", cancellationToken);
+Console.WriteLine(json);
+```
+
+---

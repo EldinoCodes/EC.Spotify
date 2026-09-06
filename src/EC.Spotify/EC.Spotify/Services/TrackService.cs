@@ -36,7 +36,6 @@ internal class TrackService(ILogger<TrackService> logger, IOptions<SpotifyOption
             return new SpotifyResult<Track> { Error = ex.ToSpotifyError() };
         }
     }
-
     public async Task<string?> TrackGetRawAsync(string? id, CancellationToken cancellationToken = default)
     {
         try

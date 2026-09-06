@@ -19,4 +19,17 @@ public sealed class T04_ChapterServiceTests
         var result = await sut.ChapterGetAsync(id, cancellationToken: TestContext.CancellationToken);
         Assert.IsNotNull(result?.Data, result?.Error?.Message);
     }
+
+    [TestMethod]
+    [DataRow("3OCSAZnatejMEd0Q5Ohlq7")]
+    public async Task T002_ChapterGetRawAsync_ShouldReturnJson(string? id)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(id, nameof(id));
+
+        var sut = Initializer.Resolve<IChapterService>();
+        ArgumentNullException.ThrowIfNull(sut, nameof(sut));
+
+        var result = await sut.ChapterGetRawAsync(id, cancellationToken: TestContext.CancellationToken);
+        Assert.IsNotNull(result, "Expected raw JSON response");
+    }
 }

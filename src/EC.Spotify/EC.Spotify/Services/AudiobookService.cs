@@ -8,10 +8,11 @@ using Microsoft.Extensions.Options;
 
 namespace EC.Spotify.Services;
 
-internal class AudiobookService(ILogger<AudiobookService> logger, IOptions<SpotifyOptions> options, ISpotifyProvider spotifyProvider) : IAudiobookService
+internal class AudiobookService(ILogger<AudiobookService> logger, IOptions<SpotifyOptions> options, IUserService userService, ISpotifyProvider spotifyProvider) : IAudiobookService
 {
     private readonly ILogger<AudiobookService> _logger = logger;
     private readonly SpotifyOptions _options = options.Value;
+    private readonly IUserService _userService = userService;
     private readonly ISpotifyProvider _spotifyProvider = spotifyProvider;
 
     private const string SpotifyAudiobookUri = "https://api.spotify.com/v1/audiobooks/{0}";
@@ -37,6 +38,27 @@ internal class AudiobookService(ILogger<AudiobookService> logger, IOptions<Spoti
             return new SpotifyResult<Audiobook> { Error = ex.ToSpotifyError() };
         }
     }
+    public async Task<string?> AudiobookGetRawAsync(string? id, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("AudiobookGetRawAsync called with id: {Id}", id);
+
+            var uri = string.Format(SpotifyAudiobookUri, id);
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("AudiobookGetRawAsync requesting URI: {Uri}", uri);
+
+            return await _spotifyProvider.ExecuteSpotifyRequestAsync("get", uri, cancellationToken: cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "AudiobookGetRawAsync failed for id: {Id}", id);
+            throw;
+        }
+    }
+
     public async Task<SpotifyResult<SpotifyPageResult<Chapter>>> AudiobookChapterGetAllAsync(string? id, int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)
     {
         try
@@ -59,27 +81,6 @@ internal class AudiobookService(ILogger<AudiobookService> logger, IOptions<Spoti
         {
             _logger.LogError(ex, "AudiobookChapterGetAllAsync failed for id: {Id}", id);
             return new SpotifyResult<SpotifyPageResult<Chapter>> { Error = ex.ToSpotifyError() };
-        }
-    }
-
-    public async Task<string?> AudiobookGetRawAsync(string? id, CancellationToken cancellationToken = default)
-    {
-        try
-        {
-            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
-                _logger.LogDebug("AudiobookGetRawAsync called with id: {Id}", id);
-
-            var uri = string.Format(SpotifyAudiobookUri, id);
-
-            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
-                _logger.LogDebug("AudiobookGetRawAsync requesting URI: {Uri}", uri);
-
-            return await _spotifyProvider.ExecuteSpotifyRequestAsync("get", uri, cancellationToken: cancellationToken);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "AudiobookGetRawAsync failed for id: {Id}", id);
-            throw;
         }
     }
     public async Task<string?> AudiobookChapterGetAllRawAsync(string? id, int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)
@@ -106,4 +107,9 @@ internal class AudiobookService(ILogger<AudiobookService> logger, IOptions<Spoti
             throw;
         }
     }
+
+    public async Task<SpotifyResult<SpotifyPageResult<Audiobook>>> MyAudiobookGetAllAsync(int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)
+        => await _userService.MyAudiobookGetAllAsync(limit, offset, cancellationToken);
+    public async Task<string?> MyAudiobookGetAllRawAsync(int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)
+        => await _userService.MyAudiobookGetAllRawAsync(limit, offset, cancellationToken);
 }

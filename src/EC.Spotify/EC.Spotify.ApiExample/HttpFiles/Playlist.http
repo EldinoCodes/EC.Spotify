@@ -80,7 +80,7 @@ Accept: application/json
 ]
 
 ### playlist image add
-PUT {{EC.Spotify.HostAddress}}/Playlist/{{EC.Spotify.PlaylistId}}/image
+POST {{EC.Spotify.HostAddress}}/Playlist/{{EC.Spotify.PlaylistId}}/image
 Content-Type: multipart/form-data; boundary=----Boundary
 
 ------Boundary
@@ -96,6 +96,10 @@ Accept: application/json
 
 ### playlist get raw
 GET {{EC.Spotify.HostAddress}}/Playlist/{{EC.Spotify.PlaylistId}}/raw
+Accept: application/json
+
+### playlist items get all raw
+GET {{EC.Spotify.HostAddress}}/Playlist/{{EC.Spotify.PlaylistId}}/items/raw
 Accept: application/json
 
 ### playlist items get all raw

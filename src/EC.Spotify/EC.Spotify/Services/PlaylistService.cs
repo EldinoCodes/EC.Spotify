@@ -17,27 +17,34 @@ internal class PlaylistService(ILogger<PlaylistService> logger, IOptions<Spotify
     private readonly SpotifyOptions _options = options.Value;
     private readonly ISpotifyProvider _spotifyProvider = spotifyProvider;
 
-    private const string SpotifyPlaylistUri = "https://api.spotify.com/v1/playlists/{0}";
+    private const string SpotifyPlaylistUri = "https://api.spotify.com/v1/playlists";
+    private const string SpotifyPlaylistItemUri = "https://api.spotify.com/v1/playlists/{0}";
     private const string SpotifyPlaylistItemsUri = "https://api.spotify.com/v1/playlists/{0}/items";
     private const string SpotifyPlaylistImagesUri = "https://api.spotify.com/v1/playlists/{0}/images";
 
-    public async Task<SpotifyResult<Playlist>> PlaylistGetAsync(string? id, CancellationToken cancellationToken = default)
+    public async Task<SpotifyResult<Playlist>> PlaylistCreateAsync(PlaylistCreate playlistCreate, CancellationToken cancellationToken = default)
     {
         try
         {
-            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
-                _logger.LogDebug("PlaylistGetAsync called with id: {Id}", id);
-
-            var uri = string.Format(SpotifyPlaylistUri, id);
+            var error = _options.ValidateScopes(["playlist-modify-public", "playlist-modify-private"]);
+            if (error is not null) return new SpotifyResult<Playlist> { Error = error };
 
             if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
-                _logger.LogDebug("PlaylistGetAsync requesting URI: {Uri}", uri);
+                _logger.LogDebug("PlaylistCreateAsync called with name: {Name}", playlistCreate?.Name);
 
-            return await _spotifyProvider.ExecuteSpotifyResultAsync<Playlist>("get", uri, cancellationToken: cancellationToken);
+            var json = playlistCreate.ToJson();
+            var data = !string.IsNullOrEmpty(json)
+                ? new StringContent(json, Encoding.UTF8, "application/json")
+                : null;
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("PlaylistCreateAsync requesting URI: {Uri}", SpotifyPlaylistUri);
+
+            return await _spotifyProvider.ExecuteSpotifyResultAsync<Playlist>("post", SpotifyPlaylistUri, data, cancellationToken: cancellationToken);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "PlaylistGetAsync failed for id: {Id}", id);
+            _logger.LogError(ex, "PlaylistCreateAsync failed");
             return new SpotifyResult<Playlist> { Error = ex.ToSpotifyError() };
         }
     }
@@ -51,7 +58,7 @@ internal class PlaylistService(ILogger<PlaylistService> logger, IOptions<Spotify
             if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
                 _logger.LogDebug("PlaylistDetailUpdateAsync called with id: {Id}", id);
 
-            var uri = string.Format(SpotifyPlaylistUri, id);
+            var uri = string.Format(SpotifyPlaylistItemUri, id);
             var json = playlistDetail.ToJson();
             var data = !string.IsNullOrEmpty(json)
                 ? new StringContent(json, Encoding.UTF8, "application/json")
@@ -68,6 +75,116 @@ internal class PlaylistService(ILogger<PlaylistService> logger, IOptions<Spotify
             return new SpotifyResult<bool> { Error = ex.ToSpotifyError() };
         }
     }
+
+    public async Task<SpotifyResult<Playlist>> PlaylistGetAsync(string? id, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("PlaylistGetAsync called with id: {Id}", id);
+
+            var uri = string.Format(SpotifyPlaylistItemUri, id);
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("PlaylistGetAsync requesting URI: {Uri}", uri);
+
+            return await _spotifyProvider.ExecuteSpotifyResultAsync<Playlist>("get", uri, cancellationToken: cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "PlaylistGetAsync failed for id: {Id}", id);
+            return new SpotifyResult<Playlist> { Error = ex.ToSpotifyError() };
+        }
+    }
+    public async Task<string?> PlaylistGetRawAsync(string? id, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("PlaylistGetRawAsync called with id: {Id}", id);
+
+            var uri = string.Format(SpotifyPlaylistItemUri, id);
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("PlaylistGetRawAsync requesting URI: {Uri}", uri);
+
+            return await _spotifyProvider.ExecuteSpotifyRequestAsync("get", uri, cancellationToken: cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "PlaylistGetRawAsync failed for id: {Id}", id);
+            throw;
+        }
+    }
+
+    public async Task<SpotifyResult<List<Image>>> PlaylistImageGetAllAsync(string? id, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("PlaylistImageGetAllAsync called with id: {Id}", id);
+
+            var uri = string.Format(SpotifyPlaylistImagesUri, id);
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("PlaylistImageGetAllAsync requesting URI: {Uri}", uri);
+
+            return await _spotifyProvider.ExecuteSpotifyResultAsync<List<Image>>("get", uri, cancellationToken: cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "PlaylistImageGetAllAsync failed for id: {Id}", id);
+            return new SpotifyResult<List<Image>> { Error = ex.ToSpotifyError() };
+        }
+    }
+    public async Task<string?> PlaylistImageGetAllRawAsync(string? id, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("PlaylistImageGetAllRawAsync called with id: {Id}", id);
+
+            var uri = string.Format(SpotifyPlaylistImagesUri, id);
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("PlaylistImageGetAllRawAsync requesting URI: {Uri}", uri);
+
+            return await _spotifyProvider.ExecuteSpotifyRequestAsync("get", uri, cancellationToken: cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "PlaylistImageGetAllRawAsync failed for id: {Id}", id);
+            throw;
+        }
+    }
+
+    public async Task<SpotifyResult<bool>> PlaylistImageAddAsync(string? id, byte[]? imageData, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var error = _options.ValidateScopes(["ugc-image-upload", "playlist-modify-public", "playlist-modify-private"]);
+            if (error is not null) return new SpotifyResult<bool>() { Error = error };
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("PlaylistImageAddAsync called with id: {Id}, imageData size: {Size} bytes", id, imageData?.Length ?? 0);
+
+            var uri = string.Format(SpotifyPlaylistImagesUri, id);
+            var data = imageData is not null
+                ? new StringContent(Convert.ToBase64String(imageData), Encoding.UTF8, "image/jpg")
+                : null;
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("PlaylistImageAddAsync requesting URI: {Uri}", uri);
+
+            return await _spotifyProvider.ExecuteSpotifyResultAsync<bool>("put", uri, data, cancellationToken: cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "PlaylistImageAddAsync failed for id: {Id}", id);
+            return new SpotifyResult<bool> { Error = ex.ToSpotifyError() };
+        }
+    }
+
     public async Task<SpotifyResult<PlaylistPageResult>> PlaylistItemGetAllAsync(string? id, int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)
     {
         try
@@ -78,7 +195,7 @@ internal class PlaylistService(ILogger<PlaylistService> logger, IOptions<Spotify
             if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
                 _logger.LogDebug("PlaylistItemGetAllAsync called with id: {Id}, limit: {Limit}, offset: {Offset}", id, limit, offset);
 
-            var uri = string.Format(SpotifyPlaylistItemsUri, id).ToUri(new ()
+            var uri = string.Format(SpotifyPlaylistItemsUri, id).ToUri(new()
             {
                 { "limit", $"{limit}"},
                 { "offset", $"{offset }"}
@@ -94,8 +211,34 @@ internal class PlaylistService(ILogger<PlaylistService> logger, IOptions<Spotify
             _logger.LogError(ex, "PlaylistItemGetAllAsync failed for id: {Id}", id);
             return new SpotifyResult<PlaylistPageResult> { Error = ex.ToSpotifyError() };
         }
-    }    
-        
+    }
+    public async Task<string?> PlaylistItemGetAllRawAsync(string? id, int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var error = _options.ValidateScopes(["playlist-read-private"]);
+            if (error is not null) throw new InvalidOperationException(error.Message);
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("PlaylistItemGetAllRawAsync called with id: {Id}, limit: {Limit}, offset: {Offset}", id, limit, offset);
+
+            var uri = string.Format(SpotifyPlaylistItemsUri, id).ToUri(new()
+            {
+                { "limit", $"{limit}"},
+                { "offset", $"{offset}"}
+            });
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("PlaylistItemGetAllRawAsync requesting URI: {Uri}", uri);
+
+            return await _spotifyProvider.ExecuteSpotifyRequestAsync("get", uri, cancellationToken: cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "PlaylistItemGetAllRawAsync failed for id: {Id}", id);
+            throw;
+        }
+    }
 
     public async Task<SpotifyResult<PlaylistSnapshot>> PlaylistItemAddAsync(string? id, ReferenceItem? libraryItem, int? position = default, CancellationToken cancellationToken = default)
     {
@@ -228,121 +371,6 @@ internal class PlaylistService(ILogger<PlaylistService> logger, IOptions<Spotify
         {
             _logger.LogError(ex, "PlaylistItemRemoveAllAsync failed for id: {Id}", id);
             return new SpotifyResult<List<PlaylistSnapshot>> { Error = ex.ToSpotifyError() };
-        }
-    }
-
-    public async Task<SpotifyResult<bool>> PlaylistImageAddAsync(string? id, byte[]? imageData, CancellationToken cancellationToken = default)
-    {
-        try
-        {
-            var error = _options.ValidateScopes(["ugc-image-upload", "playlist-modify-public", "playlist-modify-private"]);
-            if (error is not null) return new SpotifyResult<bool>() { Error = error };
-
-            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
-                _logger.LogDebug("PlaylistImageAddAsync called with id: {Id}, imageData size: {Size} bytes", id, imageData?.Length ?? 0);
-
-            var uri = string.Format(SpotifyPlaylistImagesUri, id);
-            var data = imageData is not null
-                ? new StringContent(Convert.ToBase64String(imageData), Encoding.UTF8, "image/jpg")
-                : null;
-
-            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
-                _logger.LogDebug("PlaylistImageAddAsync requesting URI: {Uri}", uri);
-
-            return await _spotifyProvider.ExecuteSpotifyResultAsync<bool>("put", uri, data, cancellationToken: cancellationToken);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "PlaylistImageAddAsync failed for id: {Id}", id);
-            return new SpotifyResult<bool> { Error = ex.ToSpotifyError() };
-        }
-    }
-    public async Task<SpotifyResult<List<Image>>> PlaylistImageGetAllAsync(string? id, CancellationToken cancellationToken = default)
-    {
-        try
-        {
-            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
-                _logger.LogDebug("PlaylistImageGetAllAsync called with id: {Id}", id);
-
-            var uri = string.Format(SpotifyPlaylistImagesUri, id);
-
-            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
-                _logger.LogDebug("PlaylistImageGetAllAsync requesting URI: {Uri}", uri);
-
-            return await _spotifyProvider.ExecuteSpotifyResultAsync<List<Image>>("get", uri, cancellationToken: cancellationToken);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "PlaylistImageGetAllAsync failed for id: {Id}", id);
-            return new SpotifyResult<List<Image>> { Error = ex.ToSpotifyError() };
-        }
-    }
-
-    public async Task<string?> PlaylistGetRawAsync(string? id, CancellationToken cancellationToken = default)
-    {
-        try
-        {
-            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
-                _logger.LogDebug("PlaylistGetRawAsync called with id: {Id}", id);
-
-            var uri = string.Format(SpotifyPlaylistUri, id);
-
-            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
-                _logger.LogDebug("PlaylistGetRawAsync requesting URI: {Uri}", uri);
-
-            return await _spotifyProvider.ExecuteSpotifyRequestAsync("get", uri, cancellationToken: cancellationToken);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "PlaylistGetRawAsync failed for id: {Id}", id);
-            throw;
-        }
-    }
-    public async Task<string?> PlaylistItemGetAllRawAsync(string? id, int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)
-    {
-        try
-        {
-            var error = _options.ValidateScopes(["playlist-read-private"]);
-            if (error is not null) throw new InvalidOperationException(error.Message);
-
-            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
-                _logger.LogDebug("PlaylistItemGetAllRawAsync called with id: {Id}, limit: {Limit}, offset: {Offset}", id, limit, offset);
-
-            var uri = string.Format(SpotifyPlaylistItemsUri, id).ToUri(new()
-            {
-                { "limit", $"{limit}"},
-                { "offset", $"{offset}"}
-            });
-
-            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
-                _logger.LogDebug("PlaylistItemGetAllRawAsync requesting URI: {Uri}", uri);
-
-            return await _spotifyProvider.ExecuteSpotifyRequestAsync("get", uri, cancellationToken: cancellationToken);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "PlaylistItemGetAllRawAsync failed for id: {Id}", id);
-            throw;
-        }
-    }
-    public async Task<string?> PlaylistImageGetAllRawAsync(string? id, CancellationToken cancellationToken = default)
-    {
-        try
-        {
-            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
-                _logger.LogDebug("PlaylistImageGetAllRawAsync called with id: {Id}", id);
-
-            var uri = string.Format(SpotifyPlaylistImagesUri, id);
-
-            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
-                _logger.LogDebug("PlaylistImageGetAllRawAsync requesting URI: {Uri}", uri);
-
-            return await _spotifyProvider.ExecuteSpotifyRequestAsync("get", uri, cancellationToken: cancellationToken);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "PlaylistImageGetAllRawAsync failed for id: {Id}", id);
-            throw;
         }
     }
 }

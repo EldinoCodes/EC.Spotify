@@ -71,7 +71,6 @@ public static class SpotifyRegistration
         services.AddSingleton<ISearchService, SearchService>();
         services.AddSingleton<IShowService, ShowService>();
         services.AddSingleton<ITrackService, TrackService>();
-
         services.AddSingleton<IUserService, UserService>();
 
         services.AddSingleton<ISpotifyClient, SpotifyClient>();

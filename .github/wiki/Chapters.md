@@ -13,7 +13,6 @@ IChapterService chapters = spotifyClient.Chapters;
 | Method | Returns | Description |
 |--------|---------|-------------|
 | `ChapterGetAsync` | `SpotifyResult<Chapter>` | Retrieves a single audiobook chapter by ID |
-| `ChapterGetRawAsync` | `string?` | Retrieves raw chapter JSON by ID |
 
 ---
 
@@ -43,13 +42,36 @@ else
 
 ---
 
+## Raw Methods
+
+The `ChapterGetAsync` method has a corresponding raw counterpart that returns the unprocessed JSON response as `string?`. Raw methods share the same parameter signatures but provide direct access to the raw API response.
+
+### Available Raw Methods
+
+| Raw Method | Typed Equivalent |
+|------------|------------------|
+| `ChapterGetRawAsync` | `ChapterGetAsync` |
+
+**Usage example:**
+
+```csharp
+// Get raw JSON response for a chapter
+var json = await spotifyClient.Chapters.ChapterGetRawAsync(
+    "0D5wENdkdwbqlrHoaJ9g29", 
+    cancellationToken);
+
+Console.WriteLine(json);
+```
+
+---
+
 ### `ChapterGetRawAsync`
 
 ```csharp
 Task<string?> ChapterGetRawAsync(string? id, CancellationToken cancellationToken = default);
 ```
 
-Retrieves raw chapter JSON from Spotify asynchronously by chapter identifier. Useful when you need the unprocessed API response.
+Retrieves raw chapter JSON from Spotify asynchronously by chapter identifier.
 
 - **Parameters:**
   - `id` — The Spotify chapter ID. Can be null or empty to indicate an invalid request.
@@ -62,3 +84,5 @@ Retrieves raw chapter JSON from Spotify asynchronously by chapter identifier. Us
 var json = await spotifyClient.Chapters.ChapterGetRawAsync("0D5wENdkdwbqlrHoaJ9g29", cancellationToken);
 Console.WriteLine(json);
 ```
+
+---

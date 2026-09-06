@@ -28,6 +28,7 @@ internal sealed class PlayerService(ILogger<PlayerService> logger, IOptions<Spot
     private const string PlayerRepeatUri = "https://api.spotify.com/v1/me/player/repeat";
     private const string PlayerShuffleUri = "https://api.spotify.com/v1/me/player/shuffle";
     private const string PlayerVolumeUri = "https://api.spotify.com/v1/me/player/volume";
+    private const string PlayerRecentlyPlayedUri = "https://api.spotify.com/v1/me/player/recently-played";
 
     public async Task<SpotifyResult<PlayerState>> StateGetAsync(CancellationToken cancellationToken = default)
     {
@@ -95,7 +96,7 @@ internal sealed class PlayerService(ILogger<PlayerService> logger, IOptions<Spot
     {
         try
         {
-            var error = _options.ValidateScopes(["user-read-playback-state"]);
+            var error = _options.ValidateScopes(["user-read-currently-playing"]);
             if (error is not null) return new SpotifyResult<PlayerState> { Error = error };
 
             if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
@@ -140,7 +141,7 @@ internal sealed class PlayerService(ILogger<PlayerService> logger, IOptions<Spot
             return new SpotifyResult<bool> { Error = ex.ToSpotifyError() };
         }
     }
-    public async Task<SpotifyResult<bool>> PauseAsync(string? deviceId = null, CancellationToken cancellationToken = default)
+    public async Task<SpotifyResult<bool>> PauseAsync(string? deviceId, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -148,7 +149,7 @@ internal sealed class PlayerService(ILogger<PlayerService> logger, IOptions<Spot
             if (error is not null) return new SpotifyResult<bool> { Error = error };
 
             if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
-                _logger.LogDebug("PlayerPauseAsync called with deviceId: {DeviceId}", deviceId);
+                _logger.LogDebug("PlayerPauseAsync called with deviceId: {DeviceId}", deviceId ?? "Active");
 
             var queryParams = new Dictionary<string, string?>();
             if (!string.IsNullOrEmpty(deviceId)) queryParams.Add("device_id", deviceId);
@@ -162,7 +163,7 @@ internal sealed class PlayerService(ILogger<PlayerService> logger, IOptions<Spot
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "PlayerPauseAsync failed for deviceId: {DeviceId}", deviceId);
+            _logger.LogError(ex, "PlayerPauseAsync failed for deviceId: {DeviceId}", deviceId ?? "Active");
             return new SpotifyResult<bool> { Error = ex.ToSpotifyError() };
         }
     }
@@ -219,12 +220,19 @@ internal sealed class PlayerService(ILogger<PlayerService> logger, IOptions<Spot
         }
     }
 
-    public async Task<SpotifyResult<bool>> SeekAsync(int positionMs, string? deviceId = null, CancellationToken cancellationToken = default)
+    public async Task<SpotifyResult<bool>> SeekAsync(long positionMs, string? deviceId = null, CancellationToken cancellationToken = default)
     {
         try
         {
             var error = _options.ValidateScopes(["user-modify-playback-state"]);
             if (error is not null) return new SpotifyResult<bool> { Error = error };
+
+            if (positionMs < 0)
+            {
+                var validationError = new SpotifyError { Status = 400, Message = "positionMs must be 0 or greater." };
+                _logger.LogWarning("SeekAsync failed: positionMs {PositionMs} is negative", positionMs);
+                return new SpotifyResult<bool> { Error = validationError };
+            }
 
             if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
                 _logger.LogDebug("PlayerSeekAsync called with positionMs: {PositionMs}, deviceId: {DeviceId}", positionMs, deviceId);
@@ -284,6 +292,13 @@ internal sealed class PlayerService(ILogger<PlayerService> logger, IOptions<Spot
             var error = _options.ValidateScopes(["user-modify-playback-state"]);
             if (error is not null) return new SpotifyResult<bool> { Error = error };
 
+            if (volumePercent < 0 || volumePercent > 100)
+            {
+                var validationError = new SpotifyError { Status = 400, Message = "volumePercent must be between 0 and 100." };
+                _logger.LogWarning("VolumeAsync failed: volumePercent {VolumePercent} is out of range (0-100)", volumePercent);
+                return new SpotifyResult<bool> { Error = validationError };
+            }
+
             if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
                 _logger.LogDebug("PlayerVolumeAsync called with volumePercent: {VolumePercent}, deviceId: {DeviceId}", volumePercent, deviceId);
 
@@ -336,7 +351,35 @@ internal sealed class PlayerService(ILogger<PlayerService> logger, IOptions<Spot
         }
     }
 
-    // recently played tracks
+    public async Task<SpotifyResult<SpotifyPageResult<RecentlyPlayedItem>>> RecentlyPlayedGetAllAsync(int? limit = 20, string? after = null, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var error = _options.ValidateScopes(["user-read-recently-played"]);
+            if (error is not null) return new SpotifyResult<SpotifyPageResult<RecentlyPlayedItem>> { Error = error };
+
+            var queryParams = new Dictionary<string, string?>
+            {
+                { "limit", limit?.ToString() ?? "20" }
+            };
+            if (!string.IsNullOrEmpty(after))
+            {
+                queryParams.Add("after", after);
+            }
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("RecentlyPlayedGetAllAsync requesting URI: {Uri} with limit: {Limit}, after: {After}", 
+                    PlayerRecentlyPlayedUri, limit, after);
+
+            return await _spotifyProvider.ExecuteSpotifyResultAsync<SpotifyPageResult<RecentlyPlayedItem>>(
+                "get", PlayerRecentlyPlayedUri, null, ["items"], cancellationToken: cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "RecentlyPlayedGetAllAsync failed");
+            return new SpotifyResult<SpotifyPageResult<RecentlyPlayedItem>> { Error = ex.ToSpotifyError() };
+        }
+    }
 
     public async Task<SpotifyResult<PlayerQueue>> QueueGetAsync(CancellationToken cancellationToken = default)
     {

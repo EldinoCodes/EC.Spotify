@@ -1,5 +1,6 @@
 @EC.Spotify.HostAddress = https://localhost:5001
 @EC.Spotify.AlbumId = 7a7arAXDE0BiaMgHLhdjGF
+@EC.Spotify.AlbumIds = 7a7arAXDE0BiaMgHLhdjGF,4aawyAB9vmqN3uQ7FjRGTy,1A2B3C4D5E6F7G8H9I0J1K
 
 
 

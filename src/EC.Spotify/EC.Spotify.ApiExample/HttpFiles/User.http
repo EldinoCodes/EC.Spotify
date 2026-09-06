@@ -107,6 +107,38 @@ Accept: application/json
 GET {{EC.Spotify.HostAddress}}/User/tracks/raw?offset=0&limit=20
 Accept: application/json
 
+### user my artists get all
+GET {{EC.Spotify.HostAddress}}/User/artists
+Accept: application/json
+
+### user my artists get all (paged)
+GET {{EC.Spotify.HostAddress}}/User/artists?offset=0&limit=20
+Accept: application/json
+
+### user my artists get all raw
+GET {{EC.Spotify.HostAddress}}/User/artists/raw
+Accept: application/json
+
+### user my artists get all raw (paged)
+GET {{EC.Spotify.HostAddress}}/User/artists/raw?offset=0&limit=20
+Accept: application/json
+
+### user my top items
+GET {{EC.Spotify.HostAddress}}/User/top?userTopType=artists&userTopTimeRange=mediumTerm&limit=20&offset=0
+Accept: application/json
+
+### user current profile
+GET {{EC.Spotify.HostAddress}}/User/profile
+Accept: application/json
+
+### user my tracks get all raw
+GET {{EC.Spotify.HostAddress}}/User/tracks/raw
+Accept: application/json
+
+### user my tracks get all raw (paged)
+GET {{EC.Spotify.HostAddress}}/User/tracks/raw?offset=0&limit=20
+Accept: application/json
+
 ### user top items get all - Artists (medium term)
 GET {{EC.Spotify.HostAddress}}/User/top?userTopType=1&userTopTimeRange=1
 Accept: application/json

@@ -36,7 +36,6 @@ internal class ChapterService(ILogger<ChapterService> logger, IOptions<SpotifyOp
             return new SpotifyResult<Chapter> { Error = ex.ToSpotifyError() };
         }
     }
-
     public async Task<string?> ChapterGetRawAsync(string? chapterId, CancellationToken cancellationToken = default)
     {
         try

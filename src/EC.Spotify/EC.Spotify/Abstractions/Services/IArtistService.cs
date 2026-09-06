@@ -19,6 +19,16 @@ public interface IArtistService
     Task<SpotifyResult<Artist>> ArtistGetAsync(string? id, CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// Retrieves raw artist JSON from Spotify asynchronously by artist identifier.
+    /// </summary>
+    /// <param name="id">The Spotify artist ID to retrieve. Can be null or empty to indicate an invalid request.</param>
+    /// <param name="cancellationToken">A cancellation token that can be used to cancel the operation.</param>
+    /// <returns>A task representing the asynchronous operation. The task result contains the raw JSON string
+    /// response, or null if no content was returned.</returns>
+    Task<string?> ArtistGetRawAsync(string? id, CancellationToken cancellationToken = default);
+
+
+    /// <summary>
     /// Retrieves a paged list of albums for the specified artist from the Spotify catalog asynchronously.
     /// </summary>
     /// <param name="id">The Spotify ID of the artist whose albums are to be retrieved. Can be null to indicate no artist.</param>
@@ -33,15 +43,6 @@ public interface IArtistService
     Task<SpotifyResult<SpotifyPageResult<Album>>> ArtistAlbumGetAllAsync(string? id, AlbumType? albumTypes = default, int? limit = 5, int? offset = 0, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves raw artist JSON from Spotify asynchronously by artist identifier.
-    /// </summary>
-    /// <param name="id">The Spotify artist ID to retrieve. Can be null or empty to indicate an invalid request.</param>
-    /// <param name="cancellationToken">A cancellation token that can be used to cancel the operation.</param>
-    /// <returns>A task representing the asynchronous operation. The task result contains the raw JSON string
-    /// response, or null if no content was returned.</returns>
-    Task<string?> ArtistGetRawAsync(string? id, CancellationToken cancellationToken = default);
-
-    /// <summary>
     /// Retrieves raw paginated album JSON for the specified artist from Spotify asynchronously.
     /// </summary>
     /// <param name="id">The Spotify ID of the artist whose albums are to be retrieved. Can be null to indicate no artist.</param>
@@ -52,4 +53,28 @@ public interface IArtistService
     /// <returns>A task representing the asynchronous operation. The task result contains the raw JSON string
     /// response, or null if no content was returned.</returns>
     Task<string?> ArtistAlbumGetAllRawAsync(string? id, AlbumType? albumTypes = default, int? limit = 5, int? offset = 0, CancellationToken cancellationToken = default);
+
+
+    /// <summary>
+    /// Retrieves a paginated list of Artists saved in the current user's library asynchronously.
+    /// </summary>
+    /// <remarks>Requires the <c>user-library-read</c> scope.</remarks>
+    /// <param name="limit">The maximum number of Artists to return. Must be between 1 and 50. The default is 20.</param>
+    /// <param name="offset">The zero-based index of the first Artist to return. Used for pagination. The default is 0.</param>
+    /// <param name="cancellationToken">A cancellation token that can be used to cancel the operation.</param>
+    /// <returns>A task representing the asynchronous operation. The task result contains a SpotifyResult with a
+    /// SpotifyPageResult of Artist objects for the user's saved Artists.</returns>
+    [Obsolete("This method is deprecated. Use IUserService.MyArtistGetAllAsync instead.")]
+    Task<SpotifyResult<SpotifyPageResult<Artist>>> MyArtistGetAllAsync(int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieves raw paginated Artist JSON for Artists saved in the current user's library from Spotify asynchronously.
+    /// </summary>
+    /// <param name="limit">The maximum number of Artists to return. Must be between 1 and 50. The default is 20.</param>
+    /// <param name="offset">The zero-based index of the first Artist to return. Used for pagination. The default is 0.</param>
+    /// <param name="cancellationToken">A cancellation token that can be used to cancel the operation.</param>
+    /// <returns>A task representing the asynchronous operation. The task result contains the raw JSON string
+    /// response, or null if no content was returned.</returns>
+    [Obsolete("This method is deprecated. Use IUserService.MyArtistGetAllRawAsync instead.")]
+    Task<string?> MyArtistGetAllRawAsync(int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default);
 }

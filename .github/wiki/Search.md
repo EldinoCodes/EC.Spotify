@@ -15,7 +15,6 @@ Results are polymorphic — a single call can return a mix of albums, artists, t
 | Method | Returns | Description |
 |--------|---------|-------------|
 | `SearchAsync` | `SpotifyResult<SpotifyPageResult<IPolymorphicItem>>` | Searches the Spotify catalog and returns typed results |
-| `SearchRawAsync` | `string?` | Searches the Spotify catalog and returns raw JSON |
 
 ---
 
@@ -78,25 +77,67 @@ if (result.IsSuccess)
 
 ---
 
+## Raw Methods
+
+The `SearchAsync` method has a corresponding raw counterpart that returns the unprocessed JSON response as `string?`. Raw methods share the same parameter signatures but provide direct access to the raw API response.
+
+### Available Raw Methods
+
+| Raw Method | Typed Equivalent |
+|------------|------------------|
+| `SearchRawAsync` | `SearchAsync` |
+
+**Usage example:**
+
+```csharp
+// Get raw JSON response for a search
+var json = await spotifyClient.Search.SearchRawAsync(
+    "Daft Punk",
+    SearchType.Track | SearchType.Album,
+    limit: 3,
+    cancellationToken: cancellationToken);
+
+Console.WriteLine(json);
+```
+
+---
+
 ### `SearchRawAsync`
 
 ```csharp
 Task<string?> SearchRawAsync(string? query, SearchType? searchType = default, int? limit = 5, int? offset = 0, CancellationToken cancellationToken = default);
 ```
 
-Performs a raw asynchronous search against the Spotify catalog, returning the JSON response directly without deserialization.
+Performs an asynchronous search against the Spotify catalog and returns the raw JSON response. Results are polymorphic — a single call can return a mix of albums, artists, tracks, playlists, shows, episodes, and audiobooks depending on the `SearchType` flags supplied.
 
 - **Parameters:**
   - `query` — The search query string. Can be null or empty to return no results.
-  - `searchType` — The type(s) of item to search for.
+  - `searchType` — The type(s) of item to search for. If null, a default search type may be used.
   - `limit` — Maximum number of items to return. Default is `5`.
   - `offset` — Index of the first item to return. Default is `0`.
   - `cancellationToken` — Token to cancel the operation.
 - **Returns:** Raw JSON string, or `null` if no content was returned.
 
-**Usage example:**
+**Usage example — single type:**
 
 ```csharp
-var json = await spotifyClient.Search.SearchRawAsync("Daft Punk", SearchType.Track | SearchType.Album, limit: 3, cancellationToken: cancellationToken);
+var json = await spotifyClient.Search.SearchRawAsync("Radiohead", SearchType.Artist, limit: 5, cancellationToken: cancellationToken);
+Console.WriteLine(json);
+```
+
+**Usage example — multiple types:**
+
+```csharp
+// Search for both tracks and albums
+var json = await spotifyClient.Search.SearchRawAsync(
+    "OK Computer",
+    SearchType.Track | SearchType.Album,
+    limit: 10,
+    cancellationToken: cancellationToken);
+
+Console.WriteLine(json);
+```
+
+---
 Console.WriteLine(json);
 ```

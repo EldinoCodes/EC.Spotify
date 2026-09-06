@@ -141,25 +141,25 @@ public sealed class PlaylistServiceTests
     }
 
     [TestMethod]
-    public async Task PlaylistItemAddAsync_WhenScopesMissing_ReturnsSuccessWithFalse()
+    public async Task PlaylistItemAddAsync_WhenScopesMissing_ReturnsEmptySuccess()
     {
         var sut = ServiceFactory.CreatePlaylistService(_provider, []);
 
         var result = await sut.PlaylistItemAddAsync("pl1", new ReferenceItem { Id = "t1" });
 
         Assert.IsTrue(result.IsSuccess);
-        Assert.IsFalse(result.Data);
+        Assert.IsNull(result.Data);
     }
 
     [TestMethod]
-    public async Task PlaylistItemAddAsync_WhenItemIsNull_ReturnsSuccessWithFalse()
+    public async Task PlaylistItemAddAsync_WhenItemIsNull_ReturnsEmptySuccess()
     {
         var sut = ServiceFactory.CreatePlaylistService(_provider, ModifyScopes);
 
         var result = await sut.PlaylistItemAddAsync("pl1", null);
 
         Assert.IsTrue(result.IsSuccess);
-        Assert.IsFalse(result.Data);
+        Assert.IsNull(result.Data);
     }
 
     // ── PlaylistItemAddAllAsync ──────────────────────────────────────────────
@@ -208,14 +208,14 @@ public sealed class PlaylistServiceTests
     }
 
     [TestMethod]
-    public async Task PlaylistItemRemoveAsync_WhenScopesMissing_ReturnsSuccessWithFalse()
+    public async Task PlaylistItemRemoveAsync_WhenScopesMissing_ReturnsEmptySuccess()
     {
         var sut = ServiceFactory.CreatePlaylistService(_provider, []);
 
         var result = await sut.PlaylistItemRemoveAsync("pl1", new ReferenceItem { Id = "t1" });
 
         Assert.IsTrue(result.IsSuccess);
-        Assert.IsFalse(result.Data);
+        Assert.IsNull(result.Data);
     }
 
     // ── PlaylistItemRemoveAllAsync ───────────────────────────────────────────

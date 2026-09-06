@@ -1,5 +1,4 @@
 using EC.Spotify.Abstractions.Models;
-using EC.Spotify.Abstractions.Services;
 using EC.Spotify.Enums;
 using EC.Spotify.Models;
 using EC.Spotify.Models.Albums;
@@ -17,14 +16,6 @@ public sealed class UserServiceTests
     private static readonly List<string> LibraryReadScope = ["user-library-read"];
     private static readonly List<string> PlaylistReadScope = ["playlist-read-private"];
     private static readonly List<string> TopReadScope = ["user-top-read"];
-
-    private static readonly List<string> AllScopes =
-    [
-        "user-library-read",
-        "user-read-playback-position",
-        "playlist-read-private",
-        "user-top-read"
-    ];
 
     private MockSpotifyProvider _provider = null!;
 

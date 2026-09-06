@@ -13,7 +13,6 @@ ITrackService tracks = spotifyClient.Tracks;
 | Method | Returns | Description |
 |--------|---------|-------------|
 | `TrackGetAsync` | `SpotifyResult<Track>` | Retrieves a single track by ID |
-| `TrackGetRawAsync` | `string?` | Retrieves raw track JSON by ID |
 
 ---
 
@@ -43,16 +42,39 @@ else
 
 ---
 
+## Raw Methods
+
+The `TrackGetAsync` method has a corresponding raw counterpart that returns the unprocessed JSON response as `string?`. Raw methods share the same parameter signatures but provide direct access to the raw API response.
+
+### Available Raw Methods
+
+| Raw Method | Typed Equivalent |
+|------------|------------------|
+| `TrackGetRawAsync` | `TrackGetAsync` |
+
+**Usage example:**
+
+```csharp
+// Get raw JSON response for a track
+var json = await spotifyClient.Tracks.TrackGetRawAsync(
+    "1301WleyT98MSxVHPZCA6M", 
+    cancellationToken);
+
+Console.WriteLine(json);
+```
+
+---
+
 ### `TrackGetRawAsync`
 
 ```csharp
 Task<string?> TrackGetRawAsync(string? id, CancellationToken cancellationToken = default);
 ```
 
-Retrieves raw track JSON from Spotify asynchronously by track identifier. Useful when you need the unprocessed API response.
+Retrieves raw track JSON from Spotify asynchronously by track identifier.
 
 - **Parameters:**
-  - `id` — The Spotify track ID. Can be null or empty to indicate an invalid request.
+  - `id` — The Spotify track ID. Can be null or empty to indicate no track; in such cases, the result will not contain track data.
   - `cancellationToken` — Token to cancel the operation.
 - **Returns:** Raw JSON string, or `null` if no content was returned.
 
@@ -62,3 +84,5 @@ Retrieves raw track JSON from Spotify asynchronously by track identifier. Useful
 var json = await spotifyClient.Tracks.TrackGetRawAsync("1301WleyT98MSxVHPZCA6M", cancellationToken);
 Console.WriteLine(json);
 ```
+
+---

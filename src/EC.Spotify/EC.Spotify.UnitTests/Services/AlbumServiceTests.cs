@@ -56,6 +56,29 @@ public sealed class AlbumServiceTests
         Assert.IsNotNull(result.Error);
     }
 
+
+    [TestMethod]
+    public async Task AlbumGetRawAsync_WhenProviderReturnsData_ReturnsJson()
+    {
+        _provider.SetRawResult("{\"id\":\"abc123\"}");
+
+        var result = await _sut.AlbumGetRawAsync("abc123");
+
+        Assert.IsNotNull(result);
+        Assert.Contains("abc123", result);
+    }
+
+    [TestMethod]
+    public async Task AlbumGetRawAsync_WhenProviderReturnsNull_ReturnsNull()
+    {
+        _provider.SetRawResult(null);
+
+        var result = await _sut.AlbumGetRawAsync("abc123");
+
+        Assert.IsNull(result);
+    }
+
+
     [TestMethod]
     public async Task AlbumTrackGetAllAsync_WhenProviderReturnsData_ReturnsSuccessResult()
     {
@@ -92,26 +115,6 @@ public sealed class AlbumServiceTests
         Assert.IsNotNull(result.Error);
     }
 
-    [TestMethod]
-    public async Task AlbumGetRawAsync_WhenProviderReturnsData_ReturnsJson()
-    {
-        _provider.SetRawResult("{\"id\":\"abc123\"}");
-
-        var result = await _sut.AlbumGetRawAsync("abc123");
-
-        Assert.IsNotNull(result);
-        Assert.Contains("abc123", result);
-    }
-
-    [TestMethod]
-    public async Task AlbumGetRawAsync_WhenProviderReturnsNull_ReturnsNull()
-    {
-        _provider.SetRawResult(null);
-
-        var result = await _sut.AlbumGetRawAsync("abc123");
-
-        Assert.IsNull(result);
-    }
 
     [TestMethod]
     public async Task AlbumTrackGetAllRawAsync_WhenProviderReturnsData_ReturnsJson()

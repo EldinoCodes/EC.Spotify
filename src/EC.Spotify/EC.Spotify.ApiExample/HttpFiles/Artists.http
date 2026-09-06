@@ -1,5 +1,6 @@
 @EC.Spotify.HostAddress = https://localhost:5001
-@EC.Spotify.ArtistId = 0X380XXQSNBYuleKzav5UO
+@EC.Spotify.ArtistId = 0L8ExT028jH3ddEcZwqJJ5
+@EC.Spotify.ArtistId2 = 0X380XXQSNBYuleKzav5UO 
 
 #  AlbumType (flags enum - combine with bitwise OR)
 #    Album = 1

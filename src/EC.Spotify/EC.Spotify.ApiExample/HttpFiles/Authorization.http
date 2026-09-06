@@ -10,6 +10,10 @@ Accept: application/json
 GET {{EC.Spotify.HostAddress}}/Authorization/code-url
 Accept: application/json
 
+### authorization response
+GET {{EC.Spotify.HostAddress}}/Authorization/response?code=AUTH_CODE&state=STATE
+Accept: application/json
+
 ### authorization code get
 GET {{EC.Spotify.HostAddress}}/Authorization/code
 Accept: application/json

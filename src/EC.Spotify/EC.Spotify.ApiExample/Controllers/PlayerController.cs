@@ -113,4 +113,12 @@ public class PlayerController(ISpotifyClient spotifyClient) : ControllerBase
 
         return new JsonResult(ret);
     }
+
+    // Recently played tracks
+    [HttpGet("recently-played")]
+    public async Task<IActionResult> RecentlyPlayedGetAllAsync(int? limit, string? after, CancellationToken cancellationToken = default)
+    {
+        var ret = await _spotifyClient.Player.RecentlyPlayedGetAllAsync(limit, after, cancellationToken);
+        return new JsonResult(ret);
+    }
 }

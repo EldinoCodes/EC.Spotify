@@ -37,45 +37,41 @@ POST {{EC.Spotify.HostAddress}}/Player/queue?trackUri=spotify:track:{{EC.Spotify
 Accept: application/json
 
 ### player play
-POST {{EC.Spotify.HostAddress}}/Player/play
+POST {{EC.Spotify.HostAddress}}/Player/play?deviceId=4aeeb14560726dd6f4a37bc6d5cf5e8be580e288
 Accept: application/json
 
 ### player pause
-POST {{EC.Spotify.HostAddress}}/Player/pause
+POST {{EC.Spotify.HostAddress}}/Player/pause?deviceId=4aeeb14560726dd6f4a37bc6d5cf5e8be580e288
 Accept: application/json
 
 ### player next
-POST {{EC.Spotify.HostAddress}}/Player/next
+POST {{EC.Spotify.HostAddress}}/Player/next?deviceId=4aeeb14560726dd6f4a37bc6d5cf5e8be580e288
 Accept: application/json
 
 ### player previous
-POST {{EC.Spotify.HostAddress}}/Player/previous
+POST {{EC.Spotify.HostAddress}}/Player/previous?deviceId=4aeeb14560726dd6f4a37bc6d5cf5e8be580e288
 Accept: application/json
 
 ### player seek
-POST {{EC.Spotify.HostAddress}}/Player/seek?positionMilliseconds=60000
-Accept: application/json
-
-### player volume
-POST {{EC.Spotify.HostAddress}}/Player/volume?volume=40
+POST {{EC.Spotify.HostAddress}}/Player/seek?positionMilliseconds=60000&deviceId=4aeeb14560726dd6f4a37bc6d5cf5e8be580e288
 Accept: application/json
 
 ### player repeat - Off
-POST {{EC.Spotify.HostAddress}}/Player/repeat?playerRepeatMode=off
+POST {{EC.Spotify.HostAddress}}/Player/repeat?playerRepeatMode=off&deviceId=4aeeb14560726dd6f4a37bc6d5cf5e8be580e288
 Accept: application/json
 
 ### player repeat - Track
-POST {{EC.Spotify.HostAddress}}/Player/repeat?playerRepeatMode=track
+POST {{EC.Spotify.HostAddress}}/Player/repeat?playerRepeatMode=track&deviceId=4aeeb14560726dd6f4a37bc6d5cf5e8be580e288
 Accept: application/json
 
 ### player repeat - Context
-POST {{EC.Spotify.HostAddress}}/Player/repeat?playerRepeatMode=context
+POST {{EC.Spotify.HostAddress}}/Player/repeat?playerRepeatMode=context&deviceId=4aeeb14560726dd6f4a37bc6d5cf5e8be580e288
 Accept: application/json
 
 ### player shuffle - Off
-POST {{EC.Spotify.HostAddress}}/Player/shuffle?playerShuffleMode=off
+POST {{EC.Spotify.HostAddress}}/Player/shuffle?playerShuffleMode=off&deviceId=4aeeb14560726dd6f4a37bc6d5cf5e8be580e288
 Accept: application/json
 
 ### player shuffle - On
-POST {{EC.Spotify.HostAddress}}/Player/shuffle?playerShuffleMode=on
+POST {{EC.Spotify.HostAddress}}/Player/shuffle?playerShuffleMode=on&deviceId=4aeeb14560726dd6f4a37bc6d5cf5e8be580e288
 Accept: application/json

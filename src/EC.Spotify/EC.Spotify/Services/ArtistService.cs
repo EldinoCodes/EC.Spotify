@@ -9,10 +9,11 @@ using Microsoft.Extensions.Options;
 
 namespace EC.Spotify.Services;
 
-internal class ArtistService(ILogger<ArtistService> logger, IOptions<SpotifyOptions> options, ISpotifyProvider spotifyProvider) : IArtistService
+internal class ArtistService(ILogger<ArtistService> logger, IOptions<SpotifyOptions> options, IUserService userService, ISpotifyProvider spotifyProvider) : IArtistService
 {
     private readonly ILogger<ArtistService> _logger = logger;
     private readonly SpotifyOptions _options = options.Value;
+    private readonly IUserService _userService = userService;
     private readonly ISpotifyProvider _spotifyProvider = spotifyProvider;
 
     private const string SpotifyArtistUri = "https://api.spotify.com/v1/artists/{0}";
@@ -38,6 +39,27 @@ internal class ArtistService(ILogger<ArtistService> logger, IOptions<SpotifyOpti
             return new SpotifyResult<Artist> { Error = ex.ToSpotifyError() };
         }
     }
+    public async Task<string?> ArtistGetRawAsync(string? id, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("ArtistGetRawAsync called with id: {Id}", id);
+
+            var uri = string.Format(SpotifyArtistUri, id);
+
+            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("ArtistGetRawAsync requesting URI: {Uri}", uri);
+
+            return await _spotifyProvider.ExecuteSpotifyRequestAsync("get", uri, cancellationToken: cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "ArtistGetRawAsync failed for id: {Id}", id);
+            throw;
+        }
+    }
+
     public async Task<SpotifyResult<SpotifyPageResult<Album>>> ArtistAlbumGetAllAsync(string? id, AlbumType? albumTypes = default, int? limit = 5, int? offset = 0, CancellationToken cancellationToken = default)
     {
         try
@@ -77,28 +99,7 @@ internal class ArtistService(ILogger<ArtistService> logger, IOptions<SpotifyOpti
             _logger.LogError(ex, "ArtistAlbumGetAllAsync failed for id: {Id}", id);
             return new SpotifyResult<SpotifyPageResult<Album>> { Error = ex.ToSpotifyError() };
         }
-    }
-
-    public async Task<string?> ArtistGetRawAsync(string? id, CancellationToken cancellationToken = default)
-    {
-        try
-        {
-            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
-                _logger.LogDebug("ArtistGetRawAsync called with id: {Id}", id);
-
-            var uri = string.Format(SpotifyArtistUri, id);
-
-            if (_options.VerboseLogging && _logger.IsEnabled(LogLevel.Debug))
-                _logger.LogDebug("ArtistGetRawAsync requesting URI: {Uri}", uri);
-
-            return await _spotifyProvider.ExecuteSpotifyRequestAsync("get", uri, cancellationToken: cancellationToken);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "ArtistGetRawAsync failed for id: {Id}", id);
-            throw;
-        }
-    }
+    }    
     public async Task<string?> ArtistAlbumGetAllRawAsync(string? id, AlbumType? albumTypes = default, int? limit = 5, int? offset = 0, CancellationToken cancellationToken = default)
     {
         try
@@ -134,4 +135,9 @@ internal class ArtistService(ILogger<ArtistService> logger, IOptions<SpotifyOpti
             throw;
         }
     }
+
+    public async Task<SpotifyResult<SpotifyPageResult<Artist>>> MyArtistGetAllAsync(int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)
+        => await _userService.MyArtistGetAllAsync(limit, offset, cancellationToken);
+    public async Task<string?> MyArtistGetAllRawAsync(int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default)
+        => await _userService.MyArtistGetAllRawAsync(limit, offset, cancellationToken);
 }

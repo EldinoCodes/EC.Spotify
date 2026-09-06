@@ -12,12 +12,11 @@ IShowService shows = spotifyClient.Shows;
 
 ## Methods
 
-| Method | Returns | Description |
-|--------|---------|-------------|
-| `ShowGetAsync` | `SpotifyResult<Show>` | Retrieves a single show by ID |
-| `ShowEpisodeGetAllAsync` | `SpotifyResult<SpotifyPageResult<Episode>>` | Retrieves a paginated list of episodes for a show |
-| `ShowGetRawAsync` | `string?` | Retrieves raw show JSON by ID |
-| `ShowEpisodeGetAllRawAsync` | `string?` | Retrieves raw paginated episode JSON for a show |
+| Method | Scope Required | Returns | Description |
+|--------|---------------|---------|-------------|
+| `ShowGetAsync` | — | `SpotifyResult<Show>` | Retrieves a single show by ID |
+| `ShowEpisodeGetAllAsync` | — | `SpotifyResult<SpotifyPageResult<Episode>>` | Retrieves a paginated list of episodes for a show |
+| `MyShowGetAllAsync` | `user-library-read` | `SpotifyResult<SpotifyPageResult<Show>>` | Retrieves user's saved shows |
 
 ---
 
@@ -50,26 +49,50 @@ else
 ### `ShowEpisodeGetAllAsync`
 
 ```csharp
-Task<SpotifyResult<SpotifyPageResult<Episode>>> ShowEpisodeGetAllAsync(string? id, int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default);
+Task<SpotifyResult<SpotifyPageResult<Show>>> MyShowGetAllAsync(int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default);
 ```
 
-Retrieves a paginated list of episodes for the specified show asynchronously. Requires the `user-read-playback-position` scope. The result will contain an empty page if the show has no episodes — no exception is thrown.
+Retrieves a paginated list of shows saved in the current user's Spotify library asynchronously. Requires the `user-library-read` scope.
 
 - **Parameters:**
-  - `id` — The Spotify show ID.
-  - `limit` — Maximum number of episodes to return. Default is `20`.
-  - `offset` — Index of the first episode to return. Default is `0`.
+  - `limit` — Maximum number of shows to return. Must be between 1 and 50. Default is `20`.
+  - `offset` — Zero-based index of the first show to return. Default is `0`.
   - `cancellationToken` — Token to cancel the operation.
-- **Returns:** `SpotifyResult<SpotifyPageResult<Episode>>` containing the page of episodes.
+- **Returns:** `SpotifyResult<SpotifyPageResult<Show>>` containing the user's saved shows.
 
 **Usage example:**
 
 ```csharp
-var result = await spotifyClient.Shows.ShowEpisodeGetAllAsync("38bS44xjbVVZ3No3ByF1dJ", limit: 10, offset: 0, cancellationToken);
+var result = await spotifyClient.Shows.MyShowGetAllAsync(limit: 10, offset: 0, cancellationToken: cancellationToken);
 
 if (result.IsSuccess)
-    foreach (var episode in result.Data?.Items ?? [])
-        Console.WriteLine($"{episode.Name} — {episode.ReleaseDate}");
+    foreach (var show in result.Data?.Items ?? [])
+        Console.WriteLine($"{show.Name} — {show.Publisher}");
+```
+
+---
+
+## Raw Methods
+
+The typed methods in this service have corresponding raw counterparts that return the unprocessed JSON response as `string?`. Raw methods share the same parameter signatures but provide direct access to the raw API response.
+
+### Available Raw Methods
+
+| Raw Method | Typed Equivalent |
+|------------|------------------|
+| `ShowGetRawAsync` | `ShowGetAsync` |
+| `ShowEpisodeGetAllRawAsync` | `ShowEpisodeGetAllAsync` |
+| `MyShowGetAllRawAsync` | `MyShowGetAllAsync` |
+
+**Usage example:**
+
+```csharp
+// Get raw JSON response for a show
+var json = await spotifyClient.Shows.ShowGetRawAsync(
+    "38bS44xjbVVZ3No3ByF1dJ", 
+    cancellationToken);
+
+Console.WriteLine(json);
 ```
 
 ---
@@ -80,10 +103,10 @@ if (result.IsSuccess)
 Task<string?> ShowGetRawAsync(string? id, CancellationToken cancellationToken = default);
 ```
 
-Retrieves raw show JSON from Spotify asynchronously by show identifier. Requires the `user-read-playback-position` scope.
+Retrieves raw show JSON from Spotify asynchronously by show identifier.
 
 - **Parameters:**
-  - `id` — The Spotify show ID.
+  - `id` — The Spotify show ID. Can be null or empty to indicate an invalid request.
   - `cancellationToken` — Token to cancel the operation.
 - **Returns:** Raw JSON string, or `null` if no content was returned.
 
@@ -102,7 +125,7 @@ Console.WriteLine(json);
 Task<string?> ShowEpisodeGetAllRawAsync(string? id, int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default);
 ```
 
-Retrieves raw paginated episode JSON for the specified show from Spotify asynchronously. Requires the `user-read-playback-position` scope.
+Retrieves raw paginated episode JSON for a show from Spotify asynchronously.
 
 - **Parameters:**
   - `id` — The Spotify show ID.
@@ -114,6 +137,31 @@ Retrieves raw paginated episode JSON for the specified show from Spotify asynchr
 **Usage example:**
 
 ```csharp
-var json = await spotifyClient.Shows.ShowEpisodeGetAllRawAsync("38bS44xjbVVZ3No3ByF1dJ", limit: 5, cancellationToken: cancellationToken);
+var json = await spotifyClient.Shows.ShowEpisodeGetAllRawAsync("38bS44xjbVVZ3No3ByF1dJ", limit: 10, offset: 0, cancellationToken: cancellationToken);
 Console.WriteLine(json);
 ```
+
+---
+
+### `MyShowGetAllRawAsync`
+
+```csharp
+Task<string?> MyShowGetAllRawAsync(int? limit = 20, int? offset = 0, CancellationToken cancellationToken = default);
+```
+
+Retrieves raw paginated show JSON for shows saved in the current user's library from Spotify asynchronously.
+
+- **Parameters:**
+  - `limit` — Maximum number of shows to return. Must be between 1 and 50. Default is `20`.
+  - `offset` — Zero-based index of the first show to return. Default is `0`.
+  - `cancellationToken` — Token to cancel the operation.
+- **Returns:** Raw JSON string, or `null` if no content was returned.
+
+**Usage example:**
+
+```csharp
+var json = await spotifyClient.Shows.MyShowGetAllRawAsync(limit: 20, offset: 0, cancellationToken: cancellationToken);
+Console.WriteLine(json);
+```
+
+---

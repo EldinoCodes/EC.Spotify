@@ -19,4 +19,17 @@ public sealed class T05_EpisodeServiceTests
         var result = await sut.EpisodeGetAsync(id, cancellationToken: TestContext.CancellationToken);
         Assert.IsNotNull(result?.Data, result?.Error?.Message);
     }
+
+    [TestMethod]
+    [DataRow("3UcmY44Vwv4Ldh0Jd1HZ4m")]
+    public async Task T002_EpisodeGetRawAsync_ShouldReturnJson(string? id)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(id, nameof(id));
+
+        var sut = Initializer.Resolve<IEpisodeService>();
+        ArgumentNullException.ThrowIfNull(sut, nameof(sut));
+
+        var result = await sut.EpisodeGetRawAsync(id, cancellationToken: TestContext.CancellationToken);
+        Assert.IsNotNull(result, "Expected raw JSON response");
+    }
 }

@@ -8,9 +8,22 @@ A comprehensive .NET client library for the Spotify Web API, providing strongly-
 
 > **Full documentation is available in the [Wiki](https://github.com/EldinoCodes/EC.Spotify/wiki/GettingStarted).**
 
-## Latest News - 2026.04.25
-### Version 1.1.1 - Deployment
-Had to rework IPlaylist and had some bad test track data causing testing errors.  Had some stuff come up so i am a week behind on my deployment.  If you have any feedback or issues, please let me know.  Thanks for using EC.Spotify!
+## Latest News - 2026.09.06
+### Version 1.1.2 - Documentation Enhancement
+Comprehensive documentation updates covering all available Spotify Web API methods. Added raw methods documentation across all service wiki pages, enabling developers to access unprocessed JSON responses directly. All 30+ raw methods now fully documented with usage examples and parameter details.
+
+### Raw Methods
+
+EC.Spotify provides raw method counterparts for all typed service methods, returning unprocessed JSON responses as `string?`. Raw methods share the same parameter signatures but provide direct access to the raw API response, useful for custom parsing or debugging.
+
+**Example:**
+
+```csharp
+var json = await spotifyClient.Tracks.TrackGetRawAsync("1301WleyT98MSxVHPZCA6M", cancellationToken);
+Console.WriteLine(json);
+```
+
+See the [Albums](https://github.com/EldinoCodes/EC.Spotify/wiki/Albums), [Artists](https://github.com/EldinoCodes/EC.Spotify/wiki/Artists), and other service wiki pages for complete raw method documentation.
 
 ## Installation
 

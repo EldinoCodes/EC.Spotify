@@ -187,7 +187,7 @@ public sealed class PlayerServiceTests
     [TestMethod]
     public async Task CurrentlyPlayingGetAsync_WhenProviderReturnsData_ReturnsSuccessResult()
     {
-        var sut = ServiceFactory.CreatePlayerService(_provider, PlaybackStateScopes);
+        var sut = ServiceFactory.CreatePlayerService(_provider, AllPlayerScopes);
         _provider.Enqueue(new SpotifyResult<PlayerState> { Data = new PlayerState() });
 
         var result = await sut.CurrentlyPlayingGetAsync();
@@ -239,7 +239,7 @@ public sealed class PlayerServiceTests
         var sut = ServiceFactory.CreatePlayerService(_provider, ModifyPlaybackScopes);
         _provider.Enqueue(new SpotifyResult<bool> { Data = true });
 
-        var result = await sut.PauseAsync();
+        var result = await sut.PauseAsync("device-id");
 
         Assert.IsTrue(result.IsSuccess);
     }
@@ -249,7 +249,7 @@ public sealed class PlayerServiceTests
     {
         var sut = ServiceFactory.CreatePlayerService(_provider, []);
 
-        var result = await sut.PauseAsync();
+        var result = await sut.PauseAsync("device-id");
 
         Assert.IsFalse(result.IsSuccess);
         Assert.IsNotNull(result.Error);
